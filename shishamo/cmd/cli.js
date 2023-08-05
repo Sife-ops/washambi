@@ -21,24 +21,24 @@ switch (process.env.SHISHAMO_STAGE) {
 }
 
 if (opts.db) {
-    process.env.WASHAMBI_DB = opts.db;
+    process.env.SHISHAMO_DB = opts.db;
 } else {
     switch (process.env.SHISHAMO_STAGE) {
         case "local": {
-            process.env.WASHAMBI_DB = "postgres-local";
+            process.env.SHISHAMO_DB = "postgres-local";
             break;
         }
         case "production": {
-            process.env.WASHAMBI_DB = "postgres";
+            process.env.SHISHAMO_DB = "postgres";
             break;
         }
     }
 }
 
-switch (process.env.WASHAMBI_DB) {
+switch (process.env.SHISHAMO_DB) {
     case "postgres":
     case "postgres-local": break;
-    default: throw new Error("invalid db: " + process.env.WASHAMBI_DB);
+    default: throw new Error("invalid db: " + process.env.SHISHAMO_DB);
 }
 
 // if (opts.port) {

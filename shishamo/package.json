@@ -20,6 +20,7 @@
   "dependencies": {
     "commander": "^11.0.0",
     "kysely": "^0.26.1",
-    "pg": "^8.11.2"
+    "pg": "^8.11.2",
+    "washambi-rpc": "file:../rpc/package/node/washambi-rpc-1.0.0.tgz"
   }
 }

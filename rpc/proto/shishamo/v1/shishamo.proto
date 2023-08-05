@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package shishamo.v1;
+
+service ShishamoService {
+  rpc UserCreate (UserCreateRequest) returns (UserCreateResponse);
+}
+
+message UserCreateRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message User {
+    string id = 1;
+    string email = 2;
+    string password = 3;
+    string created_at = 4;
+    string deleted_at = 5;
+}
+
+message UserCreateResponse {
+    User user = 1;
+}
+

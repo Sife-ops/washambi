@@ -1,9 +1,9 @@
 import { Kysely, PostgresDialect } from "kysely";
 import { Pool } from "pg";
 
-/** *returns {import("kysely").KyselyConfig} */
+/** @returns {import("kysely").KyselyConfig} */
 function connection() {
-    switch (process.env.WASHAMBI_DB) {
+    switch (process.env.SHISHAMO_DB) {
         case "postgres-local": {
             return {
                 dialect: new PostgresDialect({
