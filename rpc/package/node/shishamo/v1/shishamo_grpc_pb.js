@@ -3,6 +3,7 @@
 'use strict';
 var grpc = require('@grpc/grpc-js');
 var shishamo_v1_shishamo_pb = require('../../shishamo/v1/shishamo_pb.js');
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
 function serialize_shishamo_v1_UserCreateRequest(arg) {
   if (!(arg instanceof shishamo_v1_shishamo_pb.UserCreateRequest)) {

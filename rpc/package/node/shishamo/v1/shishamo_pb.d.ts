@@ -2,6 +2,7 @@
 // file: shishamo/v1/shishamo.proto
 
 import * as jspb from "google-protobuf";
+import * as google_protobuf_timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb";
 
 export class UserCreateRequest extends jspb.Message {
   getEmail(): string;
@@ -37,11 +38,15 @@ export class User extends jspb.Message {
   getPassword(): string;
   setPassword(value: string): void;
 
-  getCreatedAt(): string;
-  setCreatedAt(value: string): void;
+  hasCreatedAt(): boolean;
+  clearCreatedAt(): void;
+  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
 
-  getDeletedAt(): string;
-  setDeletedAt(value: string): void;
+  hasDeletedAt(): boolean;
+  clearDeletedAt(): void;
+  getDeletedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setDeletedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): User.AsObject;
@@ -58,8 +63,8 @@ export namespace User {
     id: string,
     email: string,
     password: string,
-    createdAt: string,
-    deletedAt: string,
+    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    deletedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
   }
 }
 

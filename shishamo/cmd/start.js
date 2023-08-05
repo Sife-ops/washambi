@@ -1,5 +1,6 @@
 import "./cli.js";
 
+import ts from "google-protobuf/google/protobuf/timestamp_pb.js";
 import { Server, ServerCredentials } from "@grpc/grpc-js";
 import { db } from "../db/connection.js";
 
@@ -24,8 +25,10 @@ async function userCreate(call, callback) {
     b.setId(a.id);
     b.setEmail(a.email);
     b.setPassword(a.password);
-    b.setCreatedAt(a.created_at.toString());
-    // b.setDeletedAt(a.deleted_at.toString());
+    b.setCreatedAt(ts.Timestamp.fromDate(a.created_at));
+    if (a.deleted_at) {
+        b.setDeletedAt(ts.Timestamp.fromDate(a.deleted_at));
+    }
 
     const r = new shishamo_pb.UserCreateResponse();
     r.setUser(b);

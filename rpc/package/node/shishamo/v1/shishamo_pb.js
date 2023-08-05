@@ -21,6 +21,8 @@ var global = (function() {
   return Function('return this')();
 }.call(null));
 
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
+goog.object.extend(proto, google_protobuf_timestamp_pb);
 goog.exportSymbol('proto.shishamo.v1.User', null, global);
 goog.exportSymbol('proto.shishamo.v1.UserCreateRequest', null, global);
 goog.exportSymbol('proto.shishamo.v1.UserCreateResponse', null, global);
@@ -282,8 +284,8 @@ proto.shishamo.v1.User.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, ""),
     email: jspb.Message.getFieldWithDefault(msg, 2, ""),
     password: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    createdAt: jspb.Message.getFieldWithDefault(msg, 4, ""),
-    deletedAt: jspb.Message.getFieldWithDefault(msg, 5, "")
+    createdAt: (f = msg.getCreatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
+    deletedAt: (f = msg.getDeletedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -333,11 +335,13 @@ proto.shishamo.v1.User.deserializeBinaryFromReader = function(msg, reader) {
       msg.setPassword(value);
       break;
     case 4:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setCreatedAt(value);
       break;
     case 5:
-      var value = /** @type {string} */ (reader.readString());
+      var value = new google_protobuf_timestamp_pb.Timestamp;
+      reader.readMessage(value,google_protobuf_timestamp_pb.Timestamp.deserializeBinaryFromReader);
       msg.setDeletedAt(value);
       break;
     default:
@@ -391,17 +395,19 @@ proto.shishamo.v1.User.serializeBinaryToWriter = function(message, writer) {
     );
   }
   f = message.getCreatedAt();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       4,
-      f
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
   f = message.getDeletedAt();
-  if (f.length > 0) {
-    writer.writeString(
+  if (f != null) {
+    writer.writeMessage(
       5,
-      f
+      f,
+      google_protobuf_timestamp_pb.Timestamp.serializeBinaryToWriter
     );
   }
 };
@@ -462,38 +468,76 @@ proto.shishamo.v1.User.prototype.setPassword = function(value) {
 
 
 /**
- * optional string created_at = 4;
- * @return {string}
+ * optional google.protobuf.Timestamp created_at = 4;
+ * @return {?proto.google.protobuf.Timestamp}
  */
 proto.shishamo.v1.User.prototype.getCreatedAt = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 4, ""));
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 4));
 };
 
 
 /**
- * @param {string} value
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.shishamo.v1.User} returns this
+*/
+proto.shishamo.v1.User.prototype.setCreatedAt = function(value) {
+  return jspb.Message.setWrapperField(this, 4, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.shishamo.v1.User} returns this
  */
-proto.shishamo.v1.User.prototype.setCreatedAt = function(value) {
-  return jspb.Message.setProto3StringField(this, 4, value);
+proto.shishamo.v1.User.prototype.clearCreatedAt = function() {
+  return this.setCreatedAt(undefined);
 };
 
 
 /**
- * optional string deleted_at = 5;
- * @return {string}
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.shishamo.v1.User.prototype.hasCreatedAt = function() {
+  return jspb.Message.getField(this, 4) != null;
+};
+
+
+/**
+ * optional google.protobuf.Timestamp deleted_at = 5;
+ * @return {?proto.google.protobuf.Timestamp}
  */
 proto.shishamo.v1.User.prototype.getDeletedAt = function() {
-  return /** @type {string} */ (jspb.Message.getFieldWithDefault(this, 5, ""));
+  return /** @type{?proto.google.protobuf.Timestamp} */ (
+    jspb.Message.getWrapperField(this, google_protobuf_timestamp_pb.Timestamp, 5));
 };
 
 
 /**
- * @param {string} value
+ * @param {?proto.google.protobuf.Timestamp|undefined} value
+ * @return {!proto.shishamo.v1.User} returns this
+*/
+proto.shishamo.v1.User.prototype.setDeletedAt = function(value) {
+  return jspb.Message.setWrapperField(this, 5, value);
+};
+
+
+/**
+ * Clears the message field making it undefined.
  * @return {!proto.shishamo.v1.User} returns this
  */
-proto.shishamo.v1.User.prototype.setDeletedAt = function(value) {
-  return jspb.Message.setProto3StringField(this, 5, value);
+proto.shishamo.v1.User.prototype.clearDeletedAt = function() {
+  return this.setDeletedAt(undefined);
+};
+
+
+/**
+ * Returns whether this field is set.
+ * @return {boolean}
+ */
+proto.shishamo.v1.User.prototype.hasDeletedAt = function() {
+  return jspb.Message.getField(this, 5) != null;
 };
 
 

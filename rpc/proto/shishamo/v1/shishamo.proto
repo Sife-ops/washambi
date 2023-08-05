@@ -2,6 +2,8 @@ syntax = "proto3";
 
 package shishamo.v1;
 
+import "google/protobuf/timestamp.proto";
+
 service Shishamo {
   rpc UserCreate (UserCreateRequest) returns (UserCreateResponse);
 }
@@ -15,8 +17,8 @@ message User {
     string id = 1;
     string email = 2;
     string password = 3;
-    string created_at = 4;
-    string deleted_at = 5;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp deleted_at = 5;
 }
 
 message UserCreateResponse {
