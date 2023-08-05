@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package shishamo.v1;
 
-service ShishamoService {
+service Shishamo {
   rpc UserCreate (UserCreateRequest) returns (UserCreateResponse);
 }
 

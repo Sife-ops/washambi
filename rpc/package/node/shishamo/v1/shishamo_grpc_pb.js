@@ -27,9 +27,9 @@ function deserialize_shishamo_v1_UserCreateResponse(buffer_arg) {
 }
 
 
-var ShishamoServiceService = exports.ShishamoServiceService = {
+var ShishamoService = exports.ShishamoService = {
   userCreate: {
-    path: '/shishamo.v1.ShishamoService/UserCreate',
+    path: '/shishamo.v1.Shishamo/UserCreate',
     requestStream: false,
     responseStream: false,
     requestType: shishamo_v1_shishamo_pb.UserCreateRequest,
@@ -41,4 +41,4 @@ var ShishamoServiceService = exports.ShishamoServiceService = {
   },
 };
 
-exports.ShishamoServiceClient = grpc.makeGenericClientConstructor(ShishamoServiceService);
+exports.ShishamoClient = grpc.makeGenericClientConstructor(ShishamoService);
