@@ -21,10 +21,7 @@ function userFromDb(user) {
     return u;
 }
 
-/**
- * @param {import("@grpc/grpc-js").ServerUnaryCall<shishamo_pb.UserCreateRequest, shishamo_pb.UserCreateResponse>} call
- * @param {import("@grpc/grpc-js").sendUnaryData<shishamo_pb.UserCreateResponse>} callback
- */
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserCreateRequest, shishamo_pb.UserCreateResponse>} */
 export async function userCreate(call, callback) {
     const a = await db
         .insertInto("user")
@@ -38,34 +35,36 @@ export async function userCreate(call, callback) {
     const r = new shishamo_pb.UserCreateResponse();
     r.setUser(userFromDb(a));
 
+    // callback({code: 5, details: "lol"}); // error
     callback(null, r);
 }
 
-/** @param {import("washambi-rpc/shishamo/v1/shishamo_grpc_pb.js").ShishamoClient} client */
-export function userCreateTestInt(client) {
+/** 
+ * @param {import("washambi-rpc/shishamo/v1/shishamo_grpc_pb.js").ShishamoClient} client 
+ * @param {import("kysely").Kysely<import("@db/schema.ts").DB>} db
+ */
+export function userCreateTestInt(client, db) {
     return () => {
-        // console.log("unit test");
-
         const request = new shishamo_pb.UserCreateRequest();
         request.setEmail("int@int.com");
         request.setPassword("yesk");
 
-        client.userCreate(request, function(err, response) {
-            if (err) {
-                console.log(err);
-            }
-            console.log("got response:");
-            console.log(response.getUser().toObject());
-        });
+        // todo: await the response
+        client.userCreate(request, function(error, response) {
+            console.log(response);
+            if (error) throw new Error();
+            if (!response.hasUser()) throw new Error();
 
-        assert.strictEqual(1, 1);
+            // todo: shit takes 10 seconds
+            db
+                .deleteFrom("user")
+                .where("id", "=", response.getUser().getId())
+                .execute();
+        });
     }
 }
 
-/**
- * @param {import("@grpc/grpc-js").ServerUnaryCall<shishamo_pb.UserGetOneRequest, shishamo_pb.UserGetOneResponse>} call
- * @param {import("@grpc/grpc-js").sendUnaryData<shishamo_pb.UserGetOneResponse>} callback
- */
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserGetOneRequest, shishamo_pb.UserGetOneResponse>} */
 export async function userGetOne(call, callback) {
     try {
         const a = await db
@@ -83,10 +82,7 @@ export async function userGetOne(call, callback) {
     }
 }
 
-/**
- * @param {import("@grpc/grpc-js").ServerUnaryCall<shishamo_pb.UserChangePasswordRequest, shishamo_pb.UserChangePasswordResponse>} call
- * @param {import("@grpc/grpc-js").sendUnaryData<shishamo_pb.UserChangePasswordResponse>} callback
- */
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserChangePasswordRequest, shishamo_pb.UserChangePasswordResponse>} */
 export async function userChangePassword(call, callback) {
     const a = await db
         .updateTable("user")

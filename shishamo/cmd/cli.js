@@ -13,6 +13,7 @@ if (opts.stage) {
     process.env.SHISHAMO_STAGE = opts.stage;
 }
 
+// todo: use functional config.js
 switch (process.env.SHISHAMO_STAGE) {
     case "local":
     case "production": break;
