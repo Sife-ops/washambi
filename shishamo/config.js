@@ -1,5 +1,3 @@
-// todo: deprecate?
-
 /** @returns {"local" | "production"} */
 export function shishamoStage() {
     const x = process.env.SHISHAMO_STAGE;
@@ -12,8 +10,8 @@ export function shishamoStage() {
 }
 
 /** @returns {"postgres-local" | "postgres"} */
-export function washambiDb() {
-    const x = process.env.WASHAMBI_DB;
+export function shishamoDb() {
+    const x = process.env.SHISHAMO_DB;
     switch (x) {
         case "postgres": return x;
         case "postgres-local": return x;
@@ -27,6 +25,7 @@ export function washambiDb() {
     }
 }
 
+// todo: dead code
 // /** @returns {boolean} */
 // export function jslintMigrate() {
 //     const x = process.env.JSLINT_MIGRATE;
@@ -59,17 +58,17 @@ export function washambiDb() {
 //     }
 // }
 
-/** @returns {number} */
-export function shishamoPort() {
-    const x = parseInt(process.env.SHISHAMO_PORT);
-    if (isNaN(x)) {
-        switch (shishamoStage()) {
-            case "local":
-            // case "integration": 
-                return 3000;
-            case "production": return 80;
-        }
-    } else {
-        return x;
-    }
-}
+// /** @returns {number} */
+// export function shishamoPort() {
+//     const x = parseInt(process.env.SHISHAMO_PORT);
+//     if (isNaN(x)) {
+//         switch (shishamoStage()) {
+//             case "local":
+//             // case "integration": 
+//                 return 3000;
+//             case "production": return 80;
+//         }
+//     } else {
+//         return x;
+//     }
+// }
