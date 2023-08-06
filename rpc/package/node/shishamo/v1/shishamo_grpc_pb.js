@@ -49,6 +49,28 @@ function deserialize_shishamo_v1_UserCreateResponse(buffer_arg) {
   return shishamo_v1_shishamo_pb.UserCreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_shishamo_v1_UserGetOneRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserGetOneRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.UserGetOneRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_UserGetOneRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserGetOneRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_UserGetOneResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserGetOneResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.UserGetOneResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_UserGetOneResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserGetOneResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var ShishamoService = exports.ShishamoService = {
   userCreate: {
@@ -61,6 +83,17 @@ var ShishamoService = exports.ShishamoService = {
     requestDeserialize: deserialize_shishamo_v1_UserCreateRequest,
     responseSerialize: serialize_shishamo_v1_UserCreateResponse,
     responseDeserialize: deserialize_shishamo_v1_UserCreateResponse,
+  },
+  userGetOne: {
+    path: '/shishamo.v1.Shishamo/UserGetOne',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.UserGetOneRequest,
+    responseType: shishamo_v1_shishamo_pb.UserGetOneResponse,
+    requestSerialize: serialize_shishamo_v1_UserGetOneRequest,
+    requestDeserialize: deserialize_shishamo_v1_UserGetOneRequest,
+    responseSerialize: serialize_shishamo_v1_UserGetOneResponse,
+    responseDeserialize: deserialize_shishamo_v1_UserGetOneResponse,
   },
   userChangePassword: {
     path: '/shishamo.v1.Shishamo/UserChangePassword',

@@ -68,6 +68,70 @@ export namespace UserCreateRequest {
   }
 }
 
+export class UserCreateResponse extends jspb.Message {
+  hasUser(): boolean;
+  clearUser(): void;
+  getUser(): User | undefined;
+  setUser(value?: User): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserCreateResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: UserCreateResponse): UserCreateResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserCreateResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserCreateResponse;
+  static deserializeBinaryFromReader(message: UserCreateResponse, reader: jspb.BinaryReader): UserCreateResponse;
+}
+
+export namespace UserCreateResponse {
+  export type AsObject = {
+    user?: User.AsObject,
+  }
+}
+
+export class UserGetOneRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserGetOneRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UserGetOneRequest): UserGetOneRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserGetOneRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserGetOneRequest;
+  static deserializeBinaryFromReader(message: UserGetOneRequest, reader: jspb.BinaryReader): UserGetOneRequest;
+}
+
+export namespace UserGetOneRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class UserGetOneResponse extends jspb.Message {
+  hasUser(): boolean;
+  clearUser(): void;
+  getUser(): User | undefined;
+  setUser(value?: User): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserGetOneResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: UserGetOneResponse): UserGetOneResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserGetOneResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserGetOneResponse;
+  static deserializeBinaryFromReader(message: UserGetOneResponse, reader: jspb.BinaryReader): UserGetOneResponse;
+}
+
+export namespace UserGetOneResponse {
+  export type AsObject = {
+    user?: User.AsObject,
+  }
+}
+
 export class UserChangePasswordRequest extends jspb.Message {
   getId(): string;
   setId(value: string): void;
@@ -89,28 +153,6 @@ export namespace UserChangePasswordRequest {
   export type AsObject = {
     id: string,
     password: string,
-  }
-}
-
-export class UserCreateResponse extends jspb.Message {
-  hasUser(): boolean;
-  clearUser(): void;
-  getUser(): User | undefined;
-  setUser(value?: User): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): UserCreateResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: UserCreateResponse): UserCreateResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: UserCreateResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): UserCreateResponse;
-  static deserializeBinaryFromReader(message: UserCreateResponse, reader: jspb.BinaryReader): UserCreateResponse;
-}
-
-export namespace UserCreateResponse {
-  export type AsObject = {
-    user?: User.AsObject,
   }
 }
 

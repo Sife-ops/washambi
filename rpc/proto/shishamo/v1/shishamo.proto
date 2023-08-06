@@ -6,8 +6,13 @@ import "google/protobuf/timestamp.proto";
 
 service Shishamo {
   rpc UserCreate (UserCreateRequest) returns (UserCreateResponse);
+  rpc UserGetOne (UserGetOneRequest) returns (UserGetOneResponse);
   rpc UserChangePassword (UserChangePasswordRequest) returns (UserChangePasswordResponse);
 }
+
+//
+// User
+//
 
 message User {
     string id = 1;
@@ -17,18 +22,32 @@ message User {
     google.protobuf.Timestamp deleted_at = 5;
 }
 
+//
+
 message UserCreateRequest {
   string email = 1;
   string password = 2;
 }
 
+message UserCreateResponse {
+    User user = 1;
+}
+
+//
+
+message UserGetOneRequest {
+    string id = 1;
+}
+
+message UserGetOneResponse {
+    User user = 1;
+}
+
+//
+
 message UserChangePasswordRequest {
   string id = 1;
   string password = 2;
-}
-
-message UserCreateResponse {
-    User user = 1;
 }
 
 message UserChangePasswordResponse {
