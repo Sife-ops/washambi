@@ -24,5 +24,5 @@ function connection() {
     }
 }
 
-/** @type {Kysely<import("./schema.ts").DB>} */
+/** @type {Kysely<import("@db/schema.ts").DB>} */
 export const db = new Kysely(connection());

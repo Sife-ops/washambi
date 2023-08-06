@@ -8,6 +8,42 @@ import shishamo_grpc_pb from "washambi-rpc/shishamo/v1/shishamo_grpc_pb.js";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 
 /**
+ * @param {import("kysely").Selectable<import("@db/schema.ts").User>} user
+ * @returns {shishamo_pb.User}
+ */
+function ligma(user) {
+    const u = new shishamo_pb.User();
+
+    u.setId(user.id);
+    u.setEmail(user.email);
+    u.setPassword(user.password);
+    u.setCreatedAt(ts.Timestamp.fromDate(user.created_at));
+    if (user.deleted_at) {
+        u.setDeletedAt(ts.Timestamp.fromDate(user.deleted_at));
+    }
+
+    return u;
+}
+
+/**
+ * @param {import("@grpc/grpc-js").ServerUnaryCall<shishamo_pb.UserChangePasswordRequest, shishamo_pb.UserChangePasswordResponse>} call
+ * @param {import("@grpc/grpc-js").sendUnaryData<shishamo_pb.UserChangePasswordResponse>} callback
+ */
+async function userChangePassword(call, callback) {
+    const a = await db
+        .updateTable("user")
+        .set({ password: call.request.getPassword() })
+        .where("id", "=", call.request.getId())
+        .returningAll()
+        .executeTakeFirst();
+
+    const r = new shishamo_pb.UserCreateResponse();
+    r.setUser(ligma(a));
+
+    callback(null, r);
+}
+
+/**
  * @param {import("@grpc/grpc-js").ServerUnaryCall<shishamo_pb.UserCreateRequest, shishamo_pb.UserCreateResponse>} call
  * @param {import("@grpc/grpc-js").sendUnaryData<shishamo_pb.UserCreateResponse>} callback
  */
@@ -21,17 +57,8 @@ async function userCreate(call, callback) {
         .returningAll()
         .executeTakeFirst();
 
-    const b = new shishamo_pb.User();
-    b.setId(a.id);
-    b.setEmail(a.email);
-    b.setPassword(a.password);
-    b.setCreatedAt(ts.Timestamp.fromDate(a.created_at));
-    if (a.deleted_at) {
-        b.setDeletedAt(ts.Timestamp.fromDate(a.deleted_at));
-    }
-
     const r = new shishamo_pb.UserCreateResponse();
-    r.setUser(b);
+    r.setUser(ligma(a));
 
     callback(null, r);
 }
@@ -41,7 +68,8 @@ async function main() {
 
     const server = new Server();
     server.addService(shishamo_grpc_pb.ShishamoService, {
-        userCreate
+        userCreate,
+        userChangePassword,
     });
     server.bindAsync("0.0.0.0:50051", ServerCredentials.createInsecure(), () => {
         console.log("starting grpc");
