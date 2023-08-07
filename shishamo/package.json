@@ -5,7 +5,9 @@
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:local": "node ./cmd/start.js --stage local",
+    "test:int": "SHISHAMO_STAGE=local vitest -t \"int ::\"",
+    "test:unit": "SHISHAMO_STAGE=local vitest -t \"unit ::\""
   },
   "keywords": [],
   "author": "",
@@ -15,7 +17,8 @@
     "@types/node": "^20.4.7",
     "@types/pg": "^8.10.2",
     "kysely-codegen": "^0.10.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.1.6",
+    "vitest": "^0.34.1"
   },
   "dependencies": {
     "commander": "^11.0.0",

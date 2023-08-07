@@ -8,10 +8,10 @@
         "baseUrl": "./",
         "paths": {
             "@db/*": ["db/*"]
-        }
-        // "types": [
-        //     "vitest/importMeta"
-        // ]
+        },
+        "types": [
+            "vitest/importMeta"
+        ]
     },
     "exclude": [
         "node_modules",

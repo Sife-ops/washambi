@@ -1,7 +1,7 @@
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import ts from "google-protobuf/google/protobuf/timestamp_pb.js";
-import { db } from "../db/connection.js";
-import { strict as assert } from "node:assert";
+import { db } from "../../db/connection.js";
+import { testingClient } from "../../rpc/client.js";
 
 /**
  * @param {import("kysely").Selectable<import("@db/schema.ts").User>} user
@@ -38,13 +38,21 @@ export async function userCreate(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        console.log(e.detail);
-        callback({ code: 5, details: "lol" });
+        switch (e.code) {
+            case "23505":
+                callback({ code: 6, details: e.detail });
+                break;
+
+            default:
+                callback({ code: 2 });
+                break;
+        }
     }
 }
 
-/** @param {import("washambi-rpc/shishamo/v1/shishamo_grpc_pb.js").ShishamoClient} client */
-export function userCreateTestInt(client) {
+if (import.meta.vitest) {
+    const { describe, test, expect } = import.meta.vitest;
+
     const request = new shishamo_pb.UserCreateRequest();
     request.setEmail("int@int.com");
     request.setPassword("yesk");
@@ -58,28 +66,24 @@ export function userCreateTestInt(client) {
         } catch { }
     };
 
-    // todo: TestFn type not exported
-    /** @param {any} t */
-    return async function(t) {
-        await t.test("int :: userCreate :: pre", clearUser)
+    describe("int :: userCreate", function() {
+        test("int :: userCreate :: pre", clearUser);
 
-        await t.test("int :: userCreate :: sub1", function() {
-            // todo: has async activity
-            client.userCreate(request, function(error, response) {
-                if (error) throw new Error();
-                if (!response.hasUser()) throw new Error();
-            });
-        })
+        test("int :: userCreate :: create user", async function() {
+            const response = await testingClient.get().promise.userCreate(request);
+            expect(response.hasUser()).toBeTruthy();
+        });
 
-        await t.test("int :: userCreate :: sub2", function() {
-            client.userCreate(request, function(error, response) {
-                if (error) {}
-                // if (!response.hasUser()) throw new Error();
-            });
-        })
+        test("int :: userCreate :: duplicate key error (email)", async function() {
+            try {
+                await testingClient.get().promise.userCreate(request);
+            } catch (e) {
+                expect(e.code).toEqual(6);
+            }
+        });
 
-        await t.test("int :: userCreate :: post", clearUser)
-    }
+        test("int :: userCreate :: post", clearUser);
+    });
 }
 
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserGetOneRequest, shishamo_pb.UserGetOneResponse>} */
