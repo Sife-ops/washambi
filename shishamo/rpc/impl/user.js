@@ -2,6 +2,7 @@ import * as rpcError from "../../error/rpc.js";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import ts from "google-protobuf/google/protobuf/timestamp_pb.js";
 import { db } from "../../db/connection.js";
+import { log } from "../../logger/logger.js";
 import { testingClient } from "../../rpc/client.js";
 
 /**
@@ -39,8 +40,7 @@ export async function userCreate(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        // todo: robust logging
-        console.log(e);
+        log(import.meta, "error", { message: { description: "cool" } });
         callback(rpcError.handleRpcError(e));
     }
 }
