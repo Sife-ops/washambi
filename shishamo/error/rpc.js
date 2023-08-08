@@ -56,7 +56,7 @@ function databaseToRpcError(e) {
  * @param {RpcError | import("pg").DatabaseError | import("joi").ValidationError} e
  * @returns {import("@grpc/grpc-js").ServerErrorResponse}
  */
-export function handleRpcError(e) {
+export function toRpcError(e) {
     if (e instanceof RpcError) {
         return e;
     }

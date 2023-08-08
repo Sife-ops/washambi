@@ -2,12 +2,12 @@ import joi from "joi";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import ts from "google-protobuf/google/protobuf/timestamp_pb.js";
 import { db } from "../../db/connection.js";
-import { handleRpcError } from "../../error/rpc.js";
 import { log } from "../../logger/logger.js";
 import { testingClient } from "../../rpc/client.js";
+import { toRpcError } from "../../error/rpc.js";
 
 /**
- * @param {import("kysely").Selectable<import("@db/schema.ts").User>} user
+ * @param {import("kysely").Selectable<import("@db/db.d.ts").ZoomersUser>} user
  * @returns {shishamo_pb.User}
  */
 function userFromDb(user) {
@@ -43,7 +43,7 @@ export async function userCreate(call, callback) {
             });
 
         const a = await db
-            .insertInto("user")
+            .insertInto("zoomers.user")
             .values({
                 email: call.request.getEmail(),
                 password: call.request.getPassword(),
@@ -56,9 +56,10 @@ export async function userCreate(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        const error = handleRpcError(e);
+        const error = toRpcError(e);
         log(import.meta, "info", {
             // todo: more info
+            context: { request: call.request.toObject() },
             errors: [e, error]
         });
         callback(error);
@@ -66,16 +67,16 @@ export async function userCreate(call, callback) {
 }
 
 // used in tests
-/** @type {import("kysely").InsertObject<import("@db/schema.ts").DB, "user">} */
+/** @type {import("kysely").InsertObject<import("@db/db.d.ts").DB, "zoomers.user">} */
 let testUserTemplate = {
     email: "bing@chilling.com",
     password: "bingchilling123!",
 }
 
-/** @returns {Promise<import("kysely").Selectable<import("@db/schema.ts").User>>} */
+/** @returns {Promise<import("kysely").Selectable<import("@db/db.d.ts").ZoomersUser>>} */
 async function createTestUser() {
     return await db
-        .insertInto("user")
+        .insertInto("zoomers.user")
         .values(testUserTemplate)
         .returningAll()
         .executeTakeFirstOrThrow();
@@ -84,7 +85,7 @@ async function createTestUser() {
 async function clearTestUser() {
     try {
         await db
-            .deleteFrom("user")
+            .deleteFrom("zoomers.user")
             .where("email", "=", testUserTemplate.email)
             .execute();
     } catch { }
@@ -143,7 +144,7 @@ if (import.meta.vitest) {
 export async function userGetOne(call, callback) {
     try {
         const a = await db
-            .selectFrom("user")
+            .selectFrom("zoomers.user")
             .where("id", "=", call.request.getId())
             .selectAll()
             .executeTakeFirstOrThrow();
@@ -154,7 +155,7 @@ export async function userGetOne(call, callback) {
         callback(null, r);
     } catch (e) {
         // console.log(e.code)
-        callback(handleRpcError(e));
+        callback(toRpcError(e));
     }
 }
 
@@ -201,7 +202,7 @@ export async function userChangePassword(call, callback) {
             .validateAsync(call.request.getPassword());
 
         const a = await db
-            .updateTable("user")
+            .updateTable("zoomers.user")
             .set({ password: call.request.getPassword() })
             .where("id", "=", call.request.getId())
             .returningAll()
@@ -212,7 +213,7 @@ export async function userChangePassword(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        callback(handleRpcError(e));
+        callback(toRpcError(e));
     }
 }
 
