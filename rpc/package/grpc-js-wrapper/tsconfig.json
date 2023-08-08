@@ -1,0 +1,13 @@
+{
+    "compilerOptions": {
+        // "module": "node16",
+        // "moduleResolution": "node16",
+        // "allowImportingTsExtensions": true,
+        "allowJs": true,
+        "checkJs": true
+    },
+    "exclude": [
+        "node_modules",
+        "**/node_modules/*"
+    ]
+}

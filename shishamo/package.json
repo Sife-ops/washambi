@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "start:local": "node ./cmd/start.js --stage local",
     "inspect": "node --inspect ./cmd/start.js --stage local",
@@ -26,6 +25,7 @@
   "dependencies": {
     "commander": "^11.0.0",
     "deepmerge": "^4.3.1",
+    "grpc-js-wrapper": "file:../rpc/package/grpc-js-wrapper/grpc-js-wrapper-1.0.0.tgz",
     "joi": "^17.9.2",
     "kysely": "^0.26.1",
     "pg": "^8.11.2",

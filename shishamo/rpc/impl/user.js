@@ -1,8 +1,8 @@
-import * as rpcError from "../../error/rpc.js";
 import joi from "joi";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import ts from "google-protobuf/google/protobuf/timestamp_pb.js";
 import { db } from "../../db/connection.js";
+import { handleRpcError } from "../../error/rpc.js";
 import { log } from "../../logger/logger.js";
 import { testingClient } from "../../rpc/client.js";
 
@@ -56,7 +56,7 @@ export async function userCreate(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        const error = rpcError.handleRpcError(e);
+        const error = handleRpcError(e);
         log(import.meta, "info", {
             // todo: more info
             errors: [e, error]
@@ -105,7 +105,7 @@ if (import.meta.vitest) {
             }
         });
 
-        test("invalid email", async function() {
+        test("invalid email error", async function() {
             request.setEmail("lol");
             try {
                 await testingClient.get().promise.userCreate(request);
@@ -114,7 +114,7 @@ if (import.meta.vitest) {
             }
         });
 
-        test("invalid password", async function() {
+        test("invalid password error", async function() {
             request.setPassword("lol");
             try {
                 await testingClient.get().promise.userCreate(request);
@@ -154,7 +154,7 @@ export async function userGetOne(call, callback) {
         callback(null, r);
     } catch (e) {
         // console.log(e.code)
-        callback(rpcError.handleRpcError(e));
+        callback(handleRpcError(e));
     }
 }
 
@@ -195,11 +195,10 @@ if (import.meta.vitest) {
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserChangePasswordRequest, shishamo_pb.UserChangePasswordResponse>} */
 export async function userChangePassword(call, callback) {
     try {
-        // if (call.request.getPassword().length < 1) {
-        //     throw new rpcError.PasswordChangedToEmptyError();
-        // }
-
-        await joi.string().pattern(passwordRegex).validateAsync(call.request.getPassword());
+        await joi
+            .string()
+            .pattern(passwordRegex)
+            .validateAsync(call.request.getPassword());
 
         const a = await db
             .updateTable("user")
@@ -213,7 +212,7 @@ export async function userChangePassword(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        callback(rpcError.handleRpcError(e));
+        callback(handleRpcError(e));
     }
 }
 
