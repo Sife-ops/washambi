@@ -1,8 +1,10 @@
-import pg from "pg"; const { DatabaseError } = pg;
+import joi from "joi";
+import pg from "pg";
 import { ShishamoError } from "./shishamo.js"
 
 export class RpcError extends ShishamoError {
     name = this.name + "Rpc::"
+    // message;
 
     /** @type {string} */
     details;
@@ -10,12 +12,18 @@ export class RpcError extends ShishamoError {
     code;
 }
 
-export class PasswordChangedToEmptyError extends RpcError {
-    name = this.name + "PasswordChangedToEmpty";
-    message = "cannot change password to empty";
-
-    details = this.message;
-    code = 3
+/**
+ * todo: lossy error description?
+ * @param {import("joi").ValidationError} e
+ * @returns {RpcError}
+ */
+function validationToRpcError(e) {
+    const rpc = new RpcError();
+    rpc.name = rpc.name + e.name;
+    rpc.message = e.message;
+    rpc.details = e.message;
+    rpc.code = 3;
+    return rpc;
 }
 
 /**
@@ -45,7 +53,7 @@ function databaseToRpcError(e) {
 }
 
 /**
- * @param {RpcError | import("pg").DatabaseError} e
+ * @param {RpcError | import("pg").DatabaseError | import("joi").ValidationError} e
  * @returns {import("@grpc/grpc-js").ServerErrorResponse}
  */
 export function handleRpcError(e) {
@@ -53,8 +61,12 @@ export function handleRpcError(e) {
         return e;
     }
 
-    if (e instanceof DatabaseError) {
+    if (e instanceof pg.DatabaseError) {
         return databaseToRpcError(e);
+    }
+
+    if (e instanceof joi.ValidationError) {
+        return validationToRpcError(e);
     }
 
     return {

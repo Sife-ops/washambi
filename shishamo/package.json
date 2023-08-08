@@ -26,6 +26,7 @@
   "dependencies": {
     "commander": "^11.0.0",
     "deepmerge": "^4.3.1",
+    "joi": "^17.9.2",
     "kysely": "^0.26.1",
     "pg": "^8.11.2",
     "washambi-rpc": "file:../rpc/package/node/washambi-rpc-1.0.0.tgz",

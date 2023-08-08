@@ -8,6 +8,7 @@ const winston = createLogger({
     ],
     format: format.combine(
         format.timestamp({
+            // todo: iso timestamp
             format: 'YYYY-MM-DD HH:mm:ss'
         }),
         // format.errors({ stack: true }),
@@ -17,7 +18,7 @@ const winston = createLogger({
 })
 
 /**
- *
+ * todo: truncate filename
  * @param {ImportMeta} i
  * @param {string} a
  * @param {object} b
@@ -27,5 +28,7 @@ export function log(i, a, b) {
         message: {
             file: i.url,
         }
-    }, b))
+    }, {
+        message: b
+    }));
 }

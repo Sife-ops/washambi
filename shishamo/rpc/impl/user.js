@@ -1,4 +1,5 @@
 import * as rpcError from "../../error/rpc.js";
+import joi from "joi";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import ts from "google-protobuf/google/protobuf/timestamp_pb.js";
 import { db } from "../../db/connection.js";
@@ -23,9 +24,24 @@ function userFromDb(user) {
     return u;
 }
 
+// todo: move?
+const passwordRegex = new RegExp("^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,32}$");
+
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserCreateRequest, shishamo_pb.UserCreateResponse>} */
 export async function userCreate(call, callback) {
     try {
+        await joi
+            .object({
+                email: joi.string().email(),
+                password: joi
+                    .string()
+                    .pattern(passwordRegex),
+            })
+            .validateAsync({
+                email: call.request.getEmail(),
+                password: call.request.getPassword()
+            });
+
         const a = await db
             .insertInto("user")
             .values({
@@ -40,16 +56,20 @@ export async function userCreate(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        log(import.meta, "error", { message: { description: "cool" } });
-        callback(rpcError.handleRpcError(e));
+        const error = rpcError.handleRpcError(e);
+        log(import.meta, "info", {
+            // todo: more info
+            errors: [e, error]
+        });
+        callback(error);
     }
 }
 
 // used in tests
 /** @type {import("kysely").InsertObject<import("@db/schema.ts").DB, "user">} */
 let testUserTemplate = {
-    email: "int@int.com",
-    password: "bingchilling",
+    email: "bing@chilling.com",
+    password: "bingchilling123!",
 }
 
 /** @returns {Promise<import("kysely").Selectable<import("@db/schema.ts").User>>} */
@@ -71,21 +91,37 @@ async function clearTestUser() {
 }
 
 if (import.meta.vitest) {
-    const { describe, test, expect, beforeAll } = import.meta.vitest;
+    const { describe, test, expect, beforeEach } = import.meta.vitest;
 
     describe("int :: userCreate", function() {
         const request = new shishamo_pb.UserCreateRequest();
-        request.setEmail(testUserTemplate.email.toString());
-        request.setPassword(testUserTemplate.password.toString());
 
-        beforeAll(async function() {
+        beforeEach(async function() {
+            request.setEmail(testUserTemplate.email.toString());
+            request.setPassword(testUserTemplate.password.toString());
             await clearTestUser();
             return async function() {
                 await clearTestUser();
             }
         });
 
-        // todo: valid password & email
+        test("invalid email", async function() {
+            request.setEmail("lol");
+            try {
+                await testingClient.get().promise.userCreate(request);
+            } catch (e) {
+                expect(e.code).toEqual(3);
+            }
+        });
+
+        test("invalid password", async function() {
+            request.setPassword("lol");
+            try {
+                await testingClient.get().promise.userCreate(request);
+            } catch (e) {
+                expect(e.code).toEqual(3);
+            }
+        });
 
         test("create user", async function() {
             const response = await testingClient.get().promise.userCreate(request);
@@ -93,6 +129,7 @@ if (import.meta.vitest) {
         });
 
         test("duplicate key error (email)", async function() {
+            await createTestUser();
             try {
                 await testingClient.get().promise.userCreate(request);
             } catch (e) {
@@ -158,9 +195,11 @@ if (import.meta.vitest) {
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserChangePasswordRequest, shishamo_pb.UserChangePasswordResponse>} */
 export async function userChangePassword(call, callback) {
     try {
-        if (call.request.getPassword().length < 1) {
-            throw new rpcError.PasswordChangedToEmptyError();
-        }
+        // if (call.request.getPassword().length < 1) {
+        //     throw new rpcError.PasswordChangedToEmptyError();
+        // }
+
+        await joi.string().pattern(passwordRegex).validateAsync(call.request.getPassword());
 
         const a = await db
             .updateTable("user")
@@ -194,24 +233,22 @@ if (import.meta.vitest) {
             }
         })
 
-        test("change to valid password", async function() {
-            const newPassword = "something123"
+        test("valid password", async function() {
+            const newPassword = "something123!"
             request.setPassword(newPassword);
 
             const response = await testingClient.get().promise.userChangePassword(request);
-            // console.log(response.getUser().toObject());
             expect(response.hasUser()).toBeTruthy();
             expect(response.getUser().getPassword()).toBe(newPassword);
         });
 
-        test("empty password error", async function() {
-            const newPassword = ""
-            request.setPassword(newPassword);
+        test("invalid password error", async function() {
+            request.setPassword("");
 
             try {
                 await testingClient.get().promise.userChangePassword(request);
             } catch (e) {
-                expect(e.details).toBe(new rpcError.PasswordChangedToEmptyError().details);
+                expect(e.code).toBe(3);
             }
         });
     });
