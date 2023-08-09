@@ -1,0 +1,26 @@
+{
+  "name": "fancypenosi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./cmd/start",
+    "watch": "nodemon ./cmd/start",
+    "test": "vitest"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@grpc/grpc-js": "^1.9.0",
+    "express": "^4.18.2",
+    "grpc-js-wrapper": "file:../rpc/package/grpc-js-wrapper/grpc-js-wrapper-1.0.0.tgz",
+    "washambi-rpc": "file:../rpc/package/node/washambi-rpc-1.0.0.tgz"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.17",
+    "nodemon": "^3.0.1",
+    "vitest": "^0.34.1"
+  }
+}

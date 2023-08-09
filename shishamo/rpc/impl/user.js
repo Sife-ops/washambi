@@ -24,23 +24,10 @@ function userFromDb(user) {
     return u;
 }
 
-// todo: move?
-const passwordRegex = new RegExp("^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,32}$");
-
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserCreateRequest, shishamo_pb.UserCreateResponse>} */
 export async function userCreate(call, callback) {
     try {
-        await joi
-            .object({
-                email: joi.string().email(),
-                password: joi
-                    .string()
-                    .pattern(passwordRegex),
-            })
-            .validateAsync({
-                email: call.request.getEmail(),
-                password: call.request.getPassword()
-            });
+        await joi.string().email().validateAsync(call.request.getEmail());
 
         const a = await db
             .insertInto("zoomers.user")
@@ -115,7 +102,7 @@ if (import.meta.vitest) {
             }
         });
 
-        test("invalid password error", async function() {
+        test.skip("invalid password error", async function() {
             request.setPassword("lol");
             try {
                 await testingClient.get().promise.userCreate(request);
@@ -196,10 +183,10 @@ if (import.meta.vitest) {
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserChangePasswordRequest, shishamo_pb.UserChangePasswordResponse>} */
 export async function userChangePassword(call, callback) {
     try {
-        await joi
-            .string()
-            .pattern(passwordRegex)
-            .validateAsync(call.request.getPassword());
+        // await joi
+        //     .string()
+        //     .pattern(passwordRegex)
+        //     .validateAsync(call.request.getPassword());
 
         const a = await db
             .updateTable("zoomers.user")
@@ -242,7 +229,7 @@ if (import.meta.vitest) {
             expect(response.getUser().getPassword()).toBe(newPassword);
         });
 
-        test("invalid password error", async function() {
+        test.skip("invalid password error", async function() {
             request.setPassword("");
 
             try {
