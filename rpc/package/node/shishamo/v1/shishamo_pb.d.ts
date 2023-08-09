@@ -3,6 +3,7 @@
 
 import * as jspb from "google-protobuf";
 import * as google_protobuf_timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb";
+import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
 export class User extends jspb.Message {
   getId(): string;
@@ -175,6 +176,26 @@ export class UserChangePasswordResponse extends jspb.Message {
 export namespace UserChangePasswordResponse {
   export type AsObject = {
     user?: User.AsObject,
+  }
+}
+
+export class UserPurgeRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserPurgeRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UserPurgeRequest): UserPurgeRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserPurgeRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserPurgeRequest;
+  static deserializeBinaryFromReader(message: UserPurgeRequest, reader: jspb.BinaryReader): UserPurgeRequest;
+}
+
+export namespace UserPurgeRequest {
+  export type AsObject = {
+    id: string,
   }
 }
 

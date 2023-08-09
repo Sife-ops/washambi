@@ -9,6 +9,7 @@ export function serve() {
         userCreate: user.userCreate,
         userGetOne: user.userGetOne,
         userChangePassword: user.userChangePassword,
+        userPurge: user.userPurge,
     });
 
     server.bindAsync(

@@ -1,8 +1,9 @@
+import empty_pb from "google-protobuf/google/protobuf/empty_pb.js"; const { Empty } = empty_pb;
 import joi from "joi";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
-import ts from "google-protobuf/google/protobuf/timestamp_pb.js";
+import timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb.js"; const { Timestamp } = timestamp_pb;
 import { db } from "../../db/connection.js";
-import { log } from "../../logger/logger.js";
+// import { log } from "../../logger/logger.js";
 import { testingClient } from "../../rpc/client.js";
 import { toRpcError } from "../../error/rpc.js";
 
@@ -16,9 +17,9 @@ function userFromDb(user) {
     u.setId(user.id);
     u.setEmail(user.email);
     u.setPassword(user.password);
-    u.setCreatedAt(ts.Timestamp.fromDate(user.created_at));
+    u.setCreatedAt(Timestamp.fromDate(user.created_at));
     if (user.deleted_at) {
-        u.setDeletedAt(ts.Timestamp.fromDate(user.deleted_at));
+        u.setDeletedAt(Timestamp.fromDate(user.deleted_at));
     }
 
     return u;
@@ -44,11 +45,10 @@ export async function userCreate(call, callback) {
         callback(null, r);
     } catch (e) {
         const error = toRpcError(e);
-        log(import.meta, "info", {
-            // todo: more info
-            context: { request: call.request.toObject() },
-            errors: [e, error]
-        });
+        // log(import.meta, "info", {
+        //     context: { request: call.request.toObject() },
+        //     errors: [e, error]
+        // });
         callback(error);
     }
 }
@@ -141,7 +141,7 @@ export async function userGetOne(call, callback) {
 
         callback(null, r);
     } catch (e) {
-        // console.log(e.code)
+        // console.log(e)
         callback(toRpcError(e));
     }
 }
@@ -170,7 +170,8 @@ if (import.meta.vitest) {
         });
 
         test("missing user error", async function() {
-            request.setId("33");
+            // request.setId("33");
+            request.setId("d9b8224c-36a1-11ee-82aa-0242ac110002");
             try {
                 await testingClient.get().promise.userGetOne(request);
             } catch (e) {
@@ -241,3 +242,52 @@ if (import.meta.vitest) {
     });
 }
 
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserPurgeRequest, empty_pb.Empty>} */
+export async function userPurge(call, callback) {
+    try {
+        await db
+            .deleteFrom("zoomers.user")
+            .where("id", "=", call.request.getId())
+            // todo: doesn't throw when missing, select before delete?
+            .executeTakeFirstOrThrow();
+
+        callback(null, new Empty());
+    } catch (e) {
+        // console.log(e)
+        callback(toRpcError(e));
+    }
+}
+
+if (import.meta.vitest) {
+    const { describe, test, expect, beforeAll } = import.meta.vitest;
+
+    describe("int :: userPurge", function() {
+        const request = new shishamo_pb.UserPurgeRequest();
+
+        beforeAll(async function() {
+            await clearTestUser();
+            const testUser = await createTestUser();
+            request.setId(testUser.id);
+
+            return async function() {
+                await clearTestUser();
+            }
+        })
+
+        test("purge existing user", async function() {
+            await testingClient.get().promise.userPurge(request);
+        });
+
+        test.skip("missing user error", async function() {
+            request.setId("d9b8224c-36a1-11ee-82aa-0242ac110002");
+            try {
+                await testingClient.get().promise.userPurge(request);
+            } catch (e) {
+                console.log(e);
+                expect(e.code).toBe(5);
+            }
+        });
+
+        // todo: code 3
+    });
+}

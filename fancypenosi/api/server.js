@@ -16,7 +16,6 @@ router.post("/signup", async function(req, res) {
         delete user.password;
 
         res.json(user);
-
     } catch (e) {
         // console.log(e)
         res.json({
@@ -26,7 +25,7 @@ router.post("/signup", async function(req, res) {
 });
 
 if (import.meta.vitest) {
-    const { test, expect } = import.meta.vitest;
+    const { test, expect, describe, beforeEach } = import.meta.vitest;
 
     test("signup", async function() {
         const res = await fetch("http://localhost:3000/signup", {

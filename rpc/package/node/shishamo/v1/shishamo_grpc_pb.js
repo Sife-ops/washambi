@@ -4,6 +4,18 @@
 var grpc = require('@grpc/grpc-js');
 var shishamo_v1_shishamo_pb = require('../../shishamo/v1/shishamo_pb.js');
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
+var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
+
+function serialize_google_protobuf_Empty(arg) {
+  if (!(arg instanceof google_protobuf_empty_pb.Empty)) {
+    throw new Error('Expected argument of type google.protobuf.Empty');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_google_protobuf_Empty(buffer_arg) {
+  return google_protobuf_empty_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
+}
 
 function serialize_shishamo_v1_UserChangePasswordRequest(arg) {
   if (!(arg instanceof shishamo_v1_shishamo_pb.UserChangePasswordRequest)) {
@@ -71,6 +83,17 @@ function deserialize_shishamo_v1_UserGetOneResponse(buffer_arg) {
   return shishamo_v1_shishamo_pb.UserGetOneResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_shishamo_v1_UserPurgeRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserPurgeRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.UserPurgeRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_UserPurgeRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserPurgeRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var ShishamoService = exports.ShishamoService = {
   userCreate: {
@@ -106,6 +129,18 @@ var ShishamoService = exports.ShishamoService = {
     responseSerialize: serialize_shishamo_v1_UserChangePasswordResponse,
     responseDeserialize: deserialize_shishamo_v1_UserChangePasswordResponse,
   },
+  userPurge: {
+    path: '/shishamo.v1.Shishamo/UserPurge',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.UserPurgeRequest,
+    responseType: google_protobuf_empty_pb.Empty,
+    requestSerialize: serialize_shishamo_v1_UserPurgeRequest,
+    requestDeserialize: deserialize_shishamo_v1_UserPurgeRequest,
+    responseSerialize: serialize_google_protobuf_Empty,
+    responseDeserialize: deserialize_google_protobuf_Empty,
+  },
+  // todo: UserDisable
 };
 
 exports.ShishamoClient = grpc.makeGenericClientConstructor(ShishamoService);

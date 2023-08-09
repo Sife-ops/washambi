@@ -3,11 +3,14 @@ syntax = "proto3";
 package shishamo.v1;
 
 import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
 
 service Shishamo {
   rpc UserCreate (UserCreateRequest) returns (UserCreateResponse);
   rpc UserGetOne (UserGetOneRequest) returns (UserGetOneResponse);
   rpc UserChangePassword (UserChangePasswordRequest) returns (UserChangePasswordResponse);
+  rpc UserPurge (UserPurgeRequest) returns (google.protobuf.Empty);
+  // todo: UserDisable
 }
 
 //
@@ -52,5 +55,11 @@ message UserChangePasswordRequest {
 
 message UserChangePasswordResponse {
     User user = 1;
+}
+
+//
+
+message UserPurgeRequest {
+  string id = 1;
 }
 
