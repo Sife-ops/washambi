@@ -92,8 +92,8 @@ export namespace UserCreateResponse {
 }
 
 export class UserGetOneRequest extends jspb.Message {
-  getId(): string;
-  setId(value: string): void;
+  getEmail(): string;
+  setEmail(value: string): void;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): UserGetOneRequest.AsObject;
@@ -107,7 +107,7 @@ export class UserGetOneRequest extends jspb.Message {
 
 export namespace UserGetOneRequest {
   export type AsObject = {
-    id: string,
+    email: string,
   }
 }
 
@@ -196,6 +196,46 @@ export class UserPurgeRequest extends jspb.Message {
 export namespace UserPurgeRequest {
   export type AsObject = {
     id: string,
+  }
+}
+
+export class UserTokenRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserTokenRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UserTokenRequest): UserTokenRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserTokenRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserTokenRequest;
+  static deserializeBinaryFromReader(message: UserTokenRequest, reader: jspb.BinaryReader): UserTokenRequest;
+}
+
+export namespace UserTokenRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class UserTokenResponse extends jspb.Message {
+  getToken(): string;
+  setToken(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserTokenResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: UserTokenResponse): UserTokenResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserTokenResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserTokenResponse;
+  static deserializeBinaryFromReader(message: UserTokenResponse, reader: jspb.BinaryReader): UserTokenResponse;
+}
+
+export namespace UserTokenResponse {
+  export type AsObject = {
+    token: string,
   }
 }
 

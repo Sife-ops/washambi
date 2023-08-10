@@ -11,6 +11,7 @@ service Shishamo {
   rpc UserChangePassword (UserChangePasswordRequest) returns (UserChangePasswordResponse);
   rpc UserPurge (UserPurgeRequest) returns (google.protobuf.Empty);
   // todo: UserDisable
+  rpc UserToken (UserTokenRequest) returns (UserTokenResponse);
 }
 
 //
@@ -25,7 +26,7 @@ message User {
     google.protobuf.Timestamp deleted_at = 5;
 }
 
-//
+// create
 
 message UserCreateRequest {
   string email = 1;
@@ -36,17 +37,17 @@ message UserCreateResponse {
     User user = 1;
 }
 
-//
+// get one
 
 message UserGetOneRequest {
-    string id = 1;
+    string email = 1;
 }
 
 message UserGetOneResponse {
     User user = 1;
 }
 
-//
+// change password
 
 message UserChangePasswordRequest {
   string id = 1;
@@ -57,9 +58,18 @@ message UserChangePasswordResponse {
     User user = 1;
 }
 
-//
+// purge
 
 message UserPurgeRequest {
   string id = 1;
 }
 
+// token
+
+message UserTokenRequest {
+    string id = 1;
+}
+
+message UserTokenResponse {
+    string token = 1;
+}

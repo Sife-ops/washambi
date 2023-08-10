@@ -132,7 +132,7 @@ export async function userGetOne(call, callback) {
     try {
         const a = await db
             .selectFrom("zoomers.user")
-            .where("id", "=", call.request.getId())
+            .where("email", "=", call.request.getEmail())
             .selectAll()
             .executeTakeFirstOrThrow();
 
@@ -155,7 +155,7 @@ if (import.meta.vitest) {
         beforeAll(async function() {
             await clearTestUser();
             const testUser = await createTestUser();
-            request.setId(testUser.id);
+            request.setEmail(testUser.email);
 
             return async function() {
                 await clearTestUser();
@@ -170,8 +170,7 @@ if (import.meta.vitest) {
         });
 
         test("missing user error", async function() {
-            // request.setId("33");
-            request.setId("d9b8224c-36a1-11ee-82aa-0242ac110002");
+            request.setEmail("some@guy.com");
             try {
                 await testingClient.get().promise.userGetOne(request);
             } catch (e) {
@@ -291,3 +290,22 @@ if (import.meta.vitest) {
         // todo: code 3
     });
 }
+
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserTokenRequest, shishamo_pb.UserTokenResponse>} */
+export async function userToken(call, callback) {
+    try {
+        await db
+            .selectFrom("zoomers.user")
+            .where("id", "=", call.request.getId())
+            .executeTakeFirstOrThrow();
+
+        const r = new shishamo_pb.UserTokenResponse();
+        r.setToken("todo");
+
+        callback(null, r);
+    } catch (e) {
+        // console.log(e)
+        callback(toRpcError(e));
+    }
+}
+

@@ -10,6 +10,7 @@ export function serve() {
         userGetOne: user.userGetOne,
         userChangePassword: user.userChangePassword,
         userPurge: user.userPurge,
+        userToken: user.userToken,
     });
 
     server.bindAsync(

@@ -94,6 +94,28 @@ function deserialize_shishamo_v1_UserPurgeRequest(buffer_arg) {
   return shishamo_v1_shishamo_pb.UserPurgeRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_shishamo_v1_UserTokenRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserTokenRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.UserTokenRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_UserTokenRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserTokenRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_UserTokenResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserTokenResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.UserTokenResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_UserTokenResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserTokenResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var ShishamoService = exports.ShishamoService = {
   userCreate: {
@@ -141,6 +163,17 @@ var ShishamoService = exports.ShishamoService = {
     responseDeserialize: deserialize_google_protobuf_Empty,
   },
   // todo: UserDisable
+userToken: {
+    path: '/shishamo.v1.Shishamo/UserToken',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.UserTokenRequest,
+    responseType: shishamo_v1_shishamo_pb.UserTokenResponse,
+    requestSerialize: serialize_shishamo_v1_UserTokenRequest,
+    requestDeserialize: deserialize_shishamo_v1_UserTokenRequest,
+    responseSerialize: serialize_shishamo_v1_UserTokenResponse,
+    responseDeserialize: deserialize_shishamo_v1_UserTokenResponse,
+  },
 };
 
 exports.ShishamoClient = grpc.makeGenericClientConstructor(ShishamoService);

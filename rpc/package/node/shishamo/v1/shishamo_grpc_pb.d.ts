@@ -12,6 +12,7 @@ interface IShishamoService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
   userGetOne: grpc.MethodDefinition<shishamo_v1_shishamo_pb.UserGetOneRequest, shishamo_v1_shishamo_pb.UserGetOneResponse>;
   userChangePassword: grpc.MethodDefinition<shishamo_v1_shishamo_pb.UserChangePasswordRequest, shishamo_v1_shishamo_pb.UserChangePasswordResponse>;
   userPurge: grpc.MethodDefinition<shishamo_v1_shishamo_pb.UserPurgeRequest, google_protobuf_empty_pb.Empty>;
+  userToken: grpc.MethodDefinition<shishamo_v1_shishamo_pb.UserTokenRequest, shishamo_v1_shishamo_pb.UserTokenResponse>;
 }
 
 export const ShishamoService: IShishamoService;
@@ -21,6 +22,7 @@ export interface IShishamoServer extends grpc.UntypedServiceImplementation {
   userGetOne: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.UserGetOneRequest, shishamo_v1_shishamo_pb.UserGetOneResponse>;
   userChangePassword: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.UserChangePasswordRequest, shishamo_v1_shishamo_pb.UserChangePasswordResponse>;
   userPurge: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.UserPurgeRequest, google_protobuf_empty_pb.Empty>;
+  userToken: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.UserTokenRequest, shishamo_v1_shishamo_pb.UserTokenResponse>;
 }
 
 export class ShishamoClient extends grpc.Client {
@@ -37,4 +39,7 @@ export class ShishamoClient extends grpc.Client {
   userPurge(argument: shishamo_v1_shishamo_pb.UserPurgeRequest, callback: grpc.requestCallback<google_protobuf_empty_pb.Empty>): grpc.ClientUnaryCall;
   userPurge(argument: shishamo_v1_shishamo_pb.UserPurgeRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<google_protobuf_empty_pb.Empty>): grpc.ClientUnaryCall;
   userPurge(argument: shishamo_v1_shishamo_pb.UserPurgeRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<google_protobuf_empty_pb.Empty>): grpc.ClientUnaryCall;
+  userToken(argument: shishamo_v1_shishamo_pb.UserTokenRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.UserTokenResponse>): grpc.ClientUnaryCall;
+  userToken(argument: shishamo_v1_shishamo_pb.UserTokenRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.UserTokenResponse>): grpc.ClientUnaryCall;
+  userToken(argument: shishamo_v1_shishamo_pb.UserTokenRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.UserTokenResponse>): grpc.ClientUnaryCall;
 }
