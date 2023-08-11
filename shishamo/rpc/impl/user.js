@@ -1,9 +1,10 @@
+// import { log } from "../../logger/logger.js";
 import empty_pb from "google-protobuf/google/protobuf/empty_pb.js"; const { Empty } = empty_pb;
 import joi from "joi";
+import jwt from "jsonwebtoken";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb.js"; const { Timestamp } = timestamp_pb;
 import { db } from "../../db/connection.js";
-// import { log } from "../../logger/logger.js";
 import { testingClient } from "../../rpc/client.js";
 import { toRpcError } from "../../error/rpc.js";
 
@@ -21,6 +22,7 @@ function userFromDb(user) {
     if (user.deleted_at) {
         u.setDeletedAt(Timestamp.fromDate(user.deleted_at));
     }
+    u.setToken(jwt.sign({ id: user.id }, "todo: secret"));
 
     return u;
 }
@@ -282,7 +284,7 @@ if (import.meta.vitest) {
             try {
                 await testingClient.get().promise.userPurge(request);
             } catch (e) {
-                console.log(e);
+                // console.log(e);
                 expect(e.code).toBe(5);
             }
         });
@@ -291,16 +293,17 @@ if (import.meta.vitest) {
     });
 }
 
-/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserTokenRequest, shishamo_pb.UserTokenResponse>} */
-export async function userToken(call, callback) {
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.UserVerifyTokenRequest, shishamo_pb.UserVerifyTokenResponse>} */
+export async function userVerifyToken(call, callback) {
     try {
-        await db
-            .selectFrom("zoomers.user")
-            .where("id", "=", call.request.getId())
-            .executeTakeFirstOrThrow();
+        const r = new shishamo_pb.UserVerifyTokenResponse();
 
-        const r = new shishamo_pb.UserTokenResponse();
-        r.setToken("todo");
+        try {
+            jwt.verify(call.request.getToken(), "todo: secret");
+            r.setVerified(true);
+        } catch {
+            r.setVerified(false);
+        }
 
         callback(null, r);
     } catch (e) {
@@ -309,3 +312,35 @@ export async function userToken(call, callback) {
     }
 }
 
+if (import.meta.vitest) {
+    const { describe, test, expect, beforeAll } = import.meta.vitest;
+
+    describe("int :: userVerifyToken", function() {
+        const request = new shishamo_pb.UserVerifyTokenRequest();
+
+        beforeAll(async function() {
+            await clearTestUser();
+            const testUser = await createTestUser();
+            const rpcReq = new shishamo_pb.UserGetOneRequest();
+            rpcReq.setEmail(testUser.email);
+            const rpcUser = await testingClient.get().promise.userGetOne(rpcReq);
+            request.setToken(rpcUser.getUser().getToken())
+
+            return async function() {
+                await clearTestUser();
+            }
+        })
+
+        test("success", async function() {
+            const res = await testingClient.get().promise.userVerifyToken(request);
+            // console.log(res.getVerified());
+            expect(res.getVerified()).toBe(true);
+        });
+
+        test("bad token", async function() {
+            request.setToken("lmao");
+            const res = await testingClient.get().promise.userVerifyToken(request);
+            expect(res.getVerified()).toBe(false);
+        });
+    });
+}

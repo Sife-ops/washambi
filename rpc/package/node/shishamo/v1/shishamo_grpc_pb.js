@@ -83,6 +83,28 @@ function deserialize_shishamo_v1_UserGetOneResponse(buffer_arg) {
   return shishamo_v1_shishamo_pb.UserGetOneResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_shishamo_v1_UserGetTokenRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserGetTokenRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.UserGetTokenRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_UserGetTokenRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserGetTokenRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_UserGetTokenResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserGetTokenResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.UserGetTokenResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_UserGetTokenResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserGetTokenResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_shishamo_v1_UserPurgeRequest(arg) {
   if (!(arg instanceof shishamo_v1_shishamo_pb.UserPurgeRequest)) {
     throw new Error('Expected argument of type shishamo.v1.UserPurgeRequest');
@@ -94,26 +116,26 @@ function deserialize_shishamo_v1_UserPurgeRequest(buffer_arg) {
   return shishamo_v1_shishamo_pb.UserPurgeRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_shishamo_v1_UserTokenRequest(arg) {
-  if (!(arg instanceof shishamo_v1_shishamo_pb.UserTokenRequest)) {
-    throw new Error('Expected argument of type shishamo.v1.UserTokenRequest');
+function serialize_shishamo_v1_UserVerifyTokenRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserVerifyTokenRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.UserVerifyTokenRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_shishamo_v1_UserTokenRequest(buffer_arg) {
-  return shishamo_v1_shishamo_pb.UserTokenRequest.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_shishamo_v1_UserVerifyTokenRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserVerifyTokenRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_shishamo_v1_UserTokenResponse(arg) {
-  if (!(arg instanceof shishamo_v1_shishamo_pb.UserTokenResponse)) {
-    throw new Error('Expected argument of type shishamo.v1.UserTokenResponse');
+function serialize_shishamo_v1_UserVerifyTokenResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.UserVerifyTokenResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.UserVerifyTokenResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_shishamo_v1_UserTokenResponse(buffer_arg) {
-  return shishamo_v1_shishamo_pb.UserTokenResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_shishamo_v1_UserVerifyTokenResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.UserVerifyTokenResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -163,16 +185,27 @@ var ShishamoService = exports.ShishamoService = {
     responseDeserialize: deserialize_google_protobuf_Empty,
   },
   // todo: UserDisable
-userToken: {
-    path: '/shishamo.v1.Shishamo/UserToken',
+userGetToken: {
+    path: '/shishamo.v1.Shishamo/UserGetToken',
     requestStream: false,
     responseStream: false,
-    requestType: shishamo_v1_shishamo_pb.UserTokenRequest,
-    responseType: shishamo_v1_shishamo_pb.UserTokenResponse,
-    requestSerialize: serialize_shishamo_v1_UserTokenRequest,
-    requestDeserialize: deserialize_shishamo_v1_UserTokenRequest,
-    responseSerialize: serialize_shishamo_v1_UserTokenResponse,
-    responseDeserialize: deserialize_shishamo_v1_UserTokenResponse,
+    requestType: shishamo_v1_shishamo_pb.UserGetTokenRequest,
+    responseType: shishamo_v1_shishamo_pb.UserGetTokenResponse,
+    requestSerialize: serialize_shishamo_v1_UserGetTokenRequest,
+    requestDeserialize: deserialize_shishamo_v1_UserGetTokenRequest,
+    responseSerialize: serialize_shishamo_v1_UserGetTokenResponse,
+    responseDeserialize: deserialize_shishamo_v1_UserGetTokenResponse,
+  },
+  userVerifyToken: {
+    path: '/shishamo.v1.Shishamo/UserVerifyToken',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.UserVerifyTokenRequest,
+    responseType: shishamo_v1_shishamo_pb.UserVerifyTokenResponse,
+    requestSerialize: serialize_shishamo_v1_UserVerifyTokenRequest,
+    requestDeserialize: deserialize_shishamo_v1_UserVerifyTokenRequest,
+    responseSerialize: serialize_shishamo_v1_UserVerifyTokenResponse,
+    responseDeserialize: deserialize_shishamo_v1_UserVerifyTokenResponse,
   },
 };
 

@@ -1,9 +1,13 @@
-import "./cli.js";
-import {serve} from "../rpc/server.js";
+// import "./cli.js";
+import { serve } from "../rpc/server.js";
 
 function main() {
-    // todo: cool logo
-    console.log("starting shishamo");
+    console.log("shishamo");
+    console.log("      /\"*._         _");
+    console.log("  .-*'`    `*-.._.-'/");
+    console.log("< * ))     ,       (");
+    console.log("  `*-._`._(__.--*\"`.\\");
+
     serve();
 }
 

@@ -10,14 +10,15 @@ export function serve() {
         userGetOne: user.userGetOne,
         userChangePassword: user.userChangePassword,
         userPurge: user.userPurge,
-        userToken: user.userToken,
+        // userGetToken: user.userGetToken,
+        userVerifyToken: user.userVerifyToken,
     });
 
     server.bindAsync(
         "0.0.0.0:50051", // todo: hardcoded
         ServerCredentials.createInsecure(), // todo: createSsl?
         () => {
-            console.log("starting grpc");
+            console.log("started grpc server...");
             server.start();
         }
     );

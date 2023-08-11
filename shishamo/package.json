@@ -4,9 +4,9 @@
   "description": "",
   "type": "module",
   "scripts": {
-    "start:local": "node ./cmd/start.js --stage local",
-    "inspect": "node --inspect ./cmd/start.js --stage local",
-    "watch": "nodemon ./cmd/start.js --stage local",
+    "start": "node ./cmd/start.js",
+    "inspect": "node --inspect ./cmd/start.js",
+    "watch": "nodemon ./cmd/start.js",
     "test:int": "SHISHAMO_STAGE=local vitest -t \"int ::\"",
     "test:unit": "SHISHAMO_STAGE=local vitest -t \"unit ::\""
   },
@@ -15,6 +15,7 @@
   "license": "ISC",
   "devDependencies": {
     "@tsconfig/node18": "^18.2.0",
+    "@types/jsonwebtoken": "^9.0.2",
     "@types/node": "^20.4.7",
     "@types/pg": "^8.10.2",
     "kysely-codegen": "^0.10.1",
@@ -27,6 +28,7 @@
     "deepmerge": "^4.3.1",
     "grpc-js-wrapper": "file:../rpc/package/grpc-js-wrapper/grpc-js-wrapper-1.0.0.tgz",
     "joi": "^17.9.2",
+    "jsonwebtoken": "^9.0.1",
     "kysely": "^0.26.1",
     "pg": "^8.11.2",
     "washambi-rpc": "file:../rpc/package/node/washambi-rpc-1.0.0.tgz",

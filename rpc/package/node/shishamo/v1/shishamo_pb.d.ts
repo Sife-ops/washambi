@@ -25,6 +25,9 @@ export class User extends jspb.Message {
   getDeletedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setDeletedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
 
+  getToken(): string;
+  setToken(value: string): void;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): User.AsObject;
   static toObject(includeInstance: boolean, msg: User): User.AsObject;
@@ -42,6 +45,7 @@ export namespace User {
     password: string,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     deletedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    token: string,
   }
 }
 
@@ -199,43 +203,83 @@ export namespace UserPurgeRequest {
   }
 }
 
-export class UserTokenRequest extends jspb.Message {
+export class UserGetTokenRequest extends jspb.Message {
   getId(): string;
   setId(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): UserTokenRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: UserTokenRequest): UserTokenRequest.AsObject;
+  toObject(includeInstance?: boolean): UserGetTokenRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UserGetTokenRequest): UserGetTokenRequest.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: UserTokenRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): UserTokenRequest;
-  static deserializeBinaryFromReader(message: UserTokenRequest, reader: jspb.BinaryReader): UserTokenRequest;
+  static serializeBinaryToWriter(message: UserGetTokenRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserGetTokenRequest;
+  static deserializeBinaryFromReader(message: UserGetTokenRequest, reader: jspb.BinaryReader): UserGetTokenRequest;
 }
 
-export namespace UserTokenRequest {
+export namespace UserGetTokenRequest {
   export type AsObject = {
     id: string,
   }
 }
 
-export class UserTokenResponse extends jspb.Message {
+export class UserGetTokenResponse extends jspb.Message {
   getToken(): string;
   setToken(value: string): void;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): UserTokenResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: UserTokenResponse): UserTokenResponse.AsObject;
+  toObject(includeInstance?: boolean): UserGetTokenResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: UserGetTokenResponse): UserGetTokenResponse.AsObject;
   static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
   static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: UserTokenResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): UserTokenResponse;
-  static deserializeBinaryFromReader(message: UserTokenResponse, reader: jspb.BinaryReader): UserTokenResponse;
+  static serializeBinaryToWriter(message: UserGetTokenResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserGetTokenResponse;
+  static deserializeBinaryFromReader(message: UserGetTokenResponse, reader: jspb.BinaryReader): UserGetTokenResponse;
 }
 
-export namespace UserTokenResponse {
+export namespace UserGetTokenResponse {
   export type AsObject = {
     token: string,
+  }
+}
+
+export class UserVerifyTokenRequest extends jspb.Message {
+  getToken(): string;
+  setToken(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserVerifyTokenRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: UserVerifyTokenRequest): UserVerifyTokenRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserVerifyTokenRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserVerifyTokenRequest;
+  static deserializeBinaryFromReader(message: UserVerifyTokenRequest, reader: jspb.BinaryReader): UserVerifyTokenRequest;
+}
+
+export namespace UserVerifyTokenRequest {
+  export type AsObject = {
+    token: string,
+  }
+}
+
+export class UserVerifyTokenResponse extends jspb.Message {
+  getVerified(): boolean;
+  setVerified(value: boolean): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): UserVerifyTokenResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: UserVerifyTokenResponse): UserVerifyTokenResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: UserVerifyTokenResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): UserVerifyTokenResponse;
+  static deserializeBinaryFromReader(message: UserVerifyTokenResponse, reader: jspb.BinaryReader): UserVerifyTokenResponse;
+}
+
+export namespace UserVerifyTokenResponse {
+  export type AsObject = {
+    verified: boolean,
   }
 }
 
