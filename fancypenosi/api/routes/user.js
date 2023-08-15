@@ -11,16 +11,12 @@ class IncorrectPasswordError extends Error { };
  */
 function toHttpError(e, res) {
     if (e instanceof joi.ValidationError) {
-        res
-            .status(400)
-            .json(e);
+        res.status(400).json(e);
         return;
     }
 
     if (e instanceof IncorrectPasswordError) {
-        res
-            .status(401)
-            .json(e);
+        res.status(401).json(e);
         return;
     }
 
@@ -29,25 +25,19 @@ function toHttpError(e, res) {
         switch (e.code) {
             // already exists
             case 6: {
-                res
-                    .status(409)
-                    .json(e);
+                res.status(409).json(e);
                 return;
             }
 
             // no result
             case 5: {
-                res
-                    .status(401)
-                    .json(e);
+                res.status(401).json(e);
                 return;
             }
         }
     }
 
-    res
-        .status(500)
-        .json(e)
+    res.status(500).json(e)
 }
 
 
