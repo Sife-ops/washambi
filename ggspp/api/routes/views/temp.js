@@ -1,7 +1,7 @@
 /** @type {import("express").RequestHandler} */
-export function root(_, res) {
+export function temp(_, res) {
     res.render("_page", {
-        pageName: "root",
+        pageName: "temp",
         options: {},
     });
 };

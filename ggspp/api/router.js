@@ -1,11 +1,8 @@
 import express from "express";
-import { root } from "./routes/root.js";
+import * as views from "./routes/views.js";
 
 export const router = express.Router();
 
-router.get("/", root);
-
-
-
-
+router.get("/", views.root);
+router.get("/temp", views.temp);
 
