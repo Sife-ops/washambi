@@ -1,7 +1,7 @@
 import cookieParser from "cookie-parser";
 import express from "express";
 import { fileURLToPath } from "url";
-import { router } from "./router.js"
+import { router } from "./router.js";
 
 export function main() {
     const app = express();
@@ -11,10 +11,6 @@ export function main() {
     //   app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
     app.use(cookieParser("todo: secret"));
-
-    // console.log(
-    //     fileURLToPath(new URL("./node_modules/htmx.org/dist", import.meta.url))
-    // )
 
     app.use(
         express.static(

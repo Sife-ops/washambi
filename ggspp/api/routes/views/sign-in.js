@@ -1,7 +1,8 @@
 /** @type {import("express").RequestHandler} */
-export function temp(_, res) {
+export function signIn(_, res) {
     res.render("_page", {
-        pageName: "temp",
+        pageName: "sign-in",
         options: {},
     });
 };
+
