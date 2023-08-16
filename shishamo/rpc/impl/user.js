@@ -1,12 +1,14 @@
 // import { log } from "../../logger/logger.js";
-import empty_pb from "google-protobuf/google/protobuf/empty_pb.js"; const { Empty } = empty_pb;
+import empty_pb from "google-protobuf/google/protobuf/empty_pb.js";
+import timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb.js";
 import joi from "joi";
 import jwt from "jsonwebtoken";
 import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
-import timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb.js"; const { Timestamp } = timestamp_pb;
 import { db } from "../../db/connection.js";
-import { testingClient } from "../../rpc/client.js";
 import { toRpcError } from "../../error/rpc.js";
+import { testingClient } from "../../rpc/client.js";
+const { Empty } = empty_pb;
+const { Timestamp } = timestamp_pb;
 
 /**
  * @param {import("kysely").Selectable<import("@db/db.d.ts").ZoomersUser>} user
@@ -22,7 +24,7 @@ function userFromDb(user) {
     if (user.deleted_at) {
         u.setDeletedAt(Timestamp.fromDate(user.deleted_at));
     }
-    u.setToken(jwt.sign({ id: user.id }, "todo: secret"));
+    u.setToken(jwt.sign({ id: user.id }, "todo: secret")); // todo: remove
 
     return u;
 }

@@ -1,9 +1,9 @@
 <div class="flex justify-center">
   <div class="flex flex-col w-1/2 space-y-4">
     <div class="flex justify-center">
-      <div class="text-2xl font-bold">Sign in to Foo</div>
+      <div class="text-2xl font-bold">Sign up for Foo</div>
     </div>
-    <div id="sign-in-problem" style="margin: 0"></div>
+    <div id="sign-up-problem" style="margin: 0"></div>
     <div>
       <div class="font-bold">Email</div>
       <input name="email" class="w-full" />
@@ -11,19 +11,17 @@
     <div>
       <div class="font-bold">Password</div>
       <input name="password" class="w-full" type="password" />
-      <a href="/recover">Forgot password?</a>
     </div>
     <button
       hx-include="[name='email'], [name='password']"
-      hx-post="/sign-in"
-      hx-target="#sign-in-problem"
+      hx-post="/sign-up"
+      hx-target="#sign-up-problem"
       hx-swap="outerHTML"
     >
-      <!-- hx-trigger="click" -->
-      Sign In
+      Sign Up
     </button>
     <div class="flex justify-center">
-      <a href="/sign-up">Don't have an account? Sign up</a>
+      <a href="/sign-in">Already have an account? Sign in</a>
     </div>
   </div>
 </div>

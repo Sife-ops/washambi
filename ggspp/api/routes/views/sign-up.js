@@ -1,7 +1,7 @@
 /** @type {import("express").RequestHandler} */
-export function signIn(_, res) {
+export function signUp(_, res) {
     res.render("_page", {
-        pageName: "sign-in",
+        pageName: "sign-up",
         options: {},
     });
 };

@@ -6,12 +6,13 @@ export const router = express.Router();
 
 router.get("/", views.root);
 router.get("/sign-in", views.signIn);
-router.post("/sign-in_", ajax.signIn);
+router.post("/sign-in", ajax.signIn);
+router.get("/sign-up", views.signUp);
+router.post("/sign-up", ajax.signUp);
 
-// todo: authentication
 router.use(function (req, res, next) {
-  console.log(req.signedCookies);
-  if (!req.signedCookies.tk) {
+  //   console.log(req.signedCookies);
+  if (!req.signedCookies.id) {
     res.redirect("/sign-in");
     return;
   }
