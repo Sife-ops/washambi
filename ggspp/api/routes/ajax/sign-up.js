@@ -22,30 +22,30 @@ export async function signUp(req, res) {
     const rpcRes = await rpc.promise.userCreate(rpcReq);
     console.log(rpcRes.getUser().toObject());
 
-    // todo: show confirmation
-    // todo: res.redirect?
-    res.setHeader("HX-Redirect", "/sign-in").send(); // todo: breaks hx-target
+    res
+      .setHeader("HX-Trigger", "sign-up-success")
+      .send(await ejs.renderFile("./web/partial/sign-up-success.ejs"));
   } catch (e) {
-    let problem = "";
+    let error = "";
 
     if (e instanceof joi.ValidationError) {
       if (e.message.includes("email")) {
-        problem = "must use a valid email";
+        error = "must use a valid email";
       }
       if (e.message.includes("required pattern")) {
-        problem = "must use a stronger password";
+        error = "must use a stronger password";
       }
     } else if (e.code === 6) {
       // todo: find actual error class
       //   console.log(e);
-      problem = "email already in use";
+      error = "email already in use";
     } else {
-      problem = "unknown error";
+      error = "unknown error";
     }
 
     res.send(
-      await ejs.renderFile("./web/partial/sign-up-problem.ejs", {
-        problem,
+      await ejs.renderFile("./web/partial/sign-up-error.ejs", {
+        error,
       })
     );
   }

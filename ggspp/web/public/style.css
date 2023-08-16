@@ -565,6 +565,11 @@ video {
   background-color: rgb(127 29 29 / var(--tw-bg-opacity));
 }
 
+.bg-green-900 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(20 83 45 / var(--tw-bg-opacity));
+}
+
 .p-3 {
   padding: 0.75rem;
 }
@@ -588,4 +593,8 @@ video {
 
 .outline-red-500 {
   outline-color: #ef4444;
+}
+
+.outline-green-500 {
+  outline-color: #22c55e;
 }

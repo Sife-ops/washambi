@@ -1,21 +1,29 @@
+<!-- todo: captcha -->
+<!-- todo: refactor with form tag -->
 <div class="flex justify-center">
   <div class="flex flex-col w-1/2 space-y-4">
     <div class="flex justify-center">
-      <div class="text-2xl font-bold">Sign up for Foo</div>
+      <div class="text-2xl font-bold">Sign up for Ggspp</div>
     </div>
-    <div id="sign-up-problem" style="margin: 0"></div>
+    <div id="sign-up-status" style="margin: 0"></div>
     <div>
       <div class="font-bold">Email</div>
-      <input name="email" class="w-full" />
+      <input id="sign-up-email" name="email" class="w-full" />
     </div>
     <div>
       <div class="font-bold">Password</div>
-      <input name="password" class="w-full" type="password" />
+      <input
+        id="sign-up-password"
+        name="password"
+        class="w-full"
+        type="password"
+      />
     </div>
     <button
+      id="sign-up-button"
       hx-include="[name='email'], [name='password']"
       hx-post="/sign-up"
-      hx-target="#sign-up-problem"
+      hx-target="#sign-up-status"
       hx-swap="outerHTML"
     >
       Sign Up
@@ -25,3 +33,14 @@
     </div>
   </div>
 </div>
+<script>
+  document.body.addEventListener("sign-up-success", function (event) {
+    // console.log("sign up success");
+    document.getElementById("sign-up-email").disabled = true;
+    document.getElementById("sign-up-password").disabled = true;
+    document.getElementById("sign-up-button").disabled = true;
+    setTimeout(() => {
+      location.href = "/sign-in";
+    }, 1000);
+  });
+</script>
