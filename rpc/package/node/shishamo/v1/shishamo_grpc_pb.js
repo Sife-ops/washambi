@@ -17,6 +17,28 @@ function deserialize_google_protobuf_Empty(buffer_arg) {
   return google_protobuf_empty_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_shishamo_v1_DomainCreateRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainCreateRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainCreateRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainCreateRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainCreateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_DomainCreateResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainCreateResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainCreateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainCreateResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainCreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_shishamo_v1_UserChangePasswordRequest(arg) {
   if (!(arg instanceof shishamo_v1_shishamo_pb.UserChangePasswordRequest)) {
     throw new Error('Expected argument of type shishamo.v1.UserChangePasswordRequest');
@@ -206,6 +228,17 @@ userGetToken: {
     requestDeserialize: deserialize_shishamo_v1_UserVerifyTokenRequest,
     responseSerialize: serialize_shishamo_v1_UserVerifyTokenResponse,
     responseDeserialize: deserialize_shishamo_v1_UserVerifyTokenResponse,
+  },
+  domainCreate: {
+    path: '/shishamo.v1.Shishamo/DomainCreate',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.DomainCreateRequest,
+    responseType: shishamo_v1_shishamo_pb.DomainCreateResponse,
+    requestSerialize: serialize_shishamo_v1_DomainCreateRequest,
+    requestDeserialize: deserialize_shishamo_v1_DomainCreateRequest,
+    responseSerialize: serialize_shishamo_v1_DomainCreateResponse,
+    responseDeserialize: deserialize_shishamo_v1_DomainCreateResponse,
   },
 };
 

@@ -62,7 +62,7 @@ export async function userCreate(call, callback) {
 let testUserTemplate = {
     email: "bing@chilling.com",
     password: "bingchilling123!",
-}
+};
 
 /** @returns {Promise<import("kysely").Selectable<import("@db/db.d.ts").ZoomersUser>>} */
 async function createTestUser() {
@@ -85,19 +85,24 @@ async function clearTestUser() {
 if (import.meta.vitest) {
     const { describe, test, expect, beforeEach } = import.meta.vitest;
 
-    describe("int :: userCreate", function() {
+    describe("int :: userCreate", function () {
         const request = new shishamo_pb.UserCreateRequest();
 
-        beforeEach(async function() {
+        beforeEach(async function () {
             request.setEmail(testUserTemplate.email.toString());
             request.setPassword(testUserTemplate.password.toString());
             await clearTestUser();
-            return async function() {
+            return async function () {
                 await clearTestUser();
-            }
+            };
         });
 
-        test("invalid email error", async function() {
+        test("success", async function () {
+            const response = await testingClient.get().promise.userCreate(request);
+            expect(response.hasUser()).toBeTruthy();
+        });
+
+        test("invalid email error", async function () {
             request.setEmail("lol");
             try {
                 await testingClient.get().promise.userCreate(request);
@@ -106,7 +111,8 @@ if (import.meta.vitest) {
             }
         });
 
-        test.skip("invalid password error", async function() {
+        // password validation performed on client
+        test.skip("invalid password error", async function () {
             request.setPassword("lol");
             try {
                 await testingClient.get().promise.userCreate(request);
@@ -115,12 +121,7 @@ if (import.meta.vitest) {
             }
         });
 
-        test("create user", async function() {
-            const response = await testingClient.get().promise.userCreate(request);
-            expect(response.hasUser()).toBeTruthy();
-        });
-
-        test("duplicate key error (email)", async function() {
+        test("duplicate key error (email)", async function () {
             await createTestUser();
             try {
                 await testingClient.get().promise.userCreate(request);
@@ -153,27 +154,27 @@ export async function userGetOne(call, callback) {
 if (import.meta.vitest) {
     const { describe, test, expect, beforeAll } = import.meta.vitest;
 
-    describe("int :: userGetOne", function() {
+    describe("int :: userGetOne", function () {
         const request = new shishamo_pb.UserGetOneRequest();
 
-        beforeAll(async function() {
+        beforeAll(async function () {
             await clearTestUser();
             const testUser = await createTestUser();
             request.setEmail(testUser.email);
 
-            return async function() {
+            return async function () {
                 await clearTestUser();
-            }
-        })
+            };
+        });
 
-        test("get existing user", async function() {
+        test("success", async function () {
             const response = await testingClient.get().promise.userGetOne(request);
             // console.log(response.getUser().toObject());
             expect(response.hasUser()).toBeTruthy();
             expect(response.getUser().getEmail()).toBe(testUserTemplate.email);
         });
 
-        test("missing user error", async function() {
+        test("missing user error", async function () {
             request.setEmail("some@guy.com");
             try {
                 await testingClient.get().promise.userGetOne(request);
@@ -211,31 +212,33 @@ export async function userChangePassword(call, callback) {
 if (import.meta.vitest) {
     const { describe, test, expect, beforeAll } = import.meta.vitest;
 
-    describe("int :: changePassword", function() {
+    describe("int :: changePassword", function () {
         const request = new shishamo_pb.UserChangePasswordRequest();
 
-        beforeAll(async function() {
+        beforeAll(async function () {
             await clearTestUser();
             const testUser = await createTestUser();
             request.setId(testUser.id);
 
-            return async function() {
+            return async function () {
                 await clearTestUser();
-            }
-        })
+            };
+        });
 
-        test("valid password", async function() {
-            const newPassword = "something123!"
+        test("success", async function () {
+            const newPassword = "something123!";
             request.setPassword(newPassword);
 
-            const response = await testingClient.get().promise.userChangePassword(request);
+            const response = await testingClient
+                .get()
+                .promise.userChangePassword(request);
             expect(response.hasUser()).toBeTruthy();
             expect(response.getUser().getPassword()).toBe(newPassword);
         });
 
-        test.skip("invalid password error", async function() {
+        // password validation performed on client
+        test.skip("invalid password error", async function () {
             request.setPassword("");
-
             try {
                 await testingClient.get().promise.userChangePassword(request);
             } catch (e) {
@@ -264,24 +267,25 @@ export async function userPurge(call, callback) {
 if (import.meta.vitest) {
     const { describe, test, expect, beforeAll } = import.meta.vitest;
 
-    describe("int :: userPurge", function() {
+    describe("int :: userPurge", function () {
         const request = new shishamo_pb.UserPurgeRequest();
 
-        beforeAll(async function() {
+        beforeAll(async function () {
             await clearTestUser();
             const testUser = await createTestUser();
             request.setId(testUser.id);
 
-            return async function() {
+            return async function () {
                 await clearTestUser();
-            }
-        })
+            };
+        });
 
-        test("purge existing user", async function() {
+        test("purge existing user", async function () {
             await testingClient.get().promise.userPurge(request);
         });
 
-        test.skip("missing user error", async function() {
+        // todo: select before delete
+        test.skip("missing user error", async function () {
             request.setId("d9b8224c-36a1-11ee-82aa-0242ac110002");
             try {
                 await testingClient.get().promise.userPurge(request);
@@ -317,29 +321,29 @@ export async function userVerifyToken(call, callback) {
 if (import.meta.vitest) {
     const { describe, test, expect, beforeAll } = import.meta.vitest;
 
-    describe("int :: userVerifyToken", function() {
+    describe("int :: userVerifyToken", function () {
         const request = new shishamo_pb.UserVerifyTokenRequest();
 
-        beforeAll(async function() {
+        beforeAll(async function () {
             await clearTestUser();
             const testUser = await createTestUser();
             const rpcReq = new shishamo_pb.UserGetOneRequest();
             rpcReq.setEmail(testUser.email);
             const rpcUser = await testingClient.get().promise.userGetOne(rpcReq);
-            request.setToken(rpcUser.getUser().getToken())
+            request.setToken(rpcUser.getUser().getToken());
 
-            return async function() {
+            return async function () {
                 await clearTestUser();
-            }
-        })
+            };
+        });
 
-        test("success", async function() {
+        test("success", async function () {
             const res = await testingClient.get().promise.userVerifyToken(request);
             // console.log(res.getVerified());
             expect(res.getVerified()).toBe(true);
         });
 
-        test("bad token", async function() {
+        test("bad token", async function () {
             request.setToken("lmao");
             const res = await testingClient.get().promise.userVerifyToken(request);
             expect(res.getVerified()).toBe(false);

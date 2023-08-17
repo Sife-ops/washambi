@@ -6,28 +6,52 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 
 service Shishamo {
-  rpc UserCreate (UserCreateRequest) returns (UserCreateResponse);
-  rpc UserGetOne (UserGetOneRequest) returns (UserGetOneResponse);
-  rpc UserChangePassword (UserChangePasswordRequest) returns (UserChangePasswordResponse);
-  rpc UserPurge (UserPurgeRequest) returns (google.protobuf.Empty);
+  rpc UserCreate(UserCreateRequest) returns (UserCreateResponse);
+  rpc UserGetOne(UserGetOneRequest) returns (UserGetOneResponse);
+  rpc UserChangePassword(UserChangePasswordRequest)
+      returns (UserChangePasswordResponse);
+  rpc UserPurge(UserPurgeRequest) returns (google.protobuf.Empty);
   // todo: UserDisable
-  rpc UserGetToken (UserGetTokenRequest) returns (UserGetTokenResponse);
-  rpc UserVerifyToken (UserVerifyTokenRequest) returns (UserVerifyTokenResponse);
+  rpc UserGetToken(UserGetTokenRequest) returns (UserGetTokenResponse);
+  rpc UserVerifyToken(UserVerifyTokenRequest) returns (UserVerifyTokenResponse);
 
-
+  rpc DomainCreate(DomainCreateRequest) returns (DomainCreateResponse);
 }
+
+// todo: move to files
+
+//
+// Domain
+//
+
+message Domain {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp deleted_at = 5;
+}
+
+// create
+
+message DomainCreateRequest {
+  string user_id = 1;
+  string name = 2;
+}
+
+message DomainCreateResponse { Domain domain = 1; }
 
 //
 // User
 //
 
 message User {
-    string id = 1;
-    string email = 2;
-    string password = 3;
-    google.protobuf.Timestamp created_at = 4;
-    google.protobuf.Timestamp deleted_at = 5;
-    string token = 6;
+  string id = 1;
+  string email = 2;
+  string password = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp deleted_at = 5;
+  string token = 6;
 }
 
 // create
@@ -37,19 +61,13 @@ message UserCreateRequest {
   string password = 2;
 }
 
-message UserCreateResponse {
-    User user = 1;
-}
+message UserCreateResponse { User user = 1; }
 
 // get one
 
-message UserGetOneRequest {
-    string email = 1;
-}
+message UserGetOneRequest { string email = 1; }
 
-message UserGetOneResponse {
-    User user = 1;
-}
+message UserGetOneResponse { User user = 1; }
 
 // change password
 
@@ -58,30 +76,18 @@ message UserChangePasswordRequest {
   string password = 2;
 }
 
-message UserChangePasswordResponse {
-    User user = 1;
-}
+message UserChangePasswordResponse { User user = 1; }
 
 // purge
 
-message UserPurgeRequest {
-  string id = 1;
-}
+message UserPurgeRequest { string id = 1; }
 
 // token
 
-message UserGetTokenRequest {
-    string id = 1;
-}
+message UserGetTokenRequest { string id = 1; }
 
-message UserGetTokenResponse {
-    string token = 1;
-}
+message UserGetTokenResponse { string token = 1; }
 
-message UserVerifyTokenRequest {
-    string token = 1;
-}
+message UserVerifyTokenRequest { string token = 1; }
 
-message UserVerifyTokenResponse {
-    bool verified = 1;
-}
+message UserVerifyTokenResponse { bool verified = 1; }

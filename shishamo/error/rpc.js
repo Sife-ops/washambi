@@ -1,7 +1,7 @@
 import joi from "joi";
+import { NoResultError } from "kysely";
 import pg from "pg";
-import { NoResultError } from "kysely"
-import { ShishamoError } from "./shishamo.js"
+import { ShishamoError } from "./shishamo.js";
 
 export class RpcError extends ShishamoError {
     name = this.name + "Rpc::"
@@ -11,6 +11,16 @@ export class RpcError extends ShishamoError {
     details;
     /** @type {import("@grpc/grpc-js/build/src/constants.d.ts").Status} */
     code;
+}
+
+export class DuplicateDomainError extends RpcError {
+    name = this.name + "DuplicateDomain";
+    code = 6;
+    constructor(d) {
+        super();
+        this.message = `duplicate domain name: ${d}`;
+        this.details = `duplicate domain name: ${d}`;
+    }
 }
 
 /**
