@@ -22,6 +22,7 @@ export async function signIn(req, res) {
       .cookie("id", rpcRes.getUser().getId(), {
         httpOnly: true,
         signed: true,
+        // maxAge: 300000,
         maxAge: 300000,
         sameSite: true,
       })

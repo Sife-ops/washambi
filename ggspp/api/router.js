@@ -11,8 +11,13 @@ router.get("/sign-up", views.signUp);
 router.post("/sign-up", ajax.signUp);
 
 router.use(function (req, res, next) {
-  //   console.log(req.signedCookies);
   if (!req.signedCookies.id) {
+    if (req.headers["hx-request"]) {
+      res
+        .setHeader("HX-Trigger", "sign-out")
+        .send();
+      return;
+    }
     res.redirect("/sign-in");
     return;
   }

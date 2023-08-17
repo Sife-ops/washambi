@@ -50,6 +50,10 @@
 </table>
 
 <script>
+  document.body.addEventListener("sign-out", function () {
+    location.href = "/sign-in";
+  });
+
   document.body.addEventListener("domain-create-status", function (event) {
     let id = "";
     if (event.detail.status === "success") {
