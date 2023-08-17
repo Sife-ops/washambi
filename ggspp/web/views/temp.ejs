@@ -1,31 +1,70 @@
 <h1 class="text-xl font-bold">domain</h1>
 
 <!-- todo: validation -->
-<form
-  hx-post="/domain-create"
-  hx-target="#domainCreateStatus"
-  hx-swap="outerHTML"
->
+<!-- todo: clear input -->
+<form hx-post="/domain-create" hx-target="#domain-list" hx-swap="afterbegin">
   <input id="domainCreateName" name="domainCreateName" type="text" />
   <button type="submit">submit</button>
 </form>
 
 <!-- todo: transitions -->
-<div id="domainCreateStatus"></div>
+<div id="domain-create-status"></div>
 
-<!-- todo: keep sorted -->
-<div id="domainList" class="outline outline-1 outline-blue-500 p-1 m-1">
-  <% domains.forEach(x => { %>
-  <div><%= x.name %></div>
-  <% }); %>
-</div>
+<!-- <table class="table delete-row-example"> -->
+<table class="outline outline-1 outline-blue-500 p-1 m-1">
+  <thead>
+    <tr>
+      <!-- todo: justify left -->
+      <th>Domain</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody
+    id="domain-list"
+    hx-confirm="Are you sure?"
+    hx-target="closest tr"
+    hx-swap="outerHTML swap:1s"
+  >
+    <!-- todo: make included partial -->
+    <% domains.forEach(x => { %>
+    <tr>
+      <td><%= x.name %></td>
+      <td>
+        <button hx-delete="/domain-delete/<%= x.id %>">Delete</button>
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>
 
 <script>
   document.body.addEventListener("domain-create-status", function (event) {
+    if (event.detail.status === "success") {
+      document.getElementById("domain-create-status").outerHTML = `
+        <div 
+            id="domain-create-status"
+            class="m-1 p-1 outline outline-1 outline-green-500 bg-green-900"
+        >
+            ✅ success!
+        </div>
+      `;
+    } else {
+      document.getElementById("domain-create-status").outerHTML = `
+        <div 
+            id="domain-create-status"
+            class="m-1 p-1 outline outline-1 outline-red-500 bg-red-900"
+        >
+            🚫 ${event.detail.message}
+        </div>
+      `;
+    }
+
     setTimeout(function () {
-      document.getElementById("domainCreateStatus").outerHTML = `
-        <div id="domainCreateStatus"></div>
+      document.getElementById("domain-create-status").outerHTML = `
+        <div id="domain-create-status"></div>
       `;
     }, 5000);
   });
 </script>
+
+<h1 class="text-xl font-bold">bookmark</h1>

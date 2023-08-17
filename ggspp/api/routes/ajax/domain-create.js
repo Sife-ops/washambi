@@ -9,19 +9,20 @@ export async function domainCreate(req, res) {
         rpcReq.setUserId(req.signedCookies.id);
         const rpcRes = await rpc.promise.domainCreate(rpcReq);
 
+        // todo: hx-swap-oob didn't work
         res
-            .setHeader("HX-Trigger", "domain-create-status")
+            .setHeader("HX-Trigger", JSON.stringify({
+                "domain-create-status": {
+                    "status": "success",
+                }
+            }))
             .send(`
-                <div 
-                    id="domainCreateStatus"
-                    class="m-1 p-1 outline outline-1 outline-green-500 bg-green-900"
-                >
-                    ✅ success!
-                </div>
-
-                <div id="domainList" hx-swap-oob="beforeend">
-                    <div>${rpcRes.getDomain().getName()}</div>
-                </div>
+                <tr>
+                    <td>${rpcRes.getDomain().getName()}</td>
+                    <td>
+                        <button hx-delete="/domain-delete/${rpcRes.getDomain().getId()}">Delete</button>
+                    </td>
+                </tr>
             `);
     } catch (e) {
         let error = "";
@@ -36,14 +37,12 @@ export async function domainCreate(req, res) {
         }
 
         res
-            .setHeader("HX-Trigger", "domain-create-status")
-            .send(`
-                <div 
-                    id="domainCreateStatus"
-                    class="m-1 p-1 outline outline-1 outline-red-500 bg-red-900"
-                >
-                    🚫 ${error}
-                </div>
-            `);
+            .setHeader("HX-Trigger", JSON.stringify({
+                "domain-create-status": {
+                    "status": "error",
+                    "message": error,
+                }
+            }))
+            .send()
     }
 }
