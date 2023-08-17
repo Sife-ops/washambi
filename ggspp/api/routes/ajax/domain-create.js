@@ -9,7 +9,9 @@ export async function domainCreate(req, res) {
         rpcReq.setUserId(req.signedCookies.id);
         const rpcRes = await rpc.promise.domainCreate(rpcReq);
 
-        // todo: hx-swap-oob didn't work
+        // hx-swap-oob sucks with tables???
+        // reddit: https://old.reddit.com/r/htmx/comments/10rb2zs/please_help_me_understand_hxswapoob/j6wn4qq/
+        // source: https://github.com/bigskysoftware/htmx/blob/master/src/htmx.js#L274
         res
             .setHeader("HX-Trigger", JSON.stringify({
                 "domain-create-status": {
@@ -25,22 +27,22 @@ export async function domainCreate(req, res) {
                 </tr>
             `);
     } catch (e) {
-        let error = "";
+        let message = "";
 
         if (e.code === 6) {
-            error = "domain already exists";
+            message = "domain already exists";
         } else if (e.code === 3) {
-            error = "invalid domain";
+            message = "invalid domain";
         } else {
             console.log(e);
-            error = "unknown error";
+            message = "unknown error";
         }
 
         res
             .setHeader("HX-Trigger", JSON.stringify({
                 "domain-create-status": {
-                    "status": "error",
-                    "message": error,
+                    status: "error",
+                    message,
                 }
             }))
             .send()

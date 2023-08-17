@@ -8,7 +8,19 @@
 </form>
 
 <!-- todo: transitions -->
-<div id="domain-create-status"></div>
+<div
+  id="domain-create-success"
+  class="m-1 p-1 outline outline-1 outline-green-500 bg-green-900"
+  style="display: none"
+>
+  ✅ success!
+</div>
+
+<div
+  id="domain-create-error"
+  class="m-1 p-1 outline outline-1 outline-red-500 bg-red-900"
+  style="display: none"
+></div>
 
 <!-- <table class="table delete-row-example"> -->
 <table class="outline outline-1 outline-blue-500 p-1 m-1">
@@ -39,30 +51,18 @@
 
 <script>
   document.body.addEventListener("domain-create-status", function (event) {
+    let id = "";
     if (event.detail.status === "success") {
-      document.getElementById("domain-create-status").outerHTML = `
-        <div 
-            id="domain-create-status"
-            class="m-1 p-1 outline outline-1 outline-green-500 bg-green-900"
-        >
-            ✅ success!
-        </div>
-      `;
+      id = "domain-create-success";
+      document.getElementById(id).style.display = "block";
     } else {
-      document.getElementById("domain-create-status").outerHTML = `
-        <div 
-            id="domain-create-status"
-            class="m-1 p-1 outline outline-1 outline-red-500 bg-red-900"
-        >
-            🚫 ${event.detail.message}
-        </div>
-      `;
+      id = "domain-create-error";
+      document.getElementById(id).innerHTML = `🚫 ${event.detail.message}`;
+      document.getElementById(id).style.display = "block";
     }
 
     setTimeout(function () {
-      document.getElementById("domain-create-status").outerHTML = `
-        <div id="domain-create-status"></div>
-      `;
+      document.getElementById(id).style.display = "none";
     }, 5000);
   });
 </script>

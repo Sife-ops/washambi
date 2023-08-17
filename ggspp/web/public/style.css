@@ -538,12 +538,20 @@ video {
   margin: 0.25rem;
 }
 
+.block {
+  display: block;
+}
+
 .flex {
   display: flex;
 }
 
 .table {
   display: table;
+}
+
+.hidden {
+  display: none;
 }
 
 .w-1\/2 {
