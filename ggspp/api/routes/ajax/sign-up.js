@@ -40,10 +40,11 @@ export async function signUp(req, res) {
       //   console.log(e);
       error = "email already in use";
     } else {
+      console.log(e);
       error = "unknown error";
     }
 
-    res.send(
+    res.setHeader("HX-Trigger", "sign-up-error").send(
       await ejs.renderFile("./web/partial/sign-up-error.ejs", {
         error,
       })

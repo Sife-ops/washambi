@@ -34,11 +34,21 @@
   </div>
 </div>
 <script>
+  document
+    .getElementById("sign-up-button")
+    .addEventListener("click", function (event) {
+      document.getElementById("sign-up-email").readOnly = true;
+      document.getElementById("sign-up-password").readOnly = true;
+      document.getElementById("sign-up-button").readOnly = true;
+    });
+
+  document.body.addEventListener("sign-up-error", function (event) {
+    document.getElementById("sign-up-email").readOnly = false;
+    document.getElementById("sign-up-password").readOnly = false;
+    document.getElementById("sign-up-button").readOnly = false;
+  });
+
   document.body.addEventListener("sign-up-success", function (event) {
-    // console.log("sign up success");
-    document.getElementById("sign-up-email").disabled = true;
-    document.getElementById("sign-up-password").disabled = true;
-    document.getElementById("sign-up-button").disabled = true;
     setTimeout(() => {
       location.href = "/sign-in";
     }, 1000);

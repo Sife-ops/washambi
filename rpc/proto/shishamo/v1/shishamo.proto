@@ -13,6 +13,8 @@ service Shishamo {
   // todo: UserDisable
   rpc UserGetToken (UserGetTokenRequest) returns (UserGetTokenResponse);
   rpc UserVerifyToken (UserVerifyTokenRequest) returns (UserVerifyTokenResponse);
+
+
 }
 
 //
