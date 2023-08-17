@@ -54,6 +54,7 @@ export async function domainCreate(call, callback) {
 
         callback(null, r);
     } catch (e) {
+        // console.log(e)
         const error = toRpcError(e);
         callback(error);
     }

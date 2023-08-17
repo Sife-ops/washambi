@@ -20,3 +20,4 @@ router.use(function (req, res, next) {
 });
 
 router.get("/temp", views.temp);
+router.post("/domain-create", ajax.domainCreate);
