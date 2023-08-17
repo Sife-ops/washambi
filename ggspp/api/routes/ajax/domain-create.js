@@ -3,35 +3,47 @@ import { client as rpc } from "../../../rpc/client.js";
 
 /** @type {import("express").RequestHandler<{}, {}, {domainCreateName: string}>} */
 export async function domainCreate(req, res) {
-  try {
-    // console.log(req.body);
-    
-    const rpcReq = new shishamo_pb.DomainCreateRequest();
-    rpcReq.setName(req.body.domainCreateName);
-    rpcReq.setUserId(req.signedCookies.id);
-    const rpcRes = await rpc.promise.domainCreate(rpcReq);
-    // console.log(rpcRes.getDomain().toObject());
+    try {
+        const rpcReq = new shishamo_pb.DomainCreateRequest();
+        rpcReq.setName(req.body.domainCreateName);
+        rpcReq.setUserId(req.signedCookies.id);
+        const rpcRes = await rpc.promise.domainCreate(rpcReq);
 
-    res.send("success");
-    //   .setHeader("HX-Trigger", "sign-up-success")
-    //   .send(await ejs.renderFile("./web/partial/sign-up-success.ejs"));
-  } catch (e) {
-    let error = "";
+        res
+            .setHeader("HX-Trigger", "domain-create-status")
+            .send(`
+                <div 
+                    id="domainCreateStatus"
+                    class="m-1 p-1 outline outline-1 outline-green-500 bg-green-900"
+                >
+                    ✅ success!
+                </div>
 
-    if (e.code === 6) {
-      error = "domain already exists";
-    } else if (e.code === 3) {
-      error = "invalid domain";
-    } else {
-      console.log(e);
-      error = "unknown error";
+                <div id="domainList" hx-swap-oob="beforeend">
+                    <div>${rpcRes.getDomain().getName()}</div>
+                </div>
+            `);
+    } catch (e) {
+        let error = "";
+
+        if (e.code === 6) {
+            error = "domain already exists";
+        } else if (e.code === 3) {
+            error = "invalid domain";
+        } else {
+            console.log(e);
+            error = "unknown error";
+        }
+
+        res
+            .setHeader("HX-Trigger", "domain-create-status")
+            .send(`
+                <div 
+                    id="domainCreateStatus"
+                    class="m-1 p-1 outline outline-1 outline-red-500 bg-red-900"
+                >
+                    🚫 ${error}
+                </div>
+            `);
     }
-
-    res.send(error);
-    // res.setHeader("HX-Trigger", "sign-up-error").send(
-    //   await ejs.renderFile("./web/partial/sign-up-error.ejs", {
-    //     error,
-    //   })
-    // );
-  }
 }

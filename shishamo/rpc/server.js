@@ -15,6 +15,7 @@ export function serve() {
     userVerifyToken: user.userVerifyToken,
 
     domainCreate: domain.domainCreate,
+    domainGetAll: domain.domainGetAll,
   });
 
   server.bindAsync(

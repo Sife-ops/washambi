@@ -15,6 +15,7 @@ interface IShishamoService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
   userGetToken: grpc.MethodDefinition<shishamo_v1_shishamo_pb.UserGetTokenRequest, shishamo_v1_shishamo_pb.UserGetTokenResponse>;
   userVerifyToken: grpc.MethodDefinition<shishamo_v1_shishamo_pb.UserVerifyTokenRequest, shishamo_v1_shishamo_pb.UserVerifyTokenResponse>;
   domainCreate: grpc.MethodDefinition<shishamo_v1_shishamo_pb.DomainCreateRequest, shishamo_v1_shishamo_pb.DomainCreateResponse>;
+  domainGetAll: grpc.MethodDefinition<shishamo_v1_shishamo_pb.DomainGetAllRequest, shishamo_v1_shishamo_pb.DomainGetAllResponse>;
 }
 
 export const ShishamoService: IShishamoService;
@@ -27,6 +28,7 @@ export interface IShishamoServer extends grpc.UntypedServiceImplementation {
   userGetToken: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.UserGetTokenRequest, shishamo_v1_shishamo_pb.UserGetTokenResponse>;
   userVerifyToken: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.UserVerifyTokenRequest, shishamo_v1_shishamo_pb.UserVerifyTokenResponse>;
   domainCreate: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.DomainCreateRequest, shishamo_v1_shishamo_pb.DomainCreateResponse>;
+  domainGetAll: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.DomainGetAllRequest, shishamo_v1_shishamo_pb.DomainGetAllResponse>;
 }
 
 export class ShishamoClient extends grpc.Client {
@@ -52,4 +54,7 @@ export class ShishamoClient extends grpc.Client {
   domainCreate(argument: shishamo_v1_shishamo_pb.DomainCreateRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainCreateResponse>): grpc.ClientUnaryCall;
   domainCreate(argument: shishamo_v1_shishamo_pb.DomainCreateRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainCreateResponse>): grpc.ClientUnaryCall;
   domainCreate(argument: shishamo_v1_shishamo_pb.DomainCreateRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainCreateResponse>): grpc.ClientUnaryCall;
+  domainGetAll(argument: shishamo_v1_shishamo_pb.DomainGetAllRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainGetAllResponse>): grpc.ClientUnaryCall;
+  domainGetAll(argument: shishamo_v1_shishamo_pb.DomainGetAllRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainGetAllResponse>): grpc.ClientUnaryCall;
+  domainGetAll(argument: shishamo_v1_shishamo_pb.DomainGetAllRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainGetAllResponse>): grpc.ClientUnaryCall;
 }

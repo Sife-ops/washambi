@@ -146,3 +146,64 @@ if (import.meta.vitest) {
         });
     });
 }
+
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.DomainGetAllRequest, shishamo_pb.DomainGetAllResponse>} */
+export async function domainGetAll(call, callback) {
+    try {
+        const f = await db
+            .selectFrom("nuland.domain")
+            .where("user_id", "=", call.request.getUserId())
+            // .where("name", "=", call.request.getName())
+            .selectAll()
+            .execute();
+
+        const r = new shishamo_pb.DomainGetAllResponse();
+        r.setDomainsList(f.map(x => domainFromDb(x)));
+
+        callback(null, r);
+    } catch (e) {
+        // console.log(e)
+        const error = toRpcError(e);
+        callback(error);
+    }
+}
+
+if (import.meta.vitest) {
+    const { describe, test, expect, beforeEach } = import.meta.vitest;
+
+    describe("int :: domainGetAll", function () {
+        const request = new shishamo_pb.DomainGetAllRequest();
+
+        beforeEach(async function () {
+            await clearTestUser();
+            const u = await createTestUser();
+            request.setUserId(u.id);
+            return async function () {
+                await clearTestUser();
+            };
+        });
+
+        test("success", async function () {
+            await Promise.all(
+                [
+                    { name: "reallycool123.com" },
+                    { name: "reallycool456.com" }
+                ].map(
+                    x => db
+                        .insertInto("nuland.domain")
+                        .values({
+                            user_id: request.getUserId(),
+                            name: x.name,
+                        })
+                        .execute()
+                )
+            );
+
+            const response = await testingClient.get().promise.domainGetAll(request);
+            // console.log(response.getDomainsList().map(x => x.toObject()));
+
+            expect(response.getDomainsList().length).toBe(2);
+        });
+    });
+}
+

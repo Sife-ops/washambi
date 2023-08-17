@@ -91,6 +91,48 @@ export namespace DomainCreateResponse {
   }
 }
 
+export class DomainGetAllRequest extends jspb.Message {
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainGetAllRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainGetAllRequest): DomainGetAllRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainGetAllRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainGetAllRequest;
+  static deserializeBinaryFromReader(message: DomainGetAllRequest, reader: jspb.BinaryReader): DomainGetAllRequest;
+}
+
+export namespace DomainGetAllRequest {
+  export type AsObject = {
+    userId: string,
+  }
+}
+
+export class DomainGetAllResponse extends jspb.Message {
+  clearDomainsList(): void;
+  getDomainsList(): Array<Domain>;
+  setDomainsList(value: Array<Domain>): void;
+  addDomains(value?: Domain, index?: number): Domain;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainGetAllResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainGetAllResponse): DomainGetAllResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainGetAllResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainGetAllResponse;
+  static deserializeBinaryFromReader(message: DomainGetAllResponse, reader: jspb.BinaryReader): DomainGetAllResponse;
+}
+
+export namespace DomainGetAllResponse {
+  export type AsObject = {
+    domainsList: Array<Domain.AsObject>,
+  }
+}
+
 export class User extends jspb.Message {
   getId(): string;
   setId(value: string): void;

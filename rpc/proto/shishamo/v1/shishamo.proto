@@ -16,6 +16,7 @@ service Shishamo {
   rpc UserVerifyToken(UserVerifyTokenRequest) returns (UserVerifyTokenResponse);
 
   rpc DomainCreate(DomainCreateRequest) returns (DomainCreateResponse);
+  rpc DomainGetAll(DomainGetAllRequest) returns (DomainGetAllResponse);
 }
 
 // todo: move to files
@@ -40,6 +41,12 @@ message DomainCreateRequest {
 }
 
 message DomainCreateResponse { Domain domain = 1; }
+
+// get all
+
+message DomainGetAllRequest { string user_id = 1; }
+
+message DomainGetAllResponse { repeated Domain domains = 1; }
 
 //
 // User

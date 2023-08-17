@@ -39,6 +39,28 @@ function deserialize_shishamo_v1_DomainCreateResponse(buffer_arg) {
   return shishamo_v1_shishamo_pb.DomainCreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_shishamo_v1_DomainGetAllRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainGetAllRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainGetAllRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainGetAllRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainGetAllRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_DomainGetAllResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainGetAllResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainGetAllResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainGetAllResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainGetAllResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_shishamo_v1_UserChangePasswordRequest(arg) {
   if (!(arg instanceof shishamo_v1_shishamo_pb.UserChangePasswordRequest)) {
     throw new Error('Expected argument of type shishamo.v1.UserChangePasswordRequest');
@@ -239,6 +261,17 @@ userGetToken: {
     requestDeserialize: deserialize_shishamo_v1_DomainCreateRequest,
     responseSerialize: serialize_shishamo_v1_DomainCreateResponse,
     responseDeserialize: deserialize_shishamo_v1_DomainCreateResponse,
+  },
+  domainGetAll: {
+    path: '/shishamo.v1.Shishamo/DomainGetAll',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.DomainGetAllRequest,
+    responseType: shishamo_v1_shishamo_pb.DomainGetAllResponse,
+    requestSerialize: serialize_shishamo_v1_DomainGetAllRequest,
+    requestDeserialize: deserialize_shishamo_v1_DomainGetAllRequest,
+    responseSerialize: serialize_shishamo_v1_DomainGetAllResponse,
+    responseDeserialize: deserialize_shishamo_v1_DomainGetAllResponse,
   },
 };
 

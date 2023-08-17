@@ -1,12 +1,31 @@
-<h1>domain</h1>
+<h1 class="text-xl font-bold">domain</h1>
 
-<!-- todo: list of domains -->
 <!-- todo: validation -->
-<div id="asdf">nothing</div>
-
-<div id="domainCreateStatus" style="margin: 0"></div>
-
-<form hx-post="/domain-create" hx-target="#asdf">
+<form
+  hx-post="/domain-create"
+  hx-target="#domainCreateStatus"
+  hx-swap="outerHTML"
+>
   <input id="domainCreateName" name="domainCreateName" type="text" />
   <button type="submit">submit</button>
 </form>
+
+<!-- todo: transitions -->
+<div id="domainCreateStatus"></div>
+
+<!-- todo: keep sorted -->
+<div id="domainList" class="outline outline-1 outline-blue-500 p-1 m-1">
+  <% domains.forEach(x => { %>
+  <div><%= x.name %></div>
+  <% }); %>
+</div>
+
+<script>
+  document.body.addEventListener("domain-create-status", function (event) {
+    setTimeout(function () {
+      document.getElementById("domainCreateStatus").outerHTML = `
+        <div id="domainCreateStatus"></div>
+      `;
+    }, 5000);
+  });
+</script>
