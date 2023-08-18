@@ -8,5 +8,10 @@
   </head>
   <body>
     <%- include(pageName, options) %>
+    <script>
+      document.body.addEventListener("sign-out", function () {
+        location.href = "/sign-in";
+      });
+    </script>
   </body>
 </html>

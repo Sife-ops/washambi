@@ -153,7 +153,6 @@ export async function domainGetAll(call, callback) {
         const f = await db
             .selectFrom("nuland.domain")
             .where("user_id", "=", call.request.getUserId())
-            // .where("name", "=", call.request.getName())
             .selectAll()
             .execute();
 
@@ -204,6 +203,70 @@ if (import.meta.vitest) {
 
             expect(response.getDomainsList().length).toBe(2);
         });
+
+        // no error thrown by kysely
+        test.skip("no such user error", async function () {
+            try {
+                request.setUserId("3349e3c9-8c12-4c19-a9c6-43255cd49089");
+                await testingClient.get().promise.domainGetAll(request);
+            } catch (e) {
+                //
+                console.log(e)
+            }
+        })
     });
 }
 
+/** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.DomainGetOneRequest, shishamo_pb.DomainGetOneResponse>} */
+export async function domainGetOne(call, callback) {
+    try {
+        const d = await db
+            .selectFrom("nuland.domain")
+            .where("id", "=", call.request.getId())
+            .selectAll()
+            .executeTakeFirstOrThrow();
+
+        const r = new shishamo_pb.DomainGetOneResponse();
+        r.setDomain(domainFromDb(d));
+
+        callback(null, r);
+    } catch (e) {
+        // console.log(e)
+        callback(toRpcError(e));
+    }
+}
+
+if (import.meta.vitest) {
+    const { describe, test, expect, beforeEach } = import.meta.vitest;
+
+    describe("int :: domainGetOne", function () {
+        const request = new shishamo_pb.DomainGetOneRequest();
+
+        beforeEach(async function () {
+            await clearTestUser();
+            return async function () {
+                await clearTestUser();
+            };
+        });
+
+        test("success", async function () {
+            const u = await createTestUser();
+            const d = await createTestDomain(u.id);
+            request.setId(d.id);
+
+            const response = await testingClient.get().promise.domainGetOne(request);
+            // console.log(response.getDomain().toObject());
+
+            expect(response.hasDomain()).toBeTruthy();
+        });
+
+        test("no such domain error", async function () {
+            request.setId("0cc19d73-6128-426c-ae15-52671dc218f8");
+            try {
+                await testingClient.get().promise.domainGetOne(request);
+            } catch (e) {
+                expect(e.code).toBe(5);
+            }
+        });
+    });
+}

@@ -8,7 +8,7 @@
     "inspect": "node --inspect ./cmd/start.js",
     "watch": "nodemon ./cmd/start.js",
     "gen": "kysely-codegen --url \"postgres://washambi_local:washambi@127.0.0.1/washambi_local\" --out-file \"./db/db.d.ts\"",
-    "test:int": "vitest -t \"int ::\"",
+    "test:int": "vitest --threads=false -t \"int ::\"",
     "test:unit": "SHISHAMO_STAGE=local vitest -t \"unit ::\""
   },
   "keywords": [],

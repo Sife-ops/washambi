@@ -174,7 +174,7 @@ if (import.meta.vitest) {
             expect(response.getUser().getEmail()).toBe(testUserTemplate.email);
         });
 
-        test("missing user error", async function () {
+        test("no such user error", async function () {
             request.setEmail("some@guy.com");
             try {
                 await testingClient.get().promise.userGetOne(request);
@@ -280,12 +280,12 @@ if (import.meta.vitest) {
             };
         });
 
-        test("purge existing user", async function () {
+        test("success", async function () {
             await testingClient.get().promise.userPurge(request);
         });
 
         // todo: select before delete
-        test.skip("missing user error", async function () {
+        test.skip("no such user error", async function () {
             request.setId("d9b8224c-36a1-11ee-82aa-0242ac110002");
             try {
                 await testingClient.get().promise.userPurge(request);

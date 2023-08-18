@@ -22,38 +22,14 @@
   style="display: none"
 ></div>
 
-<!-- <table class="table delete-row-example"> -->
-<table class="outline outline-1 outline-blue-500 p-1 m-1">
-  <thead>
-    <tr>
-      <!-- todo: justify left -->
-      <th>Domain</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody
-    id="domain-list"
-    hx-confirm="Are you sure?"
-    hx-target="closest tr"
-    hx-swap="outerHTML swap:1s"
-  >
-    <!-- todo: make included partial -->
-    <% domains.forEach(x => { %>
-    <tr>
-      <td><%= x.name %></td>
-      <td>
-        <button hx-delete="/domain-delete/<%= x.id %>">Delete</button>
-      </td>
-    </tr>
-    <% }); %>
-  </tbody>
-</table>
+<div id="domain-list" class="grid gap-4 grid-cols-3 m-4">
+  <!-- todo: use include -->
+  <% domains.forEach(x => { %>
+  <a href="/domain/<%= x.id %>" class="outline outline-1 outline-blue-500 p-4"><%= x.name %></a>
+  <% }); %>
+</div>
 
 <script>
-  document.body.addEventListener("sign-out", function () {
-    location.href = "/sign-in";
-  });
-
   document.body.addEventListener("domain-create-status", function (event) {
     let id = "";
     if (event.detail.status === "success") {
@@ -70,5 +46,3 @@
     }, 5000);
   });
 </script>
-
-<h1 class="text-xl font-bold">bookmark</h1>

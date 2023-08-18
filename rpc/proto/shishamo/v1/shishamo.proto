@@ -17,36 +17,10 @@ service Shishamo {
 
   rpc DomainCreate(DomainCreateRequest) returns (DomainCreateResponse);
   rpc DomainGetAll(DomainGetAllRequest) returns (DomainGetAllResponse);
+  rpc DomainGetOne(DomainGetOneRequest) returns (DomainGetOneResponse);
 }
 
 // todo: move to files
-
-//
-// Domain
-//
-
-message Domain {
-  string id = 1;
-  string user_id = 2;
-  string name = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp deleted_at = 5;
-}
-
-// create
-
-message DomainCreateRequest {
-  string user_id = 1;
-  string name = 2;
-}
-
-message DomainCreateResponse { Domain domain = 1; }
-
-// get all
-
-message DomainGetAllRequest { string user_id = 1; }
-
-message DomainGetAllResponse { repeated Domain domains = 1; }
 
 //
 // User
@@ -98,3 +72,36 @@ message UserGetTokenResponse { string token = 1; }
 message UserVerifyTokenRequest { string token = 1; }
 
 message UserVerifyTokenResponse { bool verified = 1; }
+
+//
+// Domain
+//
+
+message Domain {
+  string id = 1;
+  string user_id = 2;
+  string name = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp deleted_at = 5;
+}
+
+// create
+
+message DomainCreateRequest {
+  string user_id = 1;
+  string name = 2;
+}
+
+message DomainCreateResponse { Domain domain = 1; }
+
+// get all
+
+message DomainGetAllRequest { string user_id = 1; }
+
+message DomainGetAllResponse { repeated Domain domains = 1; }
+
+// get one
+
+message DomainGetOneRequest { string id = 1; }
+
+message DomainGetOneResponse { Domain domain = 1; }

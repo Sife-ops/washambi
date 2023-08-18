@@ -5,134 +5,6 @@ import * as jspb from "google-protobuf";
 import * as google_protobuf_timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
 
-export class Domain extends jspb.Message {
-  getId(): string;
-  setId(value: string): void;
-
-  getUserId(): string;
-  setUserId(value: string): void;
-
-  getName(): string;
-  setName(value: string): void;
-
-  hasCreatedAt(): boolean;
-  clearCreatedAt(): void;
-  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
-
-  hasDeletedAt(): boolean;
-  clearDeletedAt(): void;
-  getDeletedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
-  setDeletedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): Domain.AsObject;
-  static toObject(includeInstance: boolean, msg: Domain): Domain.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: Domain, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): Domain;
-  static deserializeBinaryFromReader(message: Domain, reader: jspb.BinaryReader): Domain;
-}
-
-export namespace Domain {
-  export type AsObject = {
-    id: string,
-    userId: string,
-    name: string,
-    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-    deletedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
-  }
-}
-
-export class DomainCreateRequest extends jspb.Message {
-  getUserId(): string;
-  setUserId(value: string): void;
-
-  getName(): string;
-  setName(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DomainCreateRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: DomainCreateRequest): DomainCreateRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: DomainCreateRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DomainCreateRequest;
-  static deserializeBinaryFromReader(message: DomainCreateRequest, reader: jspb.BinaryReader): DomainCreateRequest;
-}
-
-export namespace DomainCreateRequest {
-  export type AsObject = {
-    userId: string,
-    name: string,
-  }
-}
-
-export class DomainCreateResponse extends jspb.Message {
-  hasDomain(): boolean;
-  clearDomain(): void;
-  getDomain(): Domain | undefined;
-  setDomain(value?: Domain): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DomainCreateResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: DomainCreateResponse): DomainCreateResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: DomainCreateResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DomainCreateResponse;
-  static deserializeBinaryFromReader(message: DomainCreateResponse, reader: jspb.BinaryReader): DomainCreateResponse;
-}
-
-export namespace DomainCreateResponse {
-  export type AsObject = {
-    domain?: Domain.AsObject,
-  }
-}
-
-export class DomainGetAllRequest extends jspb.Message {
-  getUserId(): string;
-  setUserId(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DomainGetAllRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: DomainGetAllRequest): DomainGetAllRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: DomainGetAllRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DomainGetAllRequest;
-  static deserializeBinaryFromReader(message: DomainGetAllRequest, reader: jspb.BinaryReader): DomainGetAllRequest;
-}
-
-export namespace DomainGetAllRequest {
-  export type AsObject = {
-    userId: string,
-  }
-}
-
-export class DomainGetAllResponse extends jspb.Message {
-  clearDomainsList(): void;
-  getDomainsList(): Array<Domain>;
-  setDomainsList(value: Array<Domain>): void;
-  addDomains(value?: Domain, index?: number): Domain;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): DomainGetAllResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: DomainGetAllResponse): DomainGetAllResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: DomainGetAllResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): DomainGetAllResponse;
-  static deserializeBinaryFromReader(message: DomainGetAllResponse, reader: jspb.BinaryReader): DomainGetAllResponse;
-}
-
-export namespace DomainGetAllResponse {
-  export type AsObject = {
-    domainsList: Array<Domain.AsObject>,
-  }
-}
-
 export class User extends jspb.Message {
   getId(): string;
   setId(value: string): void;
@@ -408,6 +280,176 @@ export class UserVerifyTokenResponse extends jspb.Message {
 export namespace UserVerifyTokenResponse {
   export type AsObject = {
     verified: boolean,
+  }
+}
+
+export class Domain extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  getName(): string;
+  setName(value: string): void;
+
+  hasCreatedAt(): boolean;
+  clearCreatedAt(): void;
+  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+
+  hasDeletedAt(): boolean;
+  clearDeletedAt(): void;
+  getDeletedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setDeletedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Domain.AsObject;
+  static toObject(includeInstance: boolean, msg: Domain): Domain.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Domain, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Domain;
+  static deserializeBinaryFromReader(message: Domain, reader: jspb.BinaryReader): Domain;
+}
+
+export namespace Domain {
+  export type AsObject = {
+    id: string,
+    userId: string,
+    name: string,
+    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    deletedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+  }
+}
+
+export class DomainCreateRequest extends jspb.Message {
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  getName(): string;
+  setName(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainCreateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainCreateRequest): DomainCreateRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainCreateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainCreateRequest;
+  static deserializeBinaryFromReader(message: DomainCreateRequest, reader: jspb.BinaryReader): DomainCreateRequest;
+}
+
+export namespace DomainCreateRequest {
+  export type AsObject = {
+    userId: string,
+    name: string,
+  }
+}
+
+export class DomainCreateResponse extends jspb.Message {
+  hasDomain(): boolean;
+  clearDomain(): void;
+  getDomain(): Domain | undefined;
+  setDomain(value?: Domain): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainCreateResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainCreateResponse): DomainCreateResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainCreateResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainCreateResponse;
+  static deserializeBinaryFromReader(message: DomainCreateResponse, reader: jspb.BinaryReader): DomainCreateResponse;
+}
+
+export namespace DomainCreateResponse {
+  export type AsObject = {
+    domain?: Domain.AsObject,
+  }
+}
+
+export class DomainGetAllRequest extends jspb.Message {
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainGetAllRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainGetAllRequest): DomainGetAllRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainGetAllRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainGetAllRequest;
+  static deserializeBinaryFromReader(message: DomainGetAllRequest, reader: jspb.BinaryReader): DomainGetAllRequest;
+}
+
+export namespace DomainGetAllRequest {
+  export type AsObject = {
+    userId: string,
+  }
+}
+
+export class DomainGetAllResponse extends jspb.Message {
+  clearDomainsList(): void;
+  getDomainsList(): Array<Domain>;
+  setDomainsList(value: Array<Domain>): void;
+  addDomains(value?: Domain, index?: number): Domain;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainGetAllResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainGetAllResponse): DomainGetAllResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainGetAllResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainGetAllResponse;
+  static deserializeBinaryFromReader(message: DomainGetAllResponse, reader: jspb.BinaryReader): DomainGetAllResponse;
+}
+
+export namespace DomainGetAllResponse {
+  export type AsObject = {
+    domainsList: Array<Domain.AsObject>,
+  }
+}
+
+export class DomainGetOneRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainGetOneRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainGetOneRequest): DomainGetOneRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainGetOneRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainGetOneRequest;
+  static deserializeBinaryFromReader(message: DomainGetOneRequest, reader: jspb.BinaryReader): DomainGetOneRequest;
+}
+
+export namespace DomainGetOneRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class DomainGetOneResponse extends jspb.Message {
+  hasDomain(): boolean;
+  clearDomain(): void;
+  getDomain(): Domain | undefined;
+  setDomain(value?: Domain): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainGetOneResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainGetOneResponse): DomainGetOneResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainGetOneResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainGetOneResponse;
+  static deserializeBinaryFromReader(message: DomainGetOneResponse, reader: jspb.BinaryReader): DomainGetOneResponse;
+}
+
+export namespace DomainGetOneResponse {
+  export type AsObject = {
+    domain?: Domain.AsObject,
   }
 }
 

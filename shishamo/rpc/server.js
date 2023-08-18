@@ -16,6 +16,7 @@ export function serve() {
 
     domainCreate: domain.domainCreate,
     domainGetAll: domain.domainGetAll,
+    domainGetOne: domain.domainGetOne,
   });
 
   server.bindAsync(

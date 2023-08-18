@@ -3,6 +3,7 @@ import { client as rpc } from "../../../rpc/client.js";
 
 /** @type {import("express").RequestHandler} */
 export async function temp(req, res) {
+    // todo: try/catch
     const rpcReq = new shishamo_pb.DomainGetAllRequest();
     rpcReq.setUserId(req.signedCookies.id);
     const rpcRes = await rpc.promise.domainGetAll(rpcReq);

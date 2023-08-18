@@ -19,12 +19,9 @@ export async function domainCreate(req, res) {
                 }
             }))
             .send(`
-                <tr>
-                    <td>${rpcRes.getDomain().getName()}</td>
-                    <td>
-                        <button hx-delete="/domain-delete/${rpcRes.getDomain().getId()}">Delete</button>
-                    </td>
-                </tr>
+                <div class="outline outline-1 outline-blue-500 p-4">
+                    ${rpcRes.getDomain().getName()}
+                </div>
             `);
     } catch (e) {
         let message = "";
