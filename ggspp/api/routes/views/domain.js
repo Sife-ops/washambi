@@ -4,7 +4,7 @@ import { client as rpc } from "../../../rpc/client.js";
 /** @type {import("express").RequestHandler} */
 export async function domain(req, res) {
     try {
-        console.log(req.params);
+        // console.log(req.params);
         const rpcReq = new shishamo_pb.DomainGetOneRequest();
         rpcReq.setId(req.params.domain); // todo: typedef
         const rpcRes = await rpc.promise.domainGetOne(rpcReq);

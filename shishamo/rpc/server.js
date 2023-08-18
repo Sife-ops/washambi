@@ -1,5 +1,6 @@
 import { Server, ServerCredentials } from "@grpc/grpc-js";
 import shishamo_grpc_pb from "washambi-rpc/shishamo/v1/shishamo_grpc_pb.js";
+import * as bookmark from "./impl/bookmark.js";
 import * as domain from "./impl/domain.js";
 import * as user from "./impl/user.js";
 
@@ -17,6 +18,9 @@ export function serve() {
     domainCreate: domain.domainCreate,
     domainGetAll: domain.domainGetAll,
     domainGetOne: domain.domainGetOne,
+    domainDelete: domain.domainDelete,
+
+    bookmarkCreate: bookmark.bookmarkCreate,
   });
 
   server.bindAsync(

@@ -17,6 +17,138 @@ function deserialize_google_protobuf_Empty(buffer_arg) {
   return google_protobuf_empty_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_shishamo_v1_BookmarkCreateRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkCreateRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkCreateRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkCreateRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkCreateRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkCreateResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkCreateResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkCreateResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkCreateResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkCreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkDeleteRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkDeleteRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkDeleteRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkDeleteRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkDeleteRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkDeleteResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkDeleteResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkDeleteResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkDeleteResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkDeleteResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkGetAllRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetAllRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkGetAllRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkGetAllRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkGetAllRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkGetAllResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetAllResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkGetAllResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkGetAllResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkGetAllResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkGetForDomainRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkGetForDomainRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkGetForDomainRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkGetForDomainResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkGetForDomainResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkGetForDomainResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkGetOneRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetOneRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkGetOneRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkGetOneRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkGetOneRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkGetOneResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetOneResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkGetOneResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkGetOneResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkGetOneResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkPurgeRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkPurgeRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkPurgeRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkPurgeRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkPurgeRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_BookmarkPurgeResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkPurgeResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.BookmarkPurgeResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_BookmarkPurgeResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.BookmarkPurgeResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_shishamo_v1_DomainCreateRequest(arg) {
   if (!(arg instanceof shishamo_v1_shishamo_pb.DomainCreateRequest)) {
     throw new Error('Expected argument of type shishamo.v1.DomainCreateRequest');
@@ -37,6 +169,28 @@ function serialize_shishamo_v1_DomainCreateResponse(arg) {
 
 function deserialize_shishamo_v1_DomainCreateResponse(buffer_arg) {
   return shishamo_v1_shishamo_pb.DomainCreateResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_DomainDeleteRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainDeleteRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainDeleteRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainDeleteRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainDeleteRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_DomainDeleteResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainDeleteResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainDeleteResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainDeleteResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainDeleteResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_shishamo_v1_DomainGetAllRequest(arg) {
@@ -81,6 +235,28 @@ function serialize_shishamo_v1_DomainGetOneResponse(arg) {
 
 function deserialize_shishamo_v1_DomainGetOneResponse(buffer_arg) {
   return shishamo_v1_shishamo_pb.DomainGetOneResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_DomainPurgeRequest(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainPurgeRequest)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainPurgeRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainPurgeRequest(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainPurgeRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_shishamo_v1_DomainPurgeResponse(arg) {
+  if (!(arg instanceof shishamo_v1_shishamo_pb.DomainPurgeResponse)) {
+    throw new Error('Expected argument of type shishamo.v1.DomainPurgeResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_shishamo_v1_DomainPurgeResponse(buffer_arg) {
+  return shishamo_v1_shishamo_pb.DomainPurgeResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_shishamo_v1_UserChangePasswordRequest(arg) {
@@ -305,6 +481,94 @@ userGetToken: {
     requestDeserialize: deserialize_shishamo_v1_DomainGetOneRequest,
     responseSerialize: serialize_shishamo_v1_DomainGetOneResponse,
     responseDeserialize: deserialize_shishamo_v1_DomainGetOneResponse,
+  },
+  domainDelete: {
+    path: '/shishamo.v1.Shishamo/DomainDelete',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.DomainDeleteRequest,
+    responseType: shishamo_v1_shishamo_pb.DomainDeleteResponse,
+    requestSerialize: serialize_shishamo_v1_DomainDeleteRequest,
+    requestDeserialize: deserialize_shishamo_v1_DomainDeleteRequest,
+    responseSerialize: serialize_shishamo_v1_DomainDeleteResponse,
+    responseDeserialize: deserialize_shishamo_v1_DomainDeleteResponse,
+  },
+  domainPurge: {
+    path: '/shishamo.v1.Shishamo/DomainPurge',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.DomainPurgeRequest,
+    responseType: shishamo_v1_shishamo_pb.DomainPurgeResponse,
+    requestSerialize: serialize_shishamo_v1_DomainPurgeRequest,
+    requestDeserialize: deserialize_shishamo_v1_DomainPurgeRequest,
+    responseSerialize: serialize_shishamo_v1_DomainPurgeResponse,
+    responseDeserialize: deserialize_shishamo_v1_DomainPurgeResponse,
+  },
+  bookmarkCreate: {
+    path: '/shishamo.v1.Shishamo/BookmarkCreate',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.BookmarkCreateRequest,
+    responseType: shishamo_v1_shishamo_pb.BookmarkCreateResponse,
+    requestSerialize: serialize_shishamo_v1_BookmarkCreateRequest,
+    requestDeserialize: deserialize_shishamo_v1_BookmarkCreateRequest,
+    responseSerialize: serialize_shishamo_v1_BookmarkCreateResponse,
+    responseDeserialize: deserialize_shishamo_v1_BookmarkCreateResponse,
+  },
+  bookmarkGetAll: {
+    path: '/shishamo.v1.Shishamo/BookmarkGetAll',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.BookmarkGetAllRequest,
+    responseType: shishamo_v1_shishamo_pb.BookmarkGetAllResponse,
+    requestSerialize: serialize_shishamo_v1_BookmarkGetAllRequest,
+    requestDeserialize: deserialize_shishamo_v1_BookmarkGetAllRequest,
+    responseSerialize: serialize_shishamo_v1_BookmarkGetAllResponse,
+    responseDeserialize: deserialize_shishamo_v1_BookmarkGetAllResponse,
+  },
+  bookmarkGetDomain: {
+    path: '/shishamo.v1.Shishamo/BookmarkGetDomain',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest,
+    responseType: shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse,
+    requestSerialize: serialize_shishamo_v1_BookmarkGetForDomainRequest,
+    requestDeserialize: deserialize_shishamo_v1_BookmarkGetForDomainRequest,
+    responseSerialize: serialize_shishamo_v1_BookmarkGetForDomainResponse,
+    responseDeserialize: deserialize_shishamo_v1_BookmarkGetForDomainResponse,
+  },
+  bookmarkGetOne: {
+    path: '/shishamo.v1.Shishamo/BookmarkGetOne',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.BookmarkGetOneRequest,
+    responseType: shishamo_v1_shishamo_pb.BookmarkGetOneResponse,
+    requestSerialize: serialize_shishamo_v1_BookmarkGetOneRequest,
+    requestDeserialize: deserialize_shishamo_v1_BookmarkGetOneRequest,
+    responseSerialize: serialize_shishamo_v1_BookmarkGetOneResponse,
+    responseDeserialize: deserialize_shishamo_v1_BookmarkGetOneResponse,
+  },
+  bookmarkDelete: {
+    path: '/shishamo.v1.Shishamo/BookmarkDelete',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.BookmarkDeleteRequest,
+    responseType: shishamo_v1_shishamo_pb.BookmarkDeleteResponse,
+    requestSerialize: serialize_shishamo_v1_BookmarkDeleteRequest,
+    requestDeserialize: deserialize_shishamo_v1_BookmarkDeleteRequest,
+    responseSerialize: serialize_shishamo_v1_BookmarkDeleteResponse,
+    responseDeserialize: deserialize_shishamo_v1_BookmarkDeleteResponse,
+  },
+  bookmarkPurge: {
+    path: '/shishamo.v1.Shishamo/BookmarkPurge',
+    requestStream: false,
+    responseStream: false,
+    requestType: shishamo_v1_shishamo_pb.BookmarkPurgeRequest,
+    responseType: shishamo_v1_shishamo_pb.BookmarkPurgeResponse,
+    requestSerialize: serialize_shishamo_v1_BookmarkPurgeRequest,
+    requestDeserialize: deserialize_shishamo_v1_BookmarkPurgeRequest,
+    responseSerialize: serialize_shishamo_v1_BookmarkPurgeResponse,
+    responseDeserialize: deserialize_shishamo_v1_BookmarkPurgeResponse,
   },
 };
 

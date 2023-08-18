@@ -56,9 +56,9 @@ CREATE TABLE "nuland"."domains_tags" (
 CREATE TABLE "nuland"."bookmark" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
     "user_id" UUID NOT NULL,
-    "domain_id" UUID,
+    "domain_id" UUID NOT NULL,
 
-    "name" character varying NOT NULL,
+    "description" character varying NOT NULL,
     "url" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),

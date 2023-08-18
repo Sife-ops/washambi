@@ -453,3 +453,399 @@ export namespace DomainGetOneResponse {
   }
 }
 
+export class DomainDeleteRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainDeleteRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainDeleteRequest): DomainDeleteRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainDeleteRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainDeleteRequest;
+  static deserializeBinaryFromReader(message: DomainDeleteRequest, reader: jspb.BinaryReader): DomainDeleteRequest;
+}
+
+export namespace DomainDeleteRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class DomainDeleteResponse extends jspb.Message {
+  hasDomain(): boolean;
+  clearDomain(): void;
+  getDomain(): Domain | undefined;
+  setDomain(value?: Domain): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainDeleteResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainDeleteResponse): DomainDeleteResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainDeleteResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainDeleteResponse;
+  static deserializeBinaryFromReader(message: DomainDeleteResponse, reader: jspb.BinaryReader): DomainDeleteResponse;
+}
+
+export namespace DomainDeleteResponse {
+  export type AsObject = {
+    domain?: Domain.AsObject,
+  }
+}
+
+export class DomainPurgeRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainPurgeRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainPurgeRequest): DomainPurgeRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainPurgeRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainPurgeRequest;
+  static deserializeBinaryFromReader(message: DomainPurgeRequest, reader: jspb.BinaryReader): DomainPurgeRequest;
+}
+
+export namespace DomainPurgeRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class DomainPurgeResponse extends jspb.Message {
+  hasDomain(): boolean;
+  clearDomain(): void;
+  getDomain(): Domain | undefined;
+  setDomain(value?: Domain): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): DomainPurgeResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: DomainPurgeResponse): DomainPurgeResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: DomainPurgeResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): DomainPurgeResponse;
+  static deserializeBinaryFromReader(message: DomainPurgeResponse, reader: jspb.BinaryReader): DomainPurgeResponse;
+}
+
+export namespace DomainPurgeResponse {
+  export type AsObject = {
+    domain?: Domain.AsObject,
+  }
+}
+
+export class Bookmark extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  getDomainId(): string;
+  setDomainId(value: string): void;
+
+  getDescription(): string;
+  setDescription(value: string): void;
+
+  getUrl(): string;
+  setUrl(value: string): void;
+
+  hasCreatedAt(): boolean;
+  clearCreatedAt(): void;
+  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+
+  hasDeletedAt(): boolean;
+  clearDeletedAt(): void;
+  getDeletedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setDeletedAt(value?: google_protobuf_timestamp_pb.Timestamp): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): Bookmark.AsObject;
+  static toObject(includeInstance: boolean, msg: Bookmark): Bookmark.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: Bookmark, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): Bookmark;
+  static deserializeBinaryFromReader(message: Bookmark, reader: jspb.BinaryReader): Bookmark;
+}
+
+export namespace Bookmark {
+  export type AsObject = {
+    id: string,
+    userId: string,
+    domainId: string,
+    description: string,
+    url: string,
+    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    deletedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+  }
+}
+
+export class BookmarkCreateRequest extends jspb.Message {
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  getDomainId(): string;
+  setDomainId(value: string): void;
+
+  getDescription(): string;
+  setDescription(value: string): void;
+
+  getUrl(): string;
+  setUrl(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkCreateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkCreateRequest): BookmarkCreateRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkCreateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkCreateRequest;
+  static deserializeBinaryFromReader(message: BookmarkCreateRequest, reader: jspb.BinaryReader): BookmarkCreateRequest;
+}
+
+export namespace BookmarkCreateRequest {
+  export type AsObject = {
+    userId: string,
+    domainId: string,
+    description: string,
+    url: string,
+  }
+}
+
+export class BookmarkCreateResponse extends jspb.Message {
+  hasBookmark(): boolean;
+  clearBookmark(): void;
+  getBookmark(): Bookmark | undefined;
+  setBookmark(value?: Bookmark): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkCreateResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkCreateResponse): BookmarkCreateResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkCreateResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkCreateResponse;
+  static deserializeBinaryFromReader(message: BookmarkCreateResponse, reader: jspb.BinaryReader): BookmarkCreateResponse;
+}
+
+export namespace BookmarkCreateResponse {
+  export type AsObject = {
+    bookmark?: Bookmark.AsObject,
+  }
+}
+
+export class BookmarkGetAllRequest extends jspb.Message {
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkGetAllRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkGetAllRequest): BookmarkGetAllRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkGetAllRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkGetAllRequest;
+  static deserializeBinaryFromReader(message: BookmarkGetAllRequest, reader: jspb.BinaryReader): BookmarkGetAllRequest;
+}
+
+export namespace BookmarkGetAllRequest {
+  export type AsObject = {
+    userId: string,
+  }
+}
+
+export class BookmarkGetAllResponse extends jspb.Message {
+  clearBookmarksList(): void;
+  getBookmarksList(): Array<Bookmark>;
+  setBookmarksList(value: Array<Bookmark>): void;
+  addBookmarks(value?: Bookmark, index?: number): Bookmark;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkGetAllResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkGetAllResponse): BookmarkGetAllResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkGetAllResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkGetAllResponse;
+  static deserializeBinaryFromReader(message: BookmarkGetAllResponse, reader: jspb.BinaryReader): BookmarkGetAllResponse;
+}
+
+export namespace BookmarkGetAllResponse {
+  export type AsObject = {
+    bookmarksList: Array<Bookmark.AsObject>,
+  }
+}
+
+export class BookmarkGetForDomainRequest extends jspb.Message {
+  getUserId(): string;
+  setUserId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkGetForDomainRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkGetForDomainRequest): BookmarkGetForDomainRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkGetForDomainRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkGetForDomainRequest;
+  static deserializeBinaryFromReader(message: BookmarkGetForDomainRequest, reader: jspb.BinaryReader): BookmarkGetForDomainRequest;
+}
+
+export namespace BookmarkGetForDomainRequest {
+  export type AsObject = {
+    userId: string,
+  }
+}
+
+export class BookmarkGetForDomainResponse extends jspb.Message {
+  clearBookmarksList(): void;
+  getBookmarksList(): Array<Bookmark>;
+  setBookmarksList(value: Array<Bookmark>): void;
+  addBookmarks(value?: Bookmark, index?: number): Bookmark;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkGetForDomainResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkGetForDomainResponse): BookmarkGetForDomainResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkGetForDomainResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkGetForDomainResponse;
+  static deserializeBinaryFromReader(message: BookmarkGetForDomainResponse, reader: jspb.BinaryReader): BookmarkGetForDomainResponse;
+}
+
+export namespace BookmarkGetForDomainResponse {
+  export type AsObject = {
+    bookmarksList: Array<Bookmark.AsObject>,
+  }
+}
+
+export class BookmarkGetOneRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkGetOneRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkGetOneRequest): BookmarkGetOneRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkGetOneRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkGetOneRequest;
+  static deserializeBinaryFromReader(message: BookmarkGetOneRequest, reader: jspb.BinaryReader): BookmarkGetOneRequest;
+}
+
+export namespace BookmarkGetOneRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class BookmarkGetOneResponse extends jspb.Message {
+  hasBookmark(): boolean;
+  clearBookmark(): void;
+  getBookmark(): Bookmark | undefined;
+  setBookmark(value?: Bookmark): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkGetOneResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkGetOneResponse): BookmarkGetOneResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkGetOneResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkGetOneResponse;
+  static deserializeBinaryFromReader(message: BookmarkGetOneResponse, reader: jspb.BinaryReader): BookmarkGetOneResponse;
+}
+
+export namespace BookmarkGetOneResponse {
+  export type AsObject = {
+    bookmark?: Bookmark.AsObject,
+  }
+}
+
+export class BookmarkDeleteRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkDeleteRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkDeleteRequest): BookmarkDeleteRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkDeleteRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkDeleteRequest;
+  static deserializeBinaryFromReader(message: BookmarkDeleteRequest, reader: jspb.BinaryReader): BookmarkDeleteRequest;
+}
+
+export namespace BookmarkDeleteRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class BookmarkDeleteResponse extends jspb.Message {
+  hasBookmark(): boolean;
+  clearBookmark(): void;
+  getBookmark(): Bookmark | undefined;
+  setBookmark(value?: Bookmark): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkDeleteResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkDeleteResponse): BookmarkDeleteResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkDeleteResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkDeleteResponse;
+  static deserializeBinaryFromReader(message: BookmarkDeleteResponse, reader: jspb.BinaryReader): BookmarkDeleteResponse;
+}
+
+export namespace BookmarkDeleteResponse {
+  export type AsObject = {
+    bookmark?: Bookmark.AsObject,
+  }
+}
+
+export class BookmarkPurgeRequest extends jspb.Message {
+  getId(): string;
+  setId(value: string): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkPurgeRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkPurgeRequest): BookmarkPurgeRequest.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkPurgeRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkPurgeRequest;
+  static deserializeBinaryFromReader(message: BookmarkPurgeRequest, reader: jspb.BinaryReader): BookmarkPurgeRequest;
+}
+
+export namespace BookmarkPurgeRequest {
+  export type AsObject = {
+    id: string,
+  }
+}
+
+export class BookmarkPurgeResponse extends jspb.Message {
+  hasBookmark(): boolean;
+  clearBookmark(): void;
+  getBookmark(): Bookmark | undefined;
+  setBookmark(value?: Bookmark): void;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): BookmarkPurgeResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: BookmarkPurgeResponse): BookmarkPurgeResponse.AsObject;
+  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+  static serializeBinaryToWriter(message: BookmarkPurgeResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): BookmarkPurgeResponse;
+  static deserializeBinaryFromReader(message: BookmarkPurgeResponse, reader: jspb.BinaryReader): BookmarkPurgeResponse;
+}
+
+export namespace BookmarkPurgeResponse {
+  export type AsObject = {
+    bookmark?: Bookmark.AsObject,
+  }
+}
+

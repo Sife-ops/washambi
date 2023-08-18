@@ -9,8 +9,8 @@ export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 export interface NulandBookmark {
   id: Generated<string>;
   user_id: string;
-  domain_id: string | null;
-  name: string;
+  domain_id: string;
+  description: string;
   url: string;
   created_at: Generated<Timestamp>;
   deleted_at: Timestamp | null;

@@ -17,6 +17,14 @@ interface IShishamoService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
   domainCreate: grpc.MethodDefinition<shishamo_v1_shishamo_pb.DomainCreateRequest, shishamo_v1_shishamo_pb.DomainCreateResponse>;
   domainGetAll: grpc.MethodDefinition<shishamo_v1_shishamo_pb.DomainGetAllRequest, shishamo_v1_shishamo_pb.DomainGetAllResponse>;
   domainGetOne: grpc.MethodDefinition<shishamo_v1_shishamo_pb.DomainGetOneRequest, shishamo_v1_shishamo_pb.DomainGetOneResponse>;
+  domainDelete: grpc.MethodDefinition<shishamo_v1_shishamo_pb.DomainDeleteRequest, shishamo_v1_shishamo_pb.DomainDeleteResponse>;
+  domainPurge: grpc.MethodDefinition<shishamo_v1_shishamo_pb.DomainPurgeRequest, shishamo_v1_shishamo_pb.DomainPurgeResponse>;
+  bookmarkCreate: grpc.MethodDefinition<shishamo_v1_shishamo_pb.BookmarkCreateRequest, shishamo_v1_shishamo_pb.BookmarkCreateResponse>;
+  bookmarkGetAll: grpc.MethodDefinition<shishamo_v1_shishamo_pb.BookmarkGetAllRequest, shishamo_v1_shishamo_pb.BookmarkGetAllResponse>;
+  bookmarkGetDomain: grpc.MethodDefinition<shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest, shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse>;
+  bookmarkGetOne: grpc.MethodDefinition<shishamo_v1_shishamo_pb.BookmarkGetOneRequest, shishamo_v1_shishamo_pb.BookmarkGetOneResponse>;
+  bookmarkDelete: grpc.MethodDefinition<shishamo_v1_shishamo_pb.BookmarkDeleteRequest, shishamo_v1_shishamo_pb.BookmarkDeleteResponse>;
+  bookmarkPurge: grpc.MethodDefinition<shishamo_v1_shishamo_pb.BookmarkPurgeRequest, shishamo_v1_shishamo_pb.BookmarkPurgeResponse>;
 }
 
 export const ShishamoService: IShishamoService;
@@ -31,6 +39,14 @@ export interface IShishamoServer extends grpc.UntypedServiceImplementation {
   domainCreate: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.DomainCreateRequest, shishamo_v1_shishamo_pb.DomainCreateResponse>;
   domainGetAll: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.DomainGetAllRequest, shishamo_v1_shishamo_pb.DomainGetAllResponse>;
   domainGetOne: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.DomainGetOneRequest, shishamo_v1_shishamo_pb.DomainGetOneResponse>;
+  domainDelete: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.DomainDeleteRequest, shishamo_v1_shishamo_pb.DomainDeleteResponse>;
+  domainPurge: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.DomainPurgeRequest, shishamo_v1_shishamo_pb.DomainPurgeResponse>;
+  bookmarkCreate: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.BookmarkCreateRequest, shishamo_v1_shishamo_pb.BookmarkCreateResponse>;
+  bookmarkGetAll: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.BookmarkGetAllRequest, shishamo_v1_shishamo_pb.BookmarkGetAllResponse>;
+  bookmarkGetDomain: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest, shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse>;
+  bookmarkGetOne: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.BookmarkGetOneRequest, shishamo_v1_shishamo_pb.BookmarkGetOneResponse>;
+  bookmarkDelete: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.BookmarkDeleteRequest, shishamo_v1_shishamo_pb.BookmarkDeleteResponse>;
+  bookmarkPurge: grpc.handleUnaryCall<shishamo_v1_shishamo_pb.BookmarkPurgeRequest, shishamo_v1_shishamo_pb.BookmarkPurgeResponse>;
 }
 
 export class ShishamoClient extends grpc.Client {
@@ -62,4 +78,28 @@ export class ShishamoClient extends grpc.Client {
   domainGetOne(argument: shishamo_v1_shishamo_pb.DomainGetOneRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainGetOneResponse>): grpc.ClientUnaryCall;
   domainGetOne(argument: shishamo_v1_shishamo_pb.DomainGetOneRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainGetOneResponse>): grpc.ClientUnaryCall;
   domainGetOne(argument: shishamo_v1_shishamo_pb.DomainGetOneRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainGetOneResponse>): grpc.ClientUnaryCall;
+  domainDelete(argument: shishamo_v1_shishamo_pb.DomainDeleteRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainDeleteResponse>): grpc.ClientUnaryCall;
+  domainDelete(argument: shishamo_v1_shishamo_pb.DomainDeleteRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainDeleteResponse>): grpc.ClientUnaryCall;
+  domainDelete(argument: shishamo_v1_shishamo_pb.DomainDeleteRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainDeleteResponse>): grpc.ClientUnaryCall;
+  domainPurge(argument: shishamo_v1_shishamo_pb.DomainPurgeRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainPurgeResponse>): grpc.ClientUnaryCall;
+  domainPurge(argument: shishamo_v1_shishamo_pb.DomainPurgeRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainPurgeResponse>): grpc.ClientUnaryCall;
+  domainPurge(argument: shishamo_v1_shishamo_pb.DomainPurgeRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.DomainPurgeResponse>): grpc.ClientUnaryCall;
+  bookmarkCreate(argument: shishamo_v1_shishamo_pb.BookmarkCreateRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkCreateResponse>): grpc.ClientUnaryCall;
+  bookmarkCreate(argument: shishamo_v1_shishamo_pb.BookmarkCreateRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkCreateResponse>): grpc.ClientUnaryCall;
+  bookmarkCreate(argument: shishamo_v1_shishamo_pb.BookmarkCreateRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkCreateResponse>): grpc.ClientUnaryCall;
+  bookmarkGetAll(argument: shishamo_v1_shishamo_pb.BookmarkGetAllRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetAllResponse>): grpc.ClientUnaryCall;
+  bookmarkGetAll(argument: shishamo_v1_shishamo_pb.BookmarkGetAllRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetAllResponse>): grpc.ClientUnaryCall;
+  bookmarkGetAll(argument: shishamo_v1_shishamo_pb.BookmarkGetAllRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetAllResponse>): grpc.ClientUnaryCall;
+  bookmarkGetDomain(argument: shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse>): grpc.ClientUnaryCall;
+  bookmarkGetDomain(argument: shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse>): grpc.ClientUnaryCall;
+  bookmarkGetDomain(argument: shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse>): grpc.ClientUnaryCall;
+  bookmarkGetOne(argument: shishamo_v1_shishamo_pb.BookmarkGetOneRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetOneResponse>): grpc.ClientUnaryCall;
+  bookmarkGetOne(argument: shishamo_v1_shishamo_pb.BookmarkGetOneRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetOneResponse>): grpc.ClientUnaryCall;
+  bookmarkGetOne(argument: shishamo_v1_shishamo_pb.BookmarkGetOneRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkGetOneResponse>): grpc.ClientUnaryCall;
+  bookmarkDelete(argument: shishamo_v1_shishamo_pb.BookmarkDeleteRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkDeleteResponse>): grpc.ClientUnaryCall;
+  bookmarkDelete(argument: shishamo_v1_shishamo_pb.BookmarkDeleteRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkDeleteResponse>): grpc.ClientUnaryCall;
+  bookmarkDelete(argument: shishamo_v1_shishamo_pb.BookmarkDeleteRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkDeleteResponse>): grpc.ClientUnaryCall;
+  bookmarkPurge(argument: shishamo_v1_shishamo_pb.BookmarkPurgeRequest, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkPurgeResponse>): grpc.ClientUnaryCall;
+  bookmarkPurge(argument: shishamo_v1_shishamo_pb.BookmarkPurgeRequest, metadataOrOptions: grpc.Metadata | grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkPurgeResponse>): grpc.ClientUnaryCall;
+  bookmarkPurge(argument: shishamo_v1_shishamo_pb.BookmarkPurgeRequest, metadata: grpc.Metadata | null, options: grpc.CallOptions | null, callback: grpc.requestCallback<shishamo_v1_shishamo_pb.BookmarkPurgeResponse>): grpc.ClientUnaryCall;
 }

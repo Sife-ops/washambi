@@ -33,3 +33,4 @@ router.get("/domain/:domain", views.domain);
 
 // ajax
 router.post("/domain-create", ajax.domainCreate);
+// router.post("/domain-delete/:domain", ajax.domainDelete); // todo: not very useful

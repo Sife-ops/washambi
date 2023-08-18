@@ -7,6 +7,7 @@ import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import { db } from "../../db/connection.js";
 import { toRpcError } from "../../error/rpc.js";
 import { testingClient } from "../../rpc/client.js";
+import { clearTestUser, createTestUser, testUserTemplate } from "./_test.js";
 const { Empty } = empty_pb;
 const { Timestamp } = timestamp_pb;
 
@@ -55,31 +56,6 @@ export async function userCreate(call, callback) {
         // });
         callback(error);
     }
-}
-
-// used in tests
-/** @type {import("kysely").InsertObject<import("@db/db.d.ts").DB, "zoomers.user">} */
-let testUserTemplate = {
-    email: "bing@chilling.com",
-    password: "bingchilling123!",
-};
-
-/** @returns {Promise<import("kysely").Selectable<import("@db/db.d.ts").ZoomersUser>>} */
-async function createTestUser() {
-    return await db
-        .insertInto("zoomers.user")
-        .values(testUserTemplate)
-        .returningAll()
-        .executeTakeFirstOrThrow();
-}
-
-async function clearTestUser() {
-    try {
-        await db
-            .deleteFrom("zoomers.user")
-            .where("email", "=", testUserTemplate.email)
-            .execute();
-    } catch { }
 }
 
 if (import.meta.vitest) {

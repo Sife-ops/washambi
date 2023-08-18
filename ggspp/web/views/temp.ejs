@@ -1,32 +1,52 @@
-<h1 class="text-xl font-bold">domain</h1>
+<div class="m-4">
+  <h1 class="text-xl font-bold">bookmarks</h1>
 
-<!-- todo: validation -->
-<!-- todo: clear input -->
-<form hx-post="/domain-create" hx-target="#domain-list" hx-swap="afterbegin">
-  <input id="domainCreateName" name="domainCreateName" type="text" />
-  <button type="submit">submit</button>
-</form>
-
-<!-- todo: transitions -->
-<div
-  id="domain-create-success"
-  class="m-1 p-1 outline outline-1 outline-green-500 bg-green-900"
-  style="display: none"
->
-  ✅ success!
+  <form hx-post="/bookmark-create" hx-target="this" hx-swap="none">
+    <label for="bookmarkCreateDescription">Description:</label><br />
+    <input
+      id="bookmarkCreateDescription"
+      name="bookmarkCreateDescription"
+      type="text"
+    /><br />
+    <label for="bookmarkCreateUrl">Url:</label><br />
+    <input id="bookmarkCreateUrl" name="bookmarkCreateUrl" type="text" /><br />
+    <button type="submit">submit</button>
+  </form>
 </div>
 
-<div
-  id="domain-create-error"
-  class="m-1 p-1 outline outline-1 outline-red-500 bg-red-900"
-  style="display: none"
-></div>
+<div class="m-4">
+  <h1 class="text-xl font-bold">domains</h1>
 
-<div id="domain-list" class="grid gap-4 grid-cols-3 m-4">
-  <!-- todo: use include -->
-  <% domains.forEach(x => { %>
-  <a href="/domain/<%= x.id %>" class="outline outline-1 outline-blue-500 p-4"><%= x.name %></a>
-  <% }); %>
+  <!-- todo: validation -->
+  <!-- todo: clear input -->
+  <form hx-post="/domain-create" hx-target="#domain-list" hx-swap="afterbegin">
+    <input id="domainCreateName" name="domainCreateName" type="text" /><br>
+    <button type="submit">submit</button>
+  </form>
+
+  <!-- todo: transitions -->
+  <div
+    id="domain-create-success"
+    class="p-1 outline outline-1 outline-green-500 bg-green-900"
+    style="display: none"
+  >
+    ✅ success!
+  </div>
+
+  <div
+    id="domain-create-error"
+    class="p-1 outline outline-1 outline-red-500 bg-red-900"
+    style="display: none"
+  ></div>
+
+  <div id="domain-list" class="grid gap-4 grid-cols-3">
+    <!-- todo: use include -->
+    <% domains.forEach(x => { %>
+    <a href="/domain/<%= x.id %>" class="outline outline-1 outline-blue-500 p-4"
+      ><%= x.name %></a
+    >
+    <% }); %>
+  </div>
 </div>
 
 <script>

@@ -18,6 +18,15 @@ service Shishamo {
   rpc DomainCreate(DomainCreateRequest) returns (DomainCreateResponse);
   rpc DomainGetAll(DomainGetAllRequest) returns (DomainGetAllResponse);
   rpc DomainGetOne(DomainGetOneRequest) returns (DomainGetOneResponse);
+  rpc DomainDelete(DomainDeleteRequest) returns (DomainDeleteResponse);
+  rpc DomainPurge(DomainPurgeRequest) returns (DomainPurgeResponse);
+
+  rpc BookmarkCreate(BookmarkCreateRequest) returns (BookmarkCreateResponse);
+  rpc BookmarkGetAll(BookmarkGetAllRequest) returns (BookmarkGetAllResponse);
+  rpc BookmarkGetDomain(BookmarkGetForDomainRequest) returns (BookmarkGetForDomainResponse);
+  rpc BookmarkGetOne(BookmarkGetOneRequest) returns (BookmarkGetOneResponse);
+  rpc BookmarkDelete(BookmarkDeleteRequest) returns (BookmarkDeleteResponse);
+  rpc BookmarkPurge(BookmarkPurgeRequest) returns (BookmarkPurgeResponse);
 }
 
 // todo: move to files
@@ -36,7 +45,6 @@ message User {
 }
 
 // create
-
 message UserCreateRequest {
   string email = 1;
   string password = 2;
@@ -45,13 +53,10 @@ message UserCreateRequest {
 message UserCreateResponse { User user = 1; }
 
 // get one
-
 message UserGetOneRequest { string email = 1; }
-
 message UserGetOneResponse { User user = 1; }
 
 // change password
-
 message UserChangePasswordRequest {
   string id = 1;
   string password = 2;
@@ -60,17 +65,12 @@ message UserChangePasswordRequest {
 message UserChangePasswordResponse { User user = 1; }
 
 // purge
-
 message UserPurgeRequest { string id = 1; }
 
 // token
-
 message UserGetTokenRequest { string id = 1; }
-
 message UserGetTokenResponse { string token = 1; }
-
 message UserVerifyTokenRequest { string token = 1; }
-
 message UserVerifyTokenResponse { bool verified = 1; }
 
 //
@@ -86,7 +86,6 @@ message Domain {
 }
 
 // create
-
 message DomainCreateRequest {
   string user_id = 1;
   string name = 2;
@@ -95,13 +94,66 @@ message DomainCreateRequest {
 message DomainCreateResponse { Domain domain = 1; }
 
 // get all
-
 message DomainGetAllRequest { string user_id = 1; }
-
 message DomainGetAllResponse { repeated Domain domains = 1; }
 
+// todo: get deleted
+
 // get one
-
 message DomainGetOneRequest { string id = 1; }
-
 message DomainGetOneResponse { Domain domain = 1; }
+
+// delete
+message DomainDeleteRequest { string id = 1; }
+message DomainDeleteResponse { Domain domain = 1; }
+
+// purge
+message DomainPurgeRequest { string id = 1; }
+message DomainPurgeResponse { Domain domain = 1; }
+
+//
+// Bookmark
+//
+
+// todo: tags
+
+message Bookmark {
+  string id = 1;
+  string user_id = 2;
+  string domain_id = 3;
+  string description = 4;
+  string url = 5;
+  google.protobuf.Timestamp created_at = 6;
+  google.protobuf.Timestamp deleted_at = 7;
+}
+
+// create
+message BookmarkCreateRequest {
+  string user_id = 1;
+  string domain_id = 2;
+  string description = 3;
+  string url = 4;
+}
+
+message BookmarkCreateResponse { Bookmark bookmark = 1; }
+
+// get all
+message BookmarkGetAllRequest { string user_id = 1; }
+message BookmarkGetAllResponse { repeated Bookmark bookmarks = 1; }
+
+// get domain
+message BookmarkGetForDomainRequest { string user_id = 1; }
+message BookmarkGetForDomainResponse { repeated Bookmark bookmarks = 1; }
+
+// get one
+message BookmarkGetOneRequest { string id = 1; }
+message BookmarkGetOneResponse { Bookmark bookmark = 1; }
+
+// delete
+message BookmarkDeleteRequest { string id = 1; }
+message BookmarkDeleteResponse { Bookmark bookmark = 1; }
+
+// purge
+message BookmarkPurgeRequest { string id = 1; }
+message BookmarkPurgeResponse { Bookmark bookmark = 1; }
+

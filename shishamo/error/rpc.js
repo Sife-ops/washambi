@@ -16,10 +16,36 @@ export class RpcError extends ShishamoError {
 export class DuplicateDomainError extends RpcError {
     name = this.name + "DuplicateDomain";
     code = 6;
+
+    /** @param {string} d */
     constructor(d) {
         super();
         this.message = `duplicate domain name: ${d}`;
         this.details = `duplicate domain name: ${d}`;
+    }
+}
+
+export class DuplicateBookmarkError extends RpcError {
+    name = this.name + "DuplicateDomain";
+    code = 6;
+
+    /** @param {string} b */
+    constructor(b) {
+        super();
+        this.message = `duplicate domain name: ${b}`;
+        this.details = `duplicate domain name: ${b}`;
+    }
+}
+
+export class ParseDomainError extends RpcError {
+    name = this.name + "ParseDomain";
+    code = 3;
+
+    /** @param {string} b */
+    constructor(b) {
+        super();
+        this.message = `could not parse domain from string: ${b}`;
+        this.details = `could not parse domain from string: ${b}`;
     }
 }
 
