@@ -133,6 +133,7 @@ message BookmarkCreateRequest {
   string domain_id = 2;
   string description = 3;
   string url = 4;
+  repeated string tags = 5;
 }
 
 message BookmarkCreateResponse { Bookmark bookmark = 1; }

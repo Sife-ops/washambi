@@ -598,6 +598,11 @@ export class BookmarkCreateRequest extends jspb.Message {
   getUrl(): string;
   setUrl(value: string): void;
 
+  clearTagsList(): void;
+  getTagsList(): Array<string>;
+  setTagsList(value: Array<string>): void;
+  addTags(value: string, index?: number): string;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): BookmarkCreateRequest.AsObject;
   static toObject(includeInstance: boolean, msg: BookmarkCreateRequest): BookmarkCreateRequest.AsObject;
@@ -614,6 +619,7 @@ export namespace BookmarkCreateRequest {
     domainId: string,
     description: string,
     url: string,
+    tagsList: Array<string>,
   }
 }
 

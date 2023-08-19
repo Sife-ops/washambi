@@ -576,7 +576,7 @@ if (goog.DEBUG && !COMPILED) {
  * @constructor
  */
 proto.shishamo.v1.BookmarkCreateRequest = function(opt_data) {
-  jspb.Message.initialize(this, opt_data, 0, -1, null, null);
+  jspb.Message.initialize(this, opt_data, 0, -1, proto.shishamo.v1.BookmarkCreateRequest.repeatedFields_, null);
 };
 goog.inherits(proto.shishamo.v1.BookmarkCreateRequest, jspb.Message);
 if (goog.DEBUG && !COMPILED) {
@@ -4781,6 +4781,13 @@ proto.shishamo.v1.Bookmark.prototype.hasDeletedAt = function() {
 
 
 
+/**
+ * List of repeated fields within this message type.
+ * @private {!Array<number>}
+ * @const
+ */
+proto.shishamo.v1.BookmarkCreateRequest.repeatedFields_ = [5];
+
 
 
 if (jspb.Message.GENERATE_TO_OBJECT) {
@@ -4815,7 +4822,8 @@ proto.shishamo.v1.BookmarkCreateRequest.toObject = function(includeInstance, msg
     userId: jspb.Message.getFieldWithDefault(msg, 1, ""),
     domainId: jspb.Message.getFieldWithDefault(msg, 2, ""),
     description: jspb.Message.getFieldWithDefault(msg, 3, ""),
-    url: jspb.Message.getFieldWithDefault(msg, 4, "")
+    url: jspb.Message.getFieldWithDefault(msg, 4, ""),
+    tagsList: (f = jspb.Message.getRepeatedField(msg, 5)) == null ? undefined : f
   };
 
   if (includeInstance) {
@@ -4867,6 +4875,10 @@ proto.shishamo.v1.BookmarkCreateRequest.deserializeBinaryFromReader = function(m
     case 4:
       var value = /** @type {string} */ (reader.readString());
       msg.setUrl(value);
+      break;
+    case 5:
+      var value = /** @type {string} */ (reader.readString());
+      msg.addTags(value);
       break;
     default:
       reader.skipField();
@@ -4922,6 +4934,13 @@ proto.shishamo.v1.BookmarkCreateRequest.serializeBinaryToWriter = function(messa
   if (f.length > 0) {
     writer.writeString(
       4,
+      f
+    );
+  }
+  f = message.getTagsList();
+  if (f.length > 0) {
+    writer.writeRepeatedString(
+      5,
       f
     );
   }
@@ -4997,6 +5016,43 @@ proto.shishamo.v1.BookmarkCreateRequest.prototype.getUrl = function() {
  */
 proto.shishamo.v1.BookmarkCreateRequest.prototype.setUrl = function(value) {
   return jspb.Message.setProto3StringField(this, 4, value);
+};
+
+
+/**
+ * repeated string tags = 5;
+ * @return {!Array<string>}
+ */
+proto.shishamo.v1.BookmarkCreateRequest.prototype.getTagsList = function() {
+  return /** @type {!Array<string>} */ (jspb.Message.getRepeatedField(this, 5));
+};
+
+
+/**
+ * @param {!Array<string>} value
+ * @return {!proto.shishamo.v1.BookmarkCreateRequest} returns this
+ */
+proto.shishamo.v1.BookmarkCreateRequest.prototype.setTagsList = function(value) {
+  return jspb.Message.setField(this, 5, value || []);
+};
+
+
+/**
+ * @param {string} value
+ * @param {number=} opt_index
+ * @return {!proto.shishamo.v1.BookmarkCreateRequest} returns this
+ */
+proto.shishamo.v1.BookmarkCreateRequest.prototype.addTags = function(value, opt_index) {
+  return jspb.Message.addToRepeatedField(this, 5, value, opt_index);
+};
+
+
+/**
+ * Clears the list making it empty but non-null.
+ * @return {!proto.shishamo.v1.BookmarkCreateRequest} returns this
+ */
+proto.shishamo.v1.BookmarkCreateRequest.prototype.clearTagsList = function() {
+  return this.setTagsList([]);
 };
 
 

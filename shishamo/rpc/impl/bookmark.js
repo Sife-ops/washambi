@@ -28,7 +28,6 @@ function bookmarkFromDb(b) {
     return bookmark;
 }
 
-// todo: tags
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.BookmarkCreateRequest, shishamo_pb.BookmarkCreateResponse>} */
 export async function bookmarkCreate(call, callback) {
     try {
@@ -51,36 +50,17 @@ export async function bookmarkCreate(call, callback) {
             throw new ParseDomainError(call.request.getUrl());
         }
 
-        const d = await db
-            .selectFrom("nuland.domain")
-            .where("user_id", "=", call.request.getUserId())
-            .where("name", "=", domainName)
-            .selectAll()
-            .executeTakeFirst();
-
-        /** @returns {Promise<import("kysely").Selectable<import("@db/db.d.ts").NulandBookmark>>} */
-        async function create() {
-            /** 
-             * @param {import("kysely").Selectable<import("@db/db.d.ts").NulandDomain>} d 
-             * @returns {import("kysely").InsertObject<import("@db/db.d.ts").DB, "nuland.bookmark">} 
-             */
-            const domain = (d) => ({
-                domain_id: d.id,
-                user_id: call.request.getUserId(),
-                description: call.request.getDescription(),
-                url: call.request.getUrl(),
-            });
-
-            if (d) {
-                return await db
-                    .insertInto("nuland.bookmark")
-                    .values(domain(d))
-                    .returningAll()
-                    .executeTakeFirst();
-            }
-
-            return await db.transaction().execute(async function (trx) {
+        const b = await db.transaction().execute(async function (trx) {
+            /** @returns {Promise<import("kysely").Selectable<import("@db/db.d.ts").NulandDomain>>} */
+            async function selectOrInsertDomain() {
                 const d = await trx
+                    .selectFrom("nuland.domain")
+                    .where("user_id", "=", call.request.getUserId())
+                    .where("name", "=", domainName)
+                    .selectAll()
+                    .executeTakeFirst();
+                if (d) return d;
+                return await trx
                     .insertInto("nuland.domain")
                     .values({
                         user_id: call.request.getUserId(),
@@ -88,17 +68,59 @@ export async function bookmarkCreate(call, callback) {
                     })
                     .returningAll()
                     .executeTakeFirstOrThrow()
+            }
+            const d = await selectOrInsertDomain();
 
-                return await trx
-                    .insertInto("nuland.bookmark")
-                    .values(domain(d))
-                    .returningAll()
-                    .executeTakeFirst();
-            });
-        }
+            const b = await trx
+                .insertInto("nuland.bookmark")
+                .values({
+                    domain_id: d.id,
+                    user_id: call.request.getUserId(),
+                    description: call.request.getDescription(),
+                    url: call.request.getUrl(),
+                })
+                .returningAll()
+                .executeTakeFirst();
+
+            if (call.request.getTagsList().length > 0) {
+                const tags = await trx
+                    .selectFrom("nuland.tag")
+                    .where("name", "in", call.request.getTagsList())
+                    .selectAll()
+                    .execute();
+
+                for (const reqTag of call.request.getTagsList()) {
+                    /** @returns {Promise<import("kysely").Selectable<import("@db/db.d.ts").NulandTag>>} */
+                    async function findOrInsertTag() {
+                        const f = tags.find(x => x.name === reqTag);
+                        if (f) return f;
+                        return await trx
+                            .insertInto("nuland.tag")
+                            .values({
+                                user_id: call.request.getUserId(),
+                                name: reqTag,
+                            })
+                            .returningAll()
+                            .executeTakeFirstOrThrow();
+                    }
+                    const tag = await findOrInsertTag();
+
+                    await trx
+                        .insertInto("nuland.bookmarks_tags")
+                        .values({
+                            bookmark_id: b.id,
+                            tag_id: tag.id,
+                        })
+                        .returningAll()
+                        .executeTakeFirstOrThrow();
+                }
+            }
+
+            return b;
+        });
 
         const r = new shishamo_pb.BookmarkCreateResponse();
-        r.setBookmark(bookmarkFromDb(await create()));
+        r.setBookmark(bookmarkFromDb(b));
 
         callback(null, r);
     } catch (e) {
@@ -120,6 +142,7 @@ if (import.meta.vitest) {
             request.setUserId(u.id);
             request.setDescription(testBookmarkTemplate.description.toString());
             request.setUrl(testBookmarkTemplate.url.toString());
+            request.setTagsList(["cheddar", "gouda"]);
             return async function () {
                 await clearTestUser();
             };
@@ -142,8 +165,15 @@ if (import.meta.vitest) {
             await db
                 .selectFrom("nuland.domain")
                 .where("name", "=", "cheatcc.com")
+                .where("user_id", "=", request.getUserId())
                 .selectAll()
                 .executeTakeFirstOrThrow();
+            const tags = await db
+                .selectFrom("nuland.tag")
+                .where("user_id", "=", request.getUserId())
+                .selectAll()
+                .execute()
+            expect(tags.length).toBe(2);
         });
 
         test("invalid uri error", async function () {
