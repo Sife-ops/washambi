@@ -1,0 +1,38 @@
+<div class="m-4">
+  <h1 class="text-xl font-bold">create bookmark</h1>
+
+  <div
+    id="bookmark-create-error"
+    class="p-1 outline outline-1 outline-red-500 bg-red-900"
+    style="display: none"
+  ></div>
+
+  <form hx-post="/bookmark-create" hx-target="this" hx-swap="none">
+    <label for="description">Description:</label><br />
+    <input id="description" name="description" type="text" required /><br />
+
+    <label for="url">Url:</label><br />
+    <input id="url" name="url" type="url" required /><br />
+
+    <a href="/temp">go back</a>
+    <button type="submit">submit</button>
+  </form>
+</div>
+
+<script>
+  document.body.addEventListener("bookmark-create-error", function (event) {
+    // let id = "";
+    // if (event.detail.status === "success") {
+    //   id = "domain-create-success";
+    //   document.getElementById(id).style.display = "block";
+    // } else {
+    const id = "bookmark-create-error";
+    document.getElementById(id).innerHTML = `🚫 ${event.detail.value}`;
+    document.getElementById(id).style.display = "block";
+    // }
+
+    setTimeout(function () {
+      document.getElementById(id).style.display = "none";
+    }, 5000);
+  });
+</script>

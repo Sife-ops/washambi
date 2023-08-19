@@ -30,7 +30,9 @@ router.use(function (req, res, next) {
 // views
 router.get("/temp", views.temp);
 router.get("/domain/:domain", views.domain);
+router.get("/bookmark-create", views.bookmarkCreate);
 
 // ajax
 router.post("/domain-create", ajax.domainCreate);
+router.post("/bookmark-create", ajax.bookmarkCreate);
 // router.post("/domain-delete/:domain", ajax.domainDelete); // todo: not very useful

@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input:invalid {
+    outline: 5px solid red;
+}
+
+form:invalid > #submit {
+    pointer-events: none;
+}

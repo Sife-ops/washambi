@@ -28,6 +28,7 @@ function bookmarkFromDb(b) {
     return bookmark;
 }
 
+// todo: tags
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.BookmarkCreateRequest, shishamo_pb.BookmarkCreateResponse>} */
 export async function bookmarkCreate(call, callback) {
     try {

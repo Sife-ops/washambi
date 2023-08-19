@@ -534,16 +534,8 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
-.m-1 {
-  margin: 0.25rem;
-}
-
 .m-4 {
   margin: 1rem;
-}
-
-.mb-4 {
-  margin-bottom: 1rem;
 }
 
 .block {
@@ -554,16 +546,8 @@ video {
   display: flex;
 }
 
-.table {
-  display: table;
-}
-
 .grid {
   display: grid;
-}
-
-.hidden {
-  display: none;
 }
 
 .w-1\/2 {
@@ -606,12 +590,12 @@ video {
   background-color: rgb(127 29 29 / var(--tw-bg-opacity));
 }
 
-.p-3 {
-  padding: 0.75rem;
-}
-
 .p-1 {
   padding: 0.25rem;
+}
+
+.p-3 {
+  padding: 0.75rem;
 }
 
 .p-4 {
@@ -640,6 +624,10 @@ video {
   outline-width: 1px;
 }
 
+.outline-blue-500 {
+  outline-color: #3b82f6;
+}
+
 .outline-green-500 {
   outline-color: #22c55e;
 }
@@ -648,6 +636,10 @@ video {
   outline-color: #ef4444;
 }
 
-.outline-blue-500 {
-  outline-color: #3b82f6;
+input:invalid {
+  outline: 5px solid red;
+}
+
+form:invalid > #submit {
+  pointer-events: none;
 }
