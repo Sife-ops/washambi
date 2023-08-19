@@ -13,6 +13,7 @@ export async function domain(req, res) {
             pageName: "domain",
             options: {
                 domain: rpcRes.getDomain().toObject(),
+                bookmarks: rpcRes.getBookmarksList().map(x => x.toObject()),
             },
         });
     } catch (e) {

@@ -1,11 +1,16 @@
-<h1><%= domain.name %></h1>
+<div class="m-4">
+  <h1><%= domain.name %></h1>
 
-<!-- <button
-  class="outline outline-1 outline-red-500"
-  hx-post="/domain-delete/<%= domain.id %>"
-  hx-confirm="Are you sure?"
-  hx-target="this"
-  hx-swap="none"
->
-  delete
-</button> -->
+  <div id="bookmark-list" class="grid gap-4 grid-cols-3">
+    <!-- todo: use include -->
+    <% bookmarks.forEach(x => { %>
+    <a
+      href="/bookmark/<%= x.id %>"
+      class="outline outline-1 outline-blue-500 p-4"
+    >
+      <div><%= x.description %></div>
+      <div><%= x.url %></div>
+    </a>
+    <% }); %>
+  </div>
+</div>

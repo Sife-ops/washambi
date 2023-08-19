@@ -83,28 +83,6 @@ function deserialize_shishamo_v1_BookmarkGetAllResponse(buffer_arg) {
   return shishamo_v1_shishamo_pb.BookmarkGetAllResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_shishamo_v1_BookmarkGetForDomainRequest(arg) {
-  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest)) {
-    throw new Error('Expected argument of type shishamo.v1.BookmarkGetForDomainRequest');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_shishamo_v1_BookmarkGetForDomainRequest(buffer_arg) {
-  return shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_shishamo_v1_BookmarkGetForDomainResponse(arg) {
-  if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse)) {
-    throw new Error('Expected argument of type shishamo.v1.BookmarkGetForDomainResponse');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_shishamo_v1_BookmarkGetForDomainResponse(buffer_arg) {
-  return shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
 function serialize_shishamo_v1_BookmarkGetOneRequest(arg) {
   if (!(arg instanceof shishamo_v1_shishamo_pb.BookmarkGetOneRequest)) {
     throw new Error('Expected argument of type shishamo.v1.BookmarkGetOneRequest');
@@ -525,17 +503,6 @@ userGetToken: {
     requestDeserialize: deserialize_shishamo_v1_BookmarkGetAllRequest,
     responseSerialize: serialize_shishamo_v1_BookmarkGetAllResponse,
     responseDeserialize: deserialize_shishamo_v1_BookmarkGetAllResponse,
-  },
-  bookmarkGetDomain: {
-    path: '/shishamo.v1.Shishamo/BookmarkGetDomain',
-    requestStream: false,
-    responseStream: false,
-    requestType: shishamo_v1_shishamo_pb.BookmarkGetForDomainRequest,
-    responseType: shishamo_v1_shishamo_pb.BookmarkGetForDomainResponse,
-    requestSerialize: serialize_shishamo_v1_BookmarkGetForDomainRequest,
-    requestDeserialize: deserialize_shishamo_v1_BookmarkGetForDomainRequest,
-    responseSerialize: serialize_shishamo_v1_BookmarkGetForDomainResponse,
-    responseDeserialize: deserialize_shishamo_v1_BookmarkGetForDomainResponse,
   },
   bookmarkGetOne: {
     path: '/shishamo.v1.Shishamo/BookmarkGetOne',

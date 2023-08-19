@@ -5,28 +5,9 @@ import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import { db } from "../../db/connection.js";
 import { DuplicateBookmarkError, ParseDomainError, toRpcError } from "../../error/rpc.js";
 import { testingClient } from "../../rpc/client.js";
+import { bookmarkFromDb } from "./_from.js";
 import { clearTestUser, createTestUser, testBookmarkTemplate } from "./_test.js";
 const { Timestamp } = timestamp_pb;
-
-/**
- * @param {import("kysely").Selectable<import("@db/db.d.ts").NulandBookmark>} b
- * @returns {shishamo_pb.Bookmark}
- */
-function bookmarkFromDb(b) {
-    const bookmark = new shishamo_pb.Bookmark();
-
-    bookmark.setId(b.id);
-    bookmark.setUserId(b.user_id);
-    bookmark.setDomainId(b.domain_id);
-    bookmark.setDescription(b.description);
-    bookmark.setUrl(b.url);
-    bookmark.setCreatedAt(Timestamp.fromDate(b.created_at));
-    if (b.deleted_at) {
-        bookmark.setDeletedAt(Timestamp.fromDate(b.deleted_at));
-    }
-
-    return bookmark;
-}
 
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.BookmarkCreateRequest, shishamo_pb.BookmarkCreateResponse>} */
 export async function bookmarkCreate(call, callback) {
@@ -80,12 +61,13 @@ export async function bookmarkCreate(call, callback) {
                     url: call.request.getUrl(),
                 })
                 .returningAll()
-                .executeTakeFirst();
+                .executeTakeFirstOrThrow();
 
             if (call.request.getTagsList().length > 0) {
                 const tags = await trx
                     .selectFrom("nuland.tag")
                     .where("name", "in", call.request.getTagsList())
+                    .where("user_id", "=", call.request.getUserId())
                     .selectAll()
                     .execute();
 
@@ -197,4 +179,3 @@ if (import.meta.vitest) {
         });
     });
 }
-

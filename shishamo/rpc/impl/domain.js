@@ -5,26 +5,9 @@ import shishamo_pb from "washambi-rpc/shishamo/v1/shishamo_pb.js";
 import { db } from "../../db/connection.js";
 import { DuplicateDomainError, toRpcError } from "../../error/rpc.js";
 import { testingClient } from "../../rpc/client.js";
+import { bookmarkFromDb, domainFromDb } from "./_from.js";
 import { clearTestUser, createTestDomain, createTestUser, testDomainTemplate } from "./_test.js";
 const { Timestamp } = timestamp_pb;
-
-/**
- * @param {import("kysely").Selectable<import("@db/db.d.ts").NulandDomain>} d
- * @returns {shishamo_pb.Domain}
- */
-function domainFromDb(d) {
-    const domain = new shishamo_pb.Domain();
-
-    domain.setId(d.id);
-    domain.setUserId(d.user_id);
-    domain.setName(d.name);
-    domain.setCreatedAt(Timestamp.fromDate(d.created_at));
-    if (d.deleted_at) {
-        domain.setDeletedAt(Timestamp.fromDate(d.deleted_at));
-    }
-
-    return domain;
-}
 
 /** @type {import("@grpc/grpc-js").handleUnaryCall<shishamo_pb.DomainCreateRequest, shishamo_pb.DomainCreateResponse>} */
 export async function domainCreate(call, callback) {
@@ -189,11 +172,20 @@ export async function domainGetOne(call, callback) {
         const d = await db
             .selectFrom("nuland.domain")
             .where("id", "=", call.request.getId())
+            // .where("user_id", "=", call.request.get)
             .selectAll()
             .executeTakeFirstOrThrow();
 
+        // todo: join
+        const b = await db
+            .selectFrom("nuland.bookmark")
+            .where("domain_id", "=", call.request.getId())
+            .selectAll()
+            .execute();
+
         const r = new shishamo_pb.DomainGetOneResponse();
         r.setDomain(domainFromDb(d));
+        r.setBookmarksList(b.map(x => bookmarkFromDb(x)))
 
         callback(null, r);
     } catch (e) {

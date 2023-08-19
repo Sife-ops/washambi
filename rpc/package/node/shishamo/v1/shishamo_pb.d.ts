@@ -437,6 +437,11 @@ export class DomainGetOneResponse extends jspb.Message {
   getDomain(): Domain | undefined;
   setDomain(value?: Domain): void;
 
+  clearBookmarksList(): void;
+  getBookmarksList(): Array<Bookmark>;
+  setBookmarksList(value: Array<Bookmark>): void;
+  addBookmarks(value?: Bookmark, index?: number): Bookmark;
+
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): DomainGetOneResponse.AsObject;
   static toObject(includeInstance: boolean, msg: DomainGetOneResponse): DomainGetOneResponse.AsObject;
@@ -450,6 +455,7 @@ export class DomainGetOneResponse extends jspb.Message {
 export namespace DomainGetOneResponse {
   export type AsObject = {
     domain?: Domain.AsObject,
+    bookmarksList: Array<Bookmark.AsObject>,
   }
 }
 
@@ -682,48 +688,6 @@ export class BookmarkGetAllResponse extends jspb.Message {
 }
 
 export namespace BookmarkGetAllResponse {
-  export type AsObject = {
-    bookmarksList: Array<Bookmark.AsObject>,
-  }
-}
-
-export class BookmarkGetForDomainRequest extends jspb.Message {
-  getUserId(): string;
-  setUserId(value: string): void;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BookmarkGetForDomainRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: BookmarkGetForDomainRequest): BookmarkGetForDomainRequest.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: BookmarkGetForDomainRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BookmarkGetForDomainRequest;
-  static deserializeBinaryFromReader(message: BookmarkGetForDomainRequest, reader: jspb.BinaryReader): BookmarkGetForDomainRequest;
-}
-
-export namespace BookmarkGetForDomainRequest {
-  export type AsObject = {
-    userId: string,
-  }
-}
-
-export class BookmarkGetForDomainResponse extends jspb.Message {
-  clearBookmarksList(): void;
-  getBookmarksList(): Array<Bookmark>;
-  setBookmarksList(value: Array<Bookmark>): void;
-  addBookmarks(value?: Bookmark, index?: number): Bookmark;
-
-  serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): BookmarkGetForDomainResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: BookmarkGetForDomainResponse): BookmarkGetForDomainResponse.AsObject;
-  static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
-  static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
-  static serializeBinaryToWriter(message: BookmarkGetForDomainResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): BookmarkGetForDomainResponse;
-  static deserializeBinaryFromReader(message: BookmarkGetForDomainResponse, reader: jspb.BinaryReader): BookmarkGetForDomainResponse;
-}
-
-export namespace BookmarkGetForDomainResponse {
   export type AsObject = {
     bookmarksList: Array<Bookmark.AsObject>,
   }

@@ -8,7 +8,7 @@ export async function bookmarkCreate(req, res) {
         rpcReq.setUserId(req.signedCookies.id);
         rpcReq.setDescription(req.body.description);
         rpcReq.setUrl(req.body.url);
-        rpcReq.setTagsList(req.body.tags.split(" "))
+        rpcReq.setTagsList(req.body.tags.split(" ").filter(x => x !== ""))
         await rpc.promise.bookmarkCreate(rpcReq);
         // console.log(rpcRes.getBookmark().toObject())
 
@@ -25,7 +25,7 @@ export async function bookmarkCreate(req, res) {
             message = "invalid input";
         } else {
             console.log(e);
-            message = "unknown error";
+            message = e.message;
         }
 
         res
