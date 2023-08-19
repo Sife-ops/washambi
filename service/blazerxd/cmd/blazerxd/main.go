@@ -3,12 +3,10 @@ package main
 
 import (
     "fmt"
-	"washambi-rpc/asdf"
 	"washambi-rpc/shishamo/v1"
 )
 
 func main() {
-    asdf.YeahBro()
     u := shishamo.User{
         Email: "lol",
     }

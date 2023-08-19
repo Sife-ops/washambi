@@ -28,13 +28,13 @@
   "dependencies": {
     "commander": "^11.0.0",
     "deepmerge": "^4.3.1",
-    "grpc-js-wrapper": "file:../rpc/package/grpc-js-wrapper/grpc-js-wrapper-1.0.0.tgz",
+    "grpc-js-wrapper": "file:../../rpc/package/grpc-js-wrapper/grpc-js-wrapper-1.0.0.tgz",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
     "kysely": "^0.26.1",
     "pg": "^8.11.2",
     "tldjs": "^2.3.1",
-    "washambi-rpc": "file:../rpc/package/node/washambi-rpc-1.0.0.tgz",
+    "washambi-rpc": "file:../../rpc/package/node/washambi-rpc-1.0.0.tgz",
     "winston": "^3.10.0"
   }
 }
