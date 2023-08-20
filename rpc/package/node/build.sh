@@ -17,7 +17,8 @@ $PROTOC_BIN \
     --ts_out=service=grpc-node,mode=grpc-js:${OUT} \
     --proto_path ${IN} \
     ${IN}/shishamo/v1/*.proto \
-    ${IN}/foo/v1/*.proto
+    ${IN}/foo/v1/*.proto \
+    ${IN}/blazerxd/v1/*.proto
     # ${IN}/*.proto \
 
 # $PROTOC \

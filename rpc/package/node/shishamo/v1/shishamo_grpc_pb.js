@@ -359,6 +359,7 @@ function deserialize_shishamo_v1_UserVerifyTokenResponse(buffer_arg) {
 }
 
 
+// todo: user_id in all requests?
 var ShishamoService = exports.ShishamoService = {
   userCreate: {
     path: '/shishamo.v1.Shishamo/UserCreate',

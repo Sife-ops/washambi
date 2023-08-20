@@ -1,0 +1,54 @@
+syntax = "proto3";
+
+option go_package = "washambi-rpc/blazerxd";
+
+package blazerxd.v1;
+
+import "google/protobuf/timestamp.proto";
+// import "google/protobuf/empty.proto";
+
+service Blazerxd {
+  rpc Create(CreateRequest) returns (CreateResponse);
+  rpc Get(GetRequest) returns (GetResponse);
+
+  // todo: UserDelete
+  // rpc UserChangePassword(UserChangePasswordRequest)
+  //     returns (UserChangePasswordResponse);
+  // rpc UserPurge(UserPurgeRequest) returns (google.protobuf.Empty);
+}
+
+//
+// User
+//
+
+message User {
+  string id = 1;
+  string email = 2;
+  string password = 3;
+  google.protobuf.Timestamp created_at = 4;
+  google.protobuf.Timestamp deleted_at = 5;
+}
+
+// create
+message CreateRequest {
+  string email = 1;
+  string password = 2;
+}
+
+message CreateResponse { User user = 1; }
+
+// get one
+message GetRequest { string email = 1; }
+message GetResponse { User user = 1; }
+
+// // change password
+// message UserChangePasswordRequest {
+//   string id = 1;
+//   string password = 2;
+// }
+
+// message UserChangePasswordResponse { User user = 1; }
+
+// purge
+// message UserPurgeRequest { string id = 1; }
+
