@@ -29,17 +29,16 @@ func fromDbUser(u *zm.User) *blazerxd_pb.User {
 	}
 }
 
-func (s *BlazerxdServer) Create(ctx context.Context, call *blazerxd_pb.CreateRequest) (*blazerxd_pb.CreateResponse, error) {
+func (s *Server) Create(ctx context.Context, call *blazerxd_pb.CreateRequest) (*blazerxd_pb.CreateResponse, error) {
     // todo: insert
 	stmt := SELECT(zt.User.ID, zt.User.Email).FROM(zt.User)
 	var u []struct {
 		zm.User
 	}
 	stmt.Query(s.Db, &u)
-	f := u[0]
 	// spew.Dump(u)
 
 	return &blazerxd_pb.CreateResponse{
-		User: fromDbUser(&f.User),
+		User: fromDbUser(&u[0].User),
 	}, nil
 }

@@ -8,7 +8,7 @@ import (
 	_ "github.com/jackc/pgx/v5/stdlib"
 )
 
-type BlazerxdServer struct {
+type Server struct {
 	Db *sql.DB
 	blazerxd_pb.UnimplementedBlazerxdServer
 }

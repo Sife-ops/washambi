@@ -27,9 +27,9 @@ func main() {
 
 	grpcServer := grpc.NewServer()
 	defer grpcServer.Stop()
-	blazerxd_pb.RegisterBlazerxdServer(grpcServer, &rpc.BlazerxdServer{Db: connection})
+	blazerxd_pb.RegisterBlazerxdServer(grpcServer, &rpc.Server{Db: connection})
 
 	if e := grpcServer.Serve(listener); e != nil {
-		log.Fatalf("server err: %v", e)
+		log.Fatalf("grpc err: %v", e)
 	}
 }
