@@ -28,7 +28,7 @@
   "dependencies": {
     "commander": "^11.0.0",
     "deepmerge": "^4.3.1",
-    "grpc-js-wrapper": "file:../../rpc/package/grpc-js-wrapper/grpc-js-wrapper-1.0.0.tgz",
+    "node-grpc-wrapper": "file:../../rpc/package/node-grpc-wrapper/node-grpc-wrapper-1.0.0.tgz",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.1",
     "kysely": "^0.26.1",

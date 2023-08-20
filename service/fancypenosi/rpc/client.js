@@ -1,5 +1,5 @@
 import shishamo_grpc_pb from "washambi-rpc/shishamo/v1/shishamo_grpc_pb.js";
-import { ClientWrapper } from "grpc-js-wrapper";
+import { ClientWrapper } from "node-grpc-wrapper";
 import { credentials } from "@grpc/grpc-js";
 
 /** @type {ClientWrapper<shishamo_grpc_pb.ShishamoClient>} */

@@ -1,5 +1,5 @@
 import shishamo_grpc_pb from "washambi-rpc/shishamo/v1/shishamo_grpc_pb.js";
-import { ClientWrapper } from "grpc-js-wrapper";
+import { ClientWrapper } from "node-grpc-wrapper";
 
 declare class TestingClient<C> {
     client: C;

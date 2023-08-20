@@ -1,12 +1,12 @@
 import shishamo_grpc_pb from "washambi-rpc/shishamo/v1/shishamo_grpc_pb.js";
-import { ClientWrapper } from "grpc-js-wrapper";
+import { ClientWrapper } from "node-grpc-wrapper";
 import { credentials } from "@grpc/grpc-js";
 
 class TestingClient {
-    /** @type {import("grpc-js-wrapper").ClientWrapper<shishamo_grpc_pb.ShishamoClient>} */
+    /** @type {import("node-grpc-wrapper").ClientWrapper<shishamo_grpc_pb.ShishamoClient>} */
     client;
 
-    /** @returns {import("grpc-js-wrapper").ClientWrapper<shishamo_grpc_pb.ShishamoClient>} */
+    /** @returns {import("node-grpc-wrapper").ClientWrapper<shishamo_grpc_pb.ShishamoClient>} */
     get() {
         if (!this.client) {
             this.client = new ClientWrapper(
