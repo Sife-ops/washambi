@@ -1,11 +1,12 @@
-package sql
+package db
 
 import (
 	"database/sql"
 	"fmt"
 )
 
-func PostgresConnection() *sql.DB {
+func PostgresConnection() (*sql.DB, error) {
+    // todo: env vars
 	cs := fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s sslmode=disable",
 		"localhost",
 		5432,
@@ -14,10 +15,11 @@ func PostgresConnection() *sql.DB {
 		"washambi",
 	)
 
+    // todo: c.Close()?
 	c, e := sql.Open("pgx", cs)
 	if e != nil {
-		panic(e)
+		return nil, e
 	}
 
-	return c
+	return c, nil
 }

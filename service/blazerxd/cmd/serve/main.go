@@ -7,7 +7,6 @@ import (
 	"net"
 
 	"blazerxd/rpc"
-	"blazerxd/sql"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -15,21 +14,20 @@ import (
 )
 
 func main() {
-	// sql
-	connection := sql.PostgresConnection()
-	defer connection.Close()
-
-	// rpc
 	listener, e := net.Listen("tcp", ":50051")
 	if e != nil {
 		log.Fatalf("listen err: %v", e)
 	}
+    defer listener.Close()
 
 	grpcServer := grpc.NewServer()
 	defer grpcServer.Stop()
-	blazerxd_pb.RegisterBlazerxdServer(grpcServer, &rpc.Server{Db: connection})
+    serverImpl, e := rpc.NewServerImpl()
+	blazerxd_pb.RegisterBlazerxdServer(grpcServer, serverImpl)
 
 	if e := grpcServer.Serve(listener); e != nil {
 		log.Fatalf("grpc err: %v", e)
 	}
+
+    // todo: output something
 }
