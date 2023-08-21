@@ -2,13 +2,14 @@ package rpc
 
 import (
 	"context"
+	"strings"
 
 	zm "blazerxd/db/zoomers/model"
 	zt "blazerxd/db/zoomers/table"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 
-	// "github.com/davecgh/go-spew/spew"
-	// . "github.com/go-jet/jet/v2/postgres"
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -36,11 +37,13 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 		RETURNING(zt.User.AllColumns)
 
 	u := []zm.User{}
-    e := stmt.Query(s.Db, &u)
-    if e != nil {
-        return nil, e
-    }
-	// spew.Dump(u)
+	e := stmt.Query(s.Db, &u)
+	if e != nil {
+		if strings.Contains(e.Error(), "23505") {
+			return nil, status.Error(codes.AlreadyExists, e.Error())
+		}
+		return nil, e
+	}
 
 	return &blazerxd_pb.CreateResponse{
 		User: fromDbUser(&u[0]),
