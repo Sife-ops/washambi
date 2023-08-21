@@ -10,52 +10,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
+    "fancypenosi/web"
 )
-
-////////////////////////
-
-type Ligma struct {
-	*chi.Mux
-	blazerxd_pb.BlazerxdClient
-}
-
-func (l Ligma) Foo(w http.ResponseWriter, r *http.Request) {
-	// todo: write
-}
-
-func NewLigma(b blazerxd_pb.BlazerxdClient) Ligma {
-	l := Ligma{
-		chi.NewMux(),
-		b,
-	}
-
-	l.Mux.Get("/foo", l.Foo)
-
-	return l
-}
-
-////////////////////////
-
-type Deez struct {
-	*chi.Mux
-	blazerxd_pb.BlazerxdClient
-}
-
-func (d *Deez) Bar(w http.ResponseWriter, r *http.Request) {
-	// todo: write
-}
-
-func NewDeez(b blazerxd_pb.BlazerxdClient) Deez {
-	d := Deez{
-		chi.NewMux(),
-		b,
-	}
-
-	d.Mux.Mount("/lmao", NewLigma(b))
-	d.Mux.Get("/bar", d.Bar)
-
-	return d
-}
 
 ////////////////////////
 
@@ -64,9 +20,30 @@ type Router struct {
 	blazerxd_pb.BlazerxdClient
 }
 
+////////////////////////
+
+func (ro Router) FooIndex(w http.ResponseWriter, r *http.Request) {
+	// t, _ := template.New("").Parse("<div>{{.}}</div>")
+	// t.Execute(w, "foo!!!")
+    web.Foo(w)
+}
+
+func NewFooRouter(b blazerxd_pb.BlazerxdClient) Router {
+    r := Router{
+        chi.NewMux(),
+        b,
+    }
+
+    r.Mux.Get("/", r.FooIndex)
+
+    return r
+}
+
+////////////////////////
+
 func (ro Router) Index(w http.ResponseWriter, r *http.Request) {
 	t, _ := template.New("").Parse("<div>{{.}}</div>")
-	t.Execute(w, "yep???")
+	t.Execute(w, "index!!!")
 }
 
 func NewRouter(b blazerxd_pb.BlazerxdClient) Router {
@@ -75,7 +52,7 @@ func NewRouter(b blazerxd_pb.BlazerxdClient) Router {
 		b,
 	}
 
-	// r.Mux.Mount("/lmao", NewLigma(b))
+	r.Mux.Mount("/foo", NewFooRouter(b))
 	r.Mux.Get("/", r.Index)
 
 	return r
@@ -92,12 +69,11 @@ func main() {
 	}
 	g := blazerxd_pb.NewBlazerxdClient(c)
 
-	//
+	// http
 	s := http.Server{
 		Addr:    ":3000",
 		Handler: NewRouter(g),
 	}
-	// if e := http.ListenAndServe(":3000", NewRouter(g)); e != http.ErrServerClosed {
 	if e := s.ListenAndServe(); e != http.ErrServerClosed {
 		log.Fatalf("http error: %v", e)
 	}
