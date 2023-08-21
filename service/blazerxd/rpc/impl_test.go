@@ -30,14 +30,24 @@ func TestMain(m *testing.M) {
 }
 
 // move to package test
-var testCreateRequest = blazerxd_pb.CreateRequest{
+var testUser = blazerxd_pb.User{
 	Email:    "blazer@xd.com",
 	Password: "blazerxd",
 }
 
 // move to package test
+func createTestUser() error {
+	stmt := zt.User.
+		INSERT(zt.User.Email, zt.User.Password).
+		VALUES(testUser.Email, testUser.Password).
+		RETURNING(zt.User.AllColumns)
+	_, e := stmt.Exec(testClients.Db)
+	return e
+}
+
+// move to package test
 func deleteTestUser() {
-	stmt := zt.User.DELETE().WHERE(zt.User.Email.EQ(String(testCreateRequest.Email)))
+	stmt := zt.User.DELETE().WHERE(zt.User.Email.EQ(String(testUser.Email)))
 	stmt.Exec(testClients.Db)
 }
 
@@ -53,32 +63,66 @@ func Test_Create_Success(t *testing.T) {
 	beforeEach()
 	defer afterEach()
 
-	r, e := testClients.Grpc.Create(context.TODO(), &testCreateRequest)
+	_, e := testClients.Grpc.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+		Email:    testUser.Email,
+		Password: testUser.Password,
+	})
 	if e != nil {
 		t.Fatal(e)
 	}
 
-	t.Log(r)
+	// t.Log(r)
 }
 
 func Test_Create_DuplicateUserError(t *testing.T) {
 	beforeEach()
-	defer afterEach()
-
-	stmt := zt.User.
-		INSERT(zt.User.Email, zt.User.Password).
-		VALUES(testCreateRequest.Email, testCreateRequest.Password).
-		RETURNING(zt.User.AllColumns)
-	if _, e := stmt.Exec(testClients.Db); e != nil {
+	if e := createTestUser(); e != nil {
 		t.Fatal(e)
 	}
+	defer afterEach()
 
-	_, e := testClients.Grpc.Create(context.TODO(), &testCreateRequest)
+	_, e := testClients.Grpc.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+		Email:    testUser.Email,
+		Password: testUser.Password,
+	})
 	if e != nil {
 		if !strings.Contains(e.Error(), "AlreadyExists") {
 			t.Fatal(e)
 		}
 	} else {
 		t.FailNow()
+	}
+}
+
+func Test_Get_Success(t *testing.T) {
+	beforeEach()
+	if e := createTestUser(); e != nil {
+		t.Fatal(e)
+	}
+	defer afterEach()
+
+	_, e := testClients.Grpc.Get(context.TODO(), &blazerxd_pb.GetRequest{
+		Email: testUser.Email,
+	})
+	if e != nil {
+		t.Fatal(e)
+	}
+
+	// t.Log(r)
+}
+
+func Test_Get_UserNotFoundError(t *testing.T) {
+	beforeEach()
+	defer afterEach()
+
+	_, e := testClients.Grpc.Get(context.TODO(), &blazerxd_pb.GetRequest{
+		Email: testUser.Email,
+	})
+	if e != nil {
+		if !strings.Contains(e.Error(), "NotFound") {
+			t.Fatal(e)
+		}
+	} else {
+		t.Fatal(e)
 	}
 }
