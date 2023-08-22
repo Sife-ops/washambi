@@ -6,7 +6,6 @@ package router
 import (
 	"net/http"
     "os"
-    // "log"
     "path/filepath"
 
 	"github.com/go-chi/chi"
@@ -30,6 +29,7 @@ func NewRouter(b blazerxd_pb.BlazerxdClient) Router {
 	r.Mux.Mount("/", page.NewPageRouter(b))
 	r.Mux.Mount("/ajax", ajax.NewAjaxRouter(b))
 
+    // todo: use embed
     wd, _ := os.Getwd()
     r.Mux.Handle("/public/*", http.StripPrefix(
         "/public/",

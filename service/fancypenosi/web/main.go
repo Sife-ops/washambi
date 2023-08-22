@@ -21,13 +21,18 @@ var funcs = template.FuncMap{
 }
 
 func parse(f string) *template.Template {
-	return template.Must(template.New("page.html").Funcs(funcs).ParseFS(files, "page.html", f))
+	return template.Must(template.New("page.html").Funcs(funcs).ParseFS(files, "page/page.html", f))
 }
 
 var (
-	foo = parse("foo.html")
+	foo = parse("page/foo.html")
+    SignUp = parse("page/sign-up.html")
 )
 
 func Foo(w io.Writer) error {
 	return foo.Execute(w, nil)
 }
+
+// func SignUp(w io.Writer) error {
+//     return signUp.Execute(w, nil)
+// }
