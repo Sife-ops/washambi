@@ -17,7 +17,7 @@ func NewAjaxRouter(b blazerxd_pb.BlazerxdClient) AjaxRouter {
 		b,
 	}
 
-	// r.Mux.Get("/sign-up", r.SignUp)
+	r.Mux.Post("/sign-up", r.SignUp)
 	// r.Mux.Get("/sign-in", r.SignIn)
 
 	return r

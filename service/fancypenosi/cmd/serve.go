@@ -1,24 +1,20 @@
 package main
 
 import (
-	// "html/template"
 	"log"
 	"net/http"
 
-	// "github.com/go-chi/chi"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
+	"fancypenosi/router"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
-    // "fancypenosi/web"
-    "fancypenosi/router"
 )
 
 func main() {
 	// rpc
 	c, e := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if e != nil {
-		// return nil, e
 		log.Fatalf("dial err: %v", e)
 	}
 	g := blazerxd_pb.NewBlazerxdClient(c)
