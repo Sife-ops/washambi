@@ -13,7 +13,10 @@ import (
 
 func main() {
 	// rpc
-	c, e := grpc.Dial("localhost:50051", grpc.WithTransportCredentials(insecure.NewCredentials()))
+	c, e := grpc.Dial(
+        "localhost:50051", 
+        grpc.WithTransportCredentials(insecure.NewCredentials()),
+    )
 	if e != nil {
 		log.Fatalf("dial err: %v", e)
 	}
