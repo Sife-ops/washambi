@@ -4,14 +4,14 @@
 package router
 
 import (
-	"net/http"
-    "os"
-    "path/filepath"
+	// "io/fs"
+	// "net/http"
 
 	"github.com/go-chi/chi"
 
 	"fancypenosi/router/ajax"
 	"fancypenosi/router/page"
+	"fancypenosi/web"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 )
 
@@ -29,13 +29,7 @@ func NewRouter(b blazerxd_pb.BlazerxdClient) Router {
 	r.Mux.Mount("/", page.NewPageRouter(b))
 	r.Mux.Mount("/ajax", ajax.NewAjaxRouter(b))
 
-    // todo: use embed
-    wd, _ := os.Getwd()
-    r.Mux.Handle("/public/*", http.StripPrefix(
-        "/public/",
-        http.FileServer(http.Dir(filepath.Join(wd, "/web/public"))),
-    ))
+    web.ServeStatic(r.Mux)
 
 	return r
 }
-

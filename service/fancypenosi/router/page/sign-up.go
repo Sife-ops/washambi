@@ -1,7 +1,6 @@
 package page
 
 import (
-	// "html/template"
 	"net/http"
     "fancypenosi/web"
 )

@@ -1,6 +1,7 @@
 // sources:
 // https://philipptanlak.com/web-frontends-in-go/#rendering-html-with-go
 // https://github.com/philippta/web-frontend-demo/blob/master/html/html.go
+// https://old.reddit.com/r/golang/comments/mpdam2/problems_serving_static_files_using/gua4s74/
 
 package web
 
@@ -8,10 +9,14 @@ import (
 	"embed"
 	"html/template"
 	"io"
+	"io/fs"
+	"net/http"
 	"strings"
+
+	"github.com/go-chi/chi"
 )
 
-//go:embed *
+//go:embed page static
 var files embed.FS
 
 var funcs = template.FuncMap{
@@ -25,9 +30,14 @@ func parse(f string) *template.Template {
 }
 
 var (
-	foo = parse("page/foo.html")
-    SignUp = parse("page/sign-up.html")
+	foo    = parse("page/foo.html")
+	SignUp = parse("page/sign-up.html")
 )
+
+func ServeStatic(h *chi.Mux) {
+	sub, _ := fs.Sub(files, "static")
+	h.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.FS(sub))))
+}
 
 func Foo(w io.Writer) error {
 	return foo.Execute(w, nil)
