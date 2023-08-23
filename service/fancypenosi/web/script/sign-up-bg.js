@@ -1,4 +1,3 @@
-// @ts-ignore
 import * as THREE from "three";
 
 function main() {
@@ -38,6 +37,10 @@ function main() {
 
     ////////////////////////////////////////////////////////////////////////////////
 
+    /** 
+     * @param {THREE.WebGLRenderer} renderer 
+     * @returns {boolean}
+     */
     function resizeRendererToDisplaySize(renderer) {
         const canvas = renderer.domElement;
         const width = canvas.clientWidth;
@@ -50,6 +53,7 @@ function main() {
         return needResize;
     }
 
+    /** @type {FrameRequestCallback} */
     function render(time) {
         time *= 0.001;  // convert time to seconds
 
