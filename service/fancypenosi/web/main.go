@@ -8,11 +8,10 @@ package web
 import (
 	"embed"
 	"html/template"
-	"io"
 	"strings"
 )
 
-//go:embed page static script
+//go:embed page static script pkg
 var Embed embed.FS
 
 var funcs = template.FuncMap{
@@ -21,18 +20,18 @@ var funcs = template.FuncMap{
 	},
 }
 
-func parse(f string) *template.Template {
+func wrapPage(f string) *template.Template {
 	return template.Must(template.New("page.html").Funcs(funcs).ParseFS(Embed, "page/page.html", f))
 }
 
 var (
-	foo    = parse("page/foo.html")
-	SignUp = parse("page/sign-up.html")
+	Foo    = wrapPage("page/foo.html")
+	SignUp = wrapPage("page/sign-up.html")
 )
 
-func Foo(w io.Writer) error {
-	return foo.Execute(w, nil)
-}
+// func Foo(w io.Writer) error {
+// 	return foo.Execute(w, nil)
+// }
 
 // func SignUp(w io.Writer) error {
 //     return signUp.Execute(w, nil)

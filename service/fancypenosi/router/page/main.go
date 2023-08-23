@@ -18,7 +18,7 @@ func NewPageRouter(b blazerxd_pb.BlazerxdClient) *PageRouter {
 	}
 
 	r.Mux.Get("/sign-up", r.SignUp)
-	// r.Mux.Get("/sign-in", r.SignIn)
+	r.Mux.Get("/foo", r.Foo)
 
 	return &r
 }

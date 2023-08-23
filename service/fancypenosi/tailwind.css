@@ -2,13 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
-/* input:valid {
-    border: 2px solid green;
-} */
-
-/* input:valid ~ p {
-    display: none;
+html, body {
+    height: 100%;
+    margin: 0;
 }
-input:invalid ~ p {
-    display: block;
-} */
+
+#bg-canvas {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    border: none;
+    pointer-events: none;
+}
