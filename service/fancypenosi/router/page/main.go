@@ -11,7 +11,7 @@ type PageRouter struct {
 	blazerxd_pb.BlazerxdClient
 }
 
-func NewPageRouter(b blazerxd_pb.BlazerxdClient) PageRouter {
+func NewPageRouter(b blazerxd_pb.BlazerxdClient) *PageRouter {
 	r := PageRouter{
 		chi.NewMux(),
 		b,
@@ -20,5 +20,5 @@ func NewPageRouter(b blazerxd_pb.BlazerxdClient) PageRouter {
 	r.Mux.Get("/sign-up", r.SignUp)
 	// r.Mux.Get("/sign-in", r.SignIn)
 
-	return r
+	return &r
 }

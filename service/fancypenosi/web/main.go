@@ -9,15 +9,11 @@ import (
 	"embed"
 	"html/template"
 	"io"
-	"io/fs"
-	"net/http"
 	"strings"
-
-	"github.com/go-chi/chi"
 )
 
 //go:embed page static
-var files embed.FS
+var Embed embed.FS
 
 var funcs = template.FuncMap{
 	"uppercase": func(s string) string {
@@ -26,18 +22,13 @@ var funcs = template.FuncMap{
 }
 
 func parse(f string) *template.Template {
-	return template.Must(template.New("page.html").Funcs(funcs).ParseFS(files, "page/page.html", f))
+	return template.Must(template.New("page.html").Funcs(funcs).ParseFS(Embed, "page/page.html", f))
 }
 
 var (
 	foo    = parse("page/foo.html")
 	SignUp = parse("page/sign-up.html")
 )
-
-func ServeStatic(h *chi.Mux) {
-	sub, _ := fs.Sub(files, "static")
-	h.Handle("/static/*", http.StripPrefix("/static/", http.FileServer(http.FS(sub))))
-}
 
 func Foo(w io.Writer) error {
 	return foo.Execute(w, nil)

@@ -11,7 +11,7 @@ type AjaxRouter struct {
 	blazerxd_pb.BlazerxdClient
 }
 
-func NewAjaxRouter(b blazerxd_pb.BlazerxdClient) AjaxRouter {
+func NewAjaxRouter(b blazerxd_pb.BlazerxdClient) *AjaxRouter {
 	r := AjaxRouter{
 		chi.NewMux(),
 		b,
@@ -20,6 +20,5 @@ func NewAjaxRouter(b blazerxd_pb.BlazerxdClient) AjaxRouter {
 	r.Mux.Post("/sign-up", r.SignUp)
 	// r.Mux.Get("/sign-in", r.SignIn)
 
-	return r
+	return &r
 }
-

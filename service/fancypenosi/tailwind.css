@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+input:invalid {
+    outline: 2px solid red;
+}
+
+input:valid ~ p {
+    display: none;
+}
+input:invalid ~ p {
+    display: block;
+}

@@ -4,8 +4,8 @@
 package router
 
 import (
-	// "io/fs"
-	// "net/http"
+	"io/fs"
+	"net/http"
 
 	"github.com/go-chi/chi"
 
@@ -20,7 +20,7 @@ type Router struct {
 	blazerxd_pb.BlazerxdClient
 }
 
-func NewRouter(b blazerxd_pb.BlazerxdClient) Router {
+func NewRouter(b blazerxd_pb.BlazerxdClient) (*Router, error) {
 	r := Router{
 		chi.NewMux(),
 		b,
@@ -29,7 +29,17 @@ func NewRouter(b blazerxd_pb.BlazerxdClient) Router {
 	r.Mux.Mount("/", page.NewPageRouter(b))
 	r.Mux.Mount("/ajax", ajax.NewAjaxRouter(b))
 
-    web.ServeStatic(r.Mux)
+	sub, e := fs.Sub(web.Embed, "static")
+	if e != nil {
+		return nil, e
+	}
+	r.Mux.Handle(
+		"/static/*",
+		http.StripPrefix(
+			"/static/",
+			http.FileServer(http.FS(sub)),
+		),
+	)
 
-	return r
+	return &r, nil
 }
