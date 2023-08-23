@@ -29,17 +29,33 @@ func NewRouter(b blazerxd_pb.BlazerxdClient) (*Router, error) {
 	r.Mux.Mount("/", page.NewPageRouter(b))
 	r.Mux.Mount("/ajax", ajax.NewAjaxRouter(b))
 
-	sub, e := fs.Sub(web.Embed, "static")
-	if e != nil {
-		return nil, e
+	{
+		sub, e := fs.Sub(web.Embed, "static")
+		if e != nil {
+			return nil, e
+		}
+		r.Mux.Handle(
+			"/static/*",
+			http.StripPrefix(
+				"/static/",
+				http.FileServer(http.FS(sub)),
+			),
+		)
 	}
-	r.Mux.Handle(
-		"/static/*",
-		http.StripPrefix(
-			"/static/",
-			http.FileServer(http.FS(sub)),
-		),
-	)
+
+	{
+		sub, e := fs.Sub(web.Embed, "script")
+		if e != nil {
+			return nil, e
+		}
+		r.Mux.Handle(
+			"/script/*",
+			http.StripPrefix(
+				"/script/",
+				http.FileServer(http.FS(sub)),
+			),
+		)
+	}
 
 	return &r, nil
 }

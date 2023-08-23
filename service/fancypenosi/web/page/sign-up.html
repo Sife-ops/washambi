@@ -1,44 +1,68 @@
 {{define "content"}}
+<script type="importmap">
+  {
+    "imports": {
+      "three": "/static/three.module.min.js"
+    }
+  }
+</script>
+
+<canvas id="c"></canvas>
+
 <div class="flex justify-center">
   <div class="w-1/3">
     <div class="flex justify-center m-5">
       <h1 class="font-bold text-3xl">Sign Up for Washambi</h1>
     </div>
+
     <!-- <form hx-post="/ajax/sign-up" hx-target="this" hx-swap="none"> -->
     <form id="sign-up-form">
       <div class="flex flex-col space-y-5">
         <div>
           <label class="font-bold" for="email">Email:</label>
-          <input class="w-full" id="email" name="email" type="email" required />
-          <p class="mt-2">🚫 Invalid e-mail</p>
+          <input
+            class="w-full rounded border-2 border-slate-300 valid:border-green-500"
+            id="email"
+            name="email"
+            type="email"
+            required
+          />
+          <!-- <p class="mt-2">🚫 Invalid e-mail</p> -->
         </div>
+
         <div>
           <label class="font-bold" for="password">Password:</label>
           <input
-            class="w-full"
+            class="w-full rounded border-2 border-slate-300 valid:border-green-500"
             id="password"
             name="password"
             type="password"
             required
           />
-          <p class="mt-2">🚫 Must contain number(s) and special character(s)</p>
+          <!-- <p class="mt-2">🚫 Must contain number(s) and special character(s)</p> -->
         </div>
+
         <div>
           <label class="font-bold" for="confirm-password"
             >Confirm password:</label
           >
           <input
-            class="w-full"
+            class="w-full rounded border-2 border-slate-300 valid:border-green-500"
             id="confirm-password"
             name="confirm-password"
             type="password"
             required
           />
-          <p class="mt-2">🚫 Passwords do not match</p>
+          <!-- <p class="mt-2">🚫 Passwords do not match</p> -->
         </div>
-        <button class="py-2 bg-green-200 outline outline-2 outline-green-500 rounded-full" type="submit">
+
+        <button
+          class="py-2 bg-green-200 outline outline-2 outline-green-500 rounded-full"
+          type="submit"
+        >
           Sign Up
         </button>
+
         <div class="flex justify-center">
           <a href="/sign-in">Already have an account? Sign in</a>
         </div>
@@ -46,5 +70,7 @@
     </form>
   </div>
 </div>
-<script src="/static/sign-up.js"></script>
+
+<script src="/script/sign-up-form.js"></script>
+<script type="module" src="/script/sign-up-lmao.js"></script>
 {{end}}
