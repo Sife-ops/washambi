@@ -2,6 +2,7 @@
 // https://www.youtube.com/watch?v=_QmhpmZVZIU
 // https://github.com/ClassOutside/Blender_To_ThreeJS
 // https://github.com/KodyJKing/hello-threejs/blob/main/src/HelloWorldPass.ts
+// https://threejs.org/docs/#manual/en/introduction/Installation
 
 import * as THREE from "three";
 

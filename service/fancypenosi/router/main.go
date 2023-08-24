@@ -45,13 +45,7 @@ func NewRouter(b blazerxd_pb.BlazerxdClient) (*Router, error) {
 	r.Mux.Mount("/", page.NewPageRouter(b))
 	r.Mux.Mount("/ajax", ajax.NewAjaxRouter(b))
 
-	if e := serveStatic(r.Mux, "pkg"); e != nil {
-		return nil, e
-	}
-	if e := serveStatic(r.Mux, "script"); e != nil {
-		return nil, e
-	}
-	if e := serveStatic(r.Mux, "static"); e != nil {
+	if e := serveStatic(r.Mux, "public"); e != nil {
 		return nil, e
 	}
 

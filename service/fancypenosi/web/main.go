@@ -12,7 +12,7 @@ import (
 	"strings"
 )
 
-//go:embed page static script pkg
+//go:embed page public
 var Embed embed.FS
 
 var funcs = template.FuncMap{
