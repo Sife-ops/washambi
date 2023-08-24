@@ -2,6 +2,7 @@
 // https://philipptanlak.com/web-frontends-in-go/#rendering-html-with-go
 // https://github.com/philippta/web-frontend-demo/blob/master/html/html.go
 // https://old.reddit.com/r/golang/comments/mpdam2/problems_serving_static_files_using/gua4s74/
+// https://www.youtube.com/watch?v=k5wJv4XO7a0
 
 package web
 

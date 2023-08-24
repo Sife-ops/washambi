@@ -2,7 +2,6 @@ package page
 
 import (
 	"fancypenosi/web"
-	// "html/template"
 	"net/http"
 	"os"
 )

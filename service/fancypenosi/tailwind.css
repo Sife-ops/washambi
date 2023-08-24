@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-#bg-canvas {
+#bg-iframe {
     position: fixed;
     width: 100%;
     height: 100%;
