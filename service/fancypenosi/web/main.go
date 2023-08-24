@@ -21,7 +21,11 @@ var funcs = template.FuncMap{
 }
 
 func wrapPage(f string) *template.Template {
-	return template.Must(template.New("page.html").Funcs(funcs).ParseFS(Embed, "page/page.html", f))
+	return template.Must(
+		template.New("template.html").
+			Funcs(funcs).
+			ParseFS(Embed, "page/template.html", f),
+	)
 }
 
 var (

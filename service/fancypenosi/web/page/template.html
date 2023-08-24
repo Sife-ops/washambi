@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Washambi</title>
+
+    {{ range .scripts }} {{ if .type }}
+    <script type="{{ .type }}" src="{{ .path }}"></script>
+    {{ else }}
+    <script src="{{ .path }}"></script>
+    {{ end }} {{ end }}
+
+    <link rel="stylesheet" href="/static/style.css" type="text/css" />
+    {{ range .styles }}
+    <link rel="stylesheet" href="/static/{{ . }}.css" type="text/css" />
+    {{ end }}
+  </head>
+  <body>
+    {{block "content" .}}{{end}}
+  </body>
+</html>
