@@ -32,12 +32,8 @@ func randomBg() (string, error) {
 	// can't re-use e???
 	var files []string
 	ee := fs.WalkDir(s, ".", func(p string, d fs.DirEntry, e error) error {
-		m, e := regexp.MatchString("^.*\\.html", p)
+		m, e := regexp.MatchString("^.*\\.html$", p)
 		if e != nil {
-			return nil
-		}
-		// old bgs
-		if p == "suzanne.html" || p == "cube.html" {
 			return nil
 		}
 		if m {

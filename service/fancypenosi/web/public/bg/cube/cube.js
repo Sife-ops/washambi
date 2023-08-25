@@ -5,6 +5,7 @@
 // https://threejs.org/docs/#manual/en/introduction/Installation
 
 import * as THREE from "three";
+import { resizeRendererToDisplaySize } from "../common.js";
 
 function main() {
     const canvas = document.getElementById("c");
@@ -42,22 +43,6 @@ function main() {
     renderer.render(scene, camera);
 
     ////////////////////////////////////////////////////////////////////////////////
-
-    /** 
-     * @param {THREE.WebGLRenderer} renderer 
-     * @returns {boolean}
-     */
-    function resizeRendererToDisplaySize(renderer) {
-        const canvas = renderer.domElement;
-        const width = canvas.clientWidth;
-        const height = canvas.clientHeight;
-        const needResize = canvas.width !== width || canvas.height !== height;
-        if (needResize) {
-            renderer.setSize(width, height, false);
-        }
-
-        return needResize;
-    }
 
     /** @type {FrameRequestCallback} */
     function render(time) {

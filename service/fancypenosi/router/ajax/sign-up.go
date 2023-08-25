@@ -45,6 +45,5 @@ func (a *AjaxRouter) SignUp(w http.ResponseWriter, r *http.Request) {
 		} else {
 			http.Error(w, "unknown", http.StatusInternalServerError)
 		}
-		return
 	}
 }

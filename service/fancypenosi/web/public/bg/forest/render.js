@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { resizeRendererToDisplaySize } from "./common.js";
+import { resizeRendererToDisplaySize } from "../common.js";
 
 async function main() {
     const renderer = new THREE.WebGLRenderer({
@@ -13,25 +13,11 @@ async function main() {
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    // renderer.shadows = true;
-    // renderer.shadowType = 1;
-    // renderer.shadowMap.enabled = true;
-    // renderer.setPixelRatio(window.devicePixelRatio);
-    // renderer.toneMapping = 0;
-    // renderer.toneMappingExposure = 1
-    // renderer.useLegacyLights = false;
-    // renderer.toneMapping = THREE.NoToneMapping;
-    // renderer.setClearColor(0xffffff, 0);
-    // renderer.outputColorSpace = THREE.SRGBColorSpace
-    // renderer.setSize(window.innerWidth, window.innerHeight);
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    const g = await loader.loadAsync("/public/bg/suzanne.glb");
+    const g = await loader.loadAsync("/public/bg/forest/scene.glb");
     scene.add(g.scene);
 
     const mixer = new THREE.AnimationMixer(g.scene);
-    const action = mixer.clipAction(g.animations[0]);
+    const action = mixer.clipAction(g.animations[1]);
     action.play();
 
     ////////////////////////////////////////////////////////////////////////////////
