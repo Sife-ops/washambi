@@ -36,6 +36,10 @@ func randomBg() (string, error) {
 		if e != nil {
 			return nil
 		}
+		// old bgs
+		if p == "suzanne.html" || p == "cube.html" {
+			return nil
+		}
 		if m {
 			files = append(files, p)
 		}
