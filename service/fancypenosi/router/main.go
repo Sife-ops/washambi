@@ -26,6 +26,7 @@ func serveStatic(m *chi.Mux, s string) error {
 	if e != nil {
 		return e
 	}
+
 	m.Handle(
 		fmt.Sprintf("/%s/*", s),
 		http.StripPrefix(
@@ -33,6 +34,7 @@ func serveStatic(m *chi.Mux, s string) error {
 			http.FileServer(http.FS(sub)),
 		),
 	)
+
 	return nil
 }
 
