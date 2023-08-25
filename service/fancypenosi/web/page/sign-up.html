@@ -1,5 +1,7 @@
 {{define "content"}}
 <!-- todo: captcha -->
+<!-- todo: responsive -->
+
 {{ with .bg }}
 <iframe id="bg-iframe" src="/public/bg/{{ . }}"></iframe>
 {{ end }}
@@ -53,14 +55,31 @@
           </div>
 
           <button
+            id="submit"
             class="py-2 bg-green-200 outline outline-2 outline-green-500 rounded-full"
             type="submit"
           >
             Sign Up
           </button>
 
+          <div
+            id="error"
+            class="p-3 outline outline-1 outline-red-500 bg-red-200 hidden"
+          >
+            🚫 <span id="error-text"></span>
+          </div>
+
+          <div
+            id="success"
+            class="p-3 outline outline-1 outline-green-500 bg-green-200 hidden"
+          >
+            ✅ <span>Account created successfully!</span>
+          </div>
+
           <div class="flex justify-center">
-            <a href="/sign-in">Already have an account? Sign in</a>
+            <button id="sign-in" type="button">
+              Already have an account? Sign in
+            </button>
           </div>
         </div>
       </form>

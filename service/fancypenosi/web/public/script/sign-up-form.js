@@ -1,12 +1,7 @@
 /** @type {HTMLInputElement} */
-let password;
-// @ts-ignore
-password = document.getElementById("password");
-
+const password = document.querySelector("#password");
 /** @type {HTMLInputElement} */
-let confirmPassword;
-// @ts-ignore
-confirmPassword = document.getElementById("confirm-password");
+const confirmPassword = document.querySelector("#confirm-password");
 
 const passwordRegex = new RegExp(
     "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
@@ -22,6 +17,10 @@ function validate() {
     }
     if (password.value != confirmPassword.value) {
         confirmPassword.setCustomValidity("Passwords do not match.");
+    } else if (!passwordRegex.test(confirmPassword.value)) {
+        confirmPassword.setCustomValidity(
+            "Must contain number(s) and special character(s)."
+        );
     } else {
         confirmPassword.setCustomValidity("");
     }
@@ -30,10 +29,76 @@ function validate() {
 password.onchange = validate;
 confirmPassword.onchange = validate;
 
-// todo: disable button during fetch
 document
-    .getElementById("sign-up-form")
-    .addEventListener("submit", function (event) {
+    .querySelector("#sign-in")
+    .addEventListener("click", function (event) {
+        console.log("todo: redirect")
+    });
+
+document
+    .querySelector("#sign-up-form")
+    .addEventListener("submit", async function (event) {
         event.preventDefault();
-        console.log(event.target["0"]);
+
+        /** @type {HTMLInputElement} */
+        const email = document.querySelector("#email");
+        /** @type {HTMLInputElement} */
+        const password = document.querySelector("#password");
+        /** @type {HTMLInputElement} */
+        const confirmPassword = document.querySelector("#confirm-password");
+        /** @type {HTMLButtonElement} */
+        const submit = document.querySelector("#submit");
+        /** @type {HTMLButtonElement} */
+        const signIn = document.querySelector("#sign-in");
+        /** @type {HTMLElement} */
+        const success = document.querySelector("#success");
+        /** @type {HTMLElement} */
+        const error = document.querySelector("#error");
+        /** @type {HTMLElement} */
+        const errorText = document.querySelector("#error-text");
+
+        email.readOnly = true;
+        password.readOnly = true;
+        confirmPassword.readOnly = true;
+        submit.disabled = true;
+        signIn.disabled = true;
+        error.style.display = "none";
+        // todo: spinner
+
+        const res = await fetch("/ajax/sign-up", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email.value,
+                password: password.value,
+            })
+        })
+
+        setTimeout(function () {
+            if (res.ok) {
+                success.style.display = "block";
+                setTimeout(function () {
+                    // todo: redirect
+                }, 1000);
+                return;
+            }
+
+            email.readOnly = false;
+            password.readOnly = false;
+            confirmPassword.readOnly = false;
+            submit.disabled = false;
+            signIn.disabled = false;
+            error.style.display = "block";
+
+            switch (res.statusText) {
+                case "Conflict":
+                    errorText.innerText = "An account with that e-mail already exists!";
+                    break;
+                default:
+                    errorText.innerText = "An unkown error occurred. Please try again later.";
+                    break;
+            }
+        }, 1000)
     });

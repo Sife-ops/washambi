@@ -8,10 +8,10 @@ import (
 	zt "blazerxd/db/zoomers/table"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 
+	. "github.com/go-jet/jet/v2/postgres"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
-    . "github.com/go-jet/jet/v2/postgres"
 )
 
 func fromDbUser(u *zm.User) *blazerxd_pb.User {
@@ -52,22 +52,21 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 }
 
 func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*blazerxd_pb.GetResponse, error) {
-    stmt := SELECT(zt.User.ID, zt.User.Email, zt.User.Password).
-    FROM(zt.User).
-    WHERE(zt.User.Email.EQ(String(call.Email)))
+	stmt := SELECT(zt.User.ID, zt.User.Email, zt.User.Password).
+		FROM(zt.User).
+		WHERE(zt.User.Email.EQ(String(call.Email)))
 
-    u := []zm.User{}
-    e := stmt.Query(s.Db, &u)
-    if e != nil {
-        return nil, e
-    }
+	u := []zm.User{}
+	e := stmt.Query(s.Db, &u)
+	if e != nil {
+		return nil, e
+	}
 
-    if len(u) < 1 {
-        return nil, status.Errorf(codes.NotFound, "user not found: %s", call.Email)
-    }
+	if len(u) < 1 {
+		return nil, status.Errorf(codes.NotFound, "user not found: %s", call.Email)
+	}
 
-    return &blazerxd_pb.GetResponse{
-        User: fromDbUser(&u[0]),
-    }, nil
+	return &blazerxd_pb.GetResponse{
+		User: fromDbUser(&u[0]),
+	}, nil
 }
-
