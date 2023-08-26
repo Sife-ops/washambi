@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "checkJs": true,
+    "lib": ["ES2022", "DOM"],
+    "allowImportingTsExtensions": true
+  },
+  "exclude": ["node_modules", "**/node_modules/*"]
+}
