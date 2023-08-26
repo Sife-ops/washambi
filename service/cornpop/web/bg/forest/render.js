@@ -13,7 +13,7 @@ async function main() {
 
     ////////////////////////////////////////////////////////////////////////////////
 
-    const g = await loader.loadAsync("/public/bg/forest/scene.glb");
+    const g = await loader.loadAsync("/bg/forest/scene.glb");
     scene.add(g.scene);
 
     const mixer = new THREE.AnimationMixer(g.scene);

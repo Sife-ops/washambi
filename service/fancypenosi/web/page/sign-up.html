@@ -2,11 +2,9 @@
 <!-- todo: captcha -->
 <!-- todo: responsive -->
 
-{{ with .bg }}
-<iframe id="bg-iframe" src="/public/bg/{{ . }}"></iframe>
+{{ with .cornpopUrl }}
+<iframe id="bg-iframe" src="{{ . }}/bg/{{ $.bg }}/page.html"></iframe>
 {{ end }}
-
-<!-- <iframe id="bg-iframe" src="/public/bg/city.html"></iframe> -->
 
 <div class="flex justify-center h-full">
   <div class="flex flex-col justify-center w-2/5">
