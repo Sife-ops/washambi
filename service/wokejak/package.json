@@ -1,8 +1,6 @@
 {
   "name": "wokejak",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "tw": "tailwindcss -i ./tailwind.css -o ./web/public/style/main.css --watch",

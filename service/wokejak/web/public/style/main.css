@@ -538,6 +538,10 @@ video {
   display: block;
 }
 
+.hidden {
+  display: none;
+}
+
 #bg-iframe {
   position: fixed;
   width: 100%;
