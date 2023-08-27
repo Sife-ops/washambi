@@ -6,33 +6,63 @@
   id="header"
   class="py-5 flex justify-center text-white text-xl bg-slate-900/75 backdrop-blur-md border-b border-slate-500"
 >
-  <button class="mr-20 text-sky-300" id="home-btn-selected">Home</button>
+  <button class="mr-20 text-sky-300" id="home-btn-selected">
+    <div class="flex items-center gap-2">
+      <i class="gg-home icon"></i>
+      <span> Home </span>
+    </div>
+  </button>
   <button class="mr-20 hover:text-sky-300 transition hidden" id="home-btn">
-    Home
+    <div class="flex items-center gap-2">
+      <i class="gg-home icon"></i>
+      <span> Home </span>
+    </div>
   </button>
 
   <button class="mr-20 text-sky-300 hidden" id="about-btn-selected">
-    About
+    <div class="flex items-center gap-2">
+      <i class="gg-info icon"></i>
+      <span> About </span>
+    </div>
   </button>
   <button class="mr-20 hover:text-sky-300 transition" id="about-btn">
-    About
+    <div class="flex items-center gap-2">
+      <i class="gg-info icon"></i>
+      <span> About </span>
+    </div>
   </button>
 
   <button class="mr-20 text-sky-300 hidden" id="contact-btn-selected">
-    Contact
+    <div class="flex items-center gap-2">
+      <i class="gg-phone icon"></i>
+      <span> Contact </span>
+    </div>
   </button>
   <button class="mr-20 hover:text-sky-300 transition" id="contact-btn">
-    Contact
+    <div class="flex items-center gap-2">
+      <i class="gg-phone icon"></i>
+      <span> Contact </span>
+    </div>
   </button>
 
   <!-- <button class="text-sky-300 hidden" id="github-btn-selected">Github</button> -->
-  <button class="hover:text-sky-300 transition" id="github-btn">Github</button>
+  <a
+    href="https://github.com/Sife-ops"
+    target="_blank"
+    class="hover:text-sky-300"
+    id="github-btn"
+  >
+    <div class="flex items-center gap-2">
+      <img class="w-[22px] icon" src="/public/img/github-mark-white.svg" />
+      <span> Github </span>
+    </div>
+  </a>
 </div>
 
 <div id="carousel-wrapper">
   <div id="carousel" class="first flex">
-    <div
-      class="m-10 carousel-item grid grid-flow-col justify-stretch gap-10"
+    <!-- <div
+      class="carousel-item grid grid-flow-col justify-stretch gap-10"
       id="home"
     >
       <div class="bg-slate-900/75 border border-slate-500 backdrop-blur-md">
@@ -41,19 +71,48 @@
       <div class="bg-slate-900/75 border border-slate-500 backdrop-blur-md">
         fewafewafewa
       </div>
+    </div> -->
+
+    <div
+      class="carousel-item p-5 bg-slate-900/75 border border-slate-500 backdrop-blur-md text-white"
+      id="home"
+    >
+      <h1 class="text-9xl font-extrabold">Wyatt Goettsch</h1>
     </div>
 
     <div
-      class="m-10 carousel-item bg-slate-900/75 border border-slate-500 backdrop-blur-md"
+      class="carousel-item bg-slate-900/75 border border-slate-500 backdrop-blur-md"
       id="about"
     >
       second tab
     </div>
+
     <div
-      class="m-10 carousel-item bg-slate-900/75 border border-slate-500 backdrop-blur-md"
+      class="carousel-item text-white text-2xl flex flex-col justify-center gap-10 items-center"
       id="contact"
     >
-      thrid tab
+      <div
+        class="p-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md w-fit"
+      >
+        <a
+          href="tel: +14427778425"
+          class="flex items-center gap-8 hover:text-sky-300"
+        >
+          <i class="gg-phone" style="--ggs: 2"></i>
+          <span> (442) 777-8435 </span>
+        </a>
+      </div>
+      <div
+        class="p-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md w-fit"
+      >
+        <a
+          href="mailto: wyatt.goettsch@gmail.com"
+          class="flex items-center gap-8 hover:text-sky-300"
+        >
+          <i class="gg-mail" style="--ggs: 2"></i>
+          <span> wyatt.goettsch@gmail.com </span>
+        </a>
+      </div>
     </div>
   </div>
 </div>

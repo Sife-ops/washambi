@@ -4,16 +4,17 @@
     <meta charset="UTF-8" />
     <title>Wyatt Goettsch - Developer</title>
 
-    {{ range .scripts }} {{ if .type }}
-    <script type="{{ .type }}" src="{{ .path }}"></script>
-    {{ else }}
-    <script src="{{ .path }}"></script>
-    {{ end }} {{ end }}
-
     <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
-    {{ range .styles }}
-    <link rel="stylesheet" href="/public/style/{{ . }}.css" type="text/css" />
-    {{ end }}
+    <link rel="stylesheet" href="/public/style/icon.css" type="text/css" />
+
+    <!-- tektur -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tektur:wght@400;800&display=swap"
+      rel="stylesheet"
+    />
+
   </head>
   <body>
     {{ block "content" . }} {{ end }}
