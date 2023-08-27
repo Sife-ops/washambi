@@ -3,6 +3,7 @@
 {{ end }}
 
 <div
+  id="header"
   class="py-5 flex justify-center text-white text-xl bg-slate-900/75 backdrop-blur-md border-b border-slate-500"
 >
   <button class="mr-20 text-sky-300" id="home-btn-selected">Home</button>
@@ -28,17 +29,37 @@
   <button class="hover:text-sky-300 transition" id="github-btn">Github</button>
 </div>
 
-<div id="home-content">home content here</div>
-<div id="about-content" class="hidden">about content here</div>
-<div id="contact-content" class="hidden">contact content here</div>
+<div id="carousel-wrapper">
+  <div id="carousel" class="first flex">
+    <div
+      class="m-10 carousel-item grid grid-flow-col justify-stretch gap-10"
+      id="home"
+    >
+      <div class="bg-slate-900/75 border border-slate-500 backdrop-blur-md">
+        fewafewafewa
+      </div>
+      <div class="bg-slate-900/75 border border-slate-500 backdrop-blur-md">
+        fewafewafewa
+      </div>
+    </div>
 
-<button id="box-btn" class="bg-green-200">first</button>
-<button id="box-btn2" class="bg-green-200">second</button>
-
-<div id="test-box" class="box-wrapper first flex">
-  <div class="box bg-red-500"></div>
-  <div class="box bg-blue-500"></div>
-
+    <div
+      class="m-10 carousel-item bg-slate-900/75 border border-slate-500 backdrop-blur-md"
+      id="about"
+    >
+      second tab
+    </div>
+    <div
+      class="m-10 carousel-item bg-slate-900/75 border border-slate-500 backdrop-blur-md"
+      id="contact"
+    >
+      thrid tab
+    </div>
+  </div>
 </div>
 
+<div
+  id="footer"
+  class="py-5 text-white text-xl bg-slate-900/75 backdrop-blur-md border-t border-slate-500"
+></div>
 {{ end }}
