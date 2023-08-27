@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Washambi</title>
+    <title>Wyatt Goettsch - Developer</title>
 
     {{ range .scripts }} {{ if .type }}
     <script type="{{ .type }}" src="{{ .path }}"></script>
@@ -17,7 +17,6 @@
   </head>
   <body>
     {{ block "content" . }} {{ end }}
+    <script type="module" src="/public/script/index.js"></script>
   </body>
-  <script type="module" src="/public/script/index.js"></script>
 </html>
-

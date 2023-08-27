@@ -11,11 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "three": "^0.155.0"
-  },
   "devDependencies": {
-    "@types/three": "^0.155.1",
     "tailwindcss": "^3.3.3"
   }
 }

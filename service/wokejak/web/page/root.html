@@ -1,14 +1,44 @@
-{{ define "content" }}
-<ul>
-    <li><button id="home-btn">Home</button></li>
-    <li><button id="about-btn">About</button></li>
-</ul>
+{{ define "content" }} {{ with .cornpopUrl }}
+<iframe id="bg-iframe" src="{{ . }}/bg/forest/page.html"></iframe>
+{{ end }}
 
-<div id="home-content">
-    home content here
+<div
+  class="py-5 flex justify-center text-white text-xl bg-slate-900/75 backdrop-blur-md border-b border-slate-500"
+>
+  <button class="mr-20 text-sky-300" id="home-btn-selected">Home</button>
+  <button class="mr-20 hover:text-sky-300 transition hidden" id="home-btn">
+    Home
+  </button>
+
+  <button class="mr-20 text-sky-300 hidden" id="about-btn-selected">
+    About
+  </button>
+  <button class="mr-20 hover:text-sky-300 transition" id="about-btn">
+    About
+  </button>
+
+  <button class="mr-20 text-sky-300 hidden" id="contact-btn-selected">
+    Contact
+  </button>
+  <button class="mr-20 hover:text-sky-300 transition" id="contact-btn">
+    Contact
+  </button>
+
+  <!-- <button class="text-sky-300 hidden" id="github-btn-selected">Github</button> -->
+  <button class="hover:text-sky-300 transition" id="github-btn">Github</button>
 </div>
 
-<div id="about-content" class="hidden">
-    about content here
+<div id="home-content">home content here</div>
+<div id="about-content" class="hidden">about content here</div>
+<div id="contact-content" class="hidden">contact content here</div>
+
+<button id="box-btn" class="bg-green-200">first</button>
+<button id="box-btn2" class="bg-green-200">second</button>
+
+<div id="test-box" class="box-wrapper first flex">
+  <div class="box bg-red-500"></div>
+  <div class="box bg-blue-500"></div>
+
 </div>
+
 {{ end }}
