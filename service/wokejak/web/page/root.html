@@ -45,11 +45,10 @@
     </div>
   </button>
 
-  <!-- <button class="text-sky-300 hidden" id="github-btn-selected">Github</button> -->
   <a
     href="https://github.com/Sife-ops"
     target="_blank"
-    class="hover:text-sky-300"
+    class="hover:text-sky-300 transition"
     id="github-btn"
   >
     <div class="flex items-center gap-2">
@@ -74,17 +73,36 @@
     </div> -->
 
     <div
-      class="carousel-item p-5 bg-slate-900/75 border border-slate-500 backdrop-blur-md text-white"
+      class="carousel-item p-5 bg-slate-900/75 border border-slate-500 backdrop-blur-md text-white flex gap-5 items-center justify-around"
       id="home"
     >
-      <h1 class="text-9xl font-extrabold">Wyatt Goettsch</h1>
+      <div class="flex flex-col justify-center gap-5">
+        <h1 class="text-9xl font-extrabold">Wyatt Goettsch</h1>
+        <p class="font-serif text-5xl">Full Stack Engineer™</p>
+        
+        <div>
+          <button
+            class="p-3 bg-green-900 border border-green-500"
+            id="contact-now"
+          >
+            Contact Now!
+          </button>
+        </div>
+      </div>
+      {{ with .cornpopUrl }}
+      <iframe
+        id="bg-iframe"
+        src="{{ . }}/bg/head/page.html"
+        style="position: static; max-width: 500px; max-height: 500px"
+      ></iframe>
+      {{ end }}
     </div>
 
     <div
       class="carousel-item bg-slate-900/75 border border-slate-500 backdrop-blur-md"
       id="about"
     >
-      second tab
+      asdf
     </div>
 
     <div
@@ -95,22 +113,36 @@
         class="p-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md w-fit"
       >
         <a
-          href="tel: +14427778425"
-          class="flex items-center gap-8 hover:text-sky-300"
+          href="mailto: wyatt.goettsch@gmail.com"
+          class="flex items-center gap-8 hover:text-sky-300 transition"
         >
-          <i class="gg-phone" style="--ggs: 2"></i>
-          <span> (442) 777-8435 </span>
+          <i class="gg-mail" style="--ggs: 2"></i>
+          <span> wyatt.goettsch@gmail.com </span>
         </a>
       </div>
+
       <div
         class="p-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md w-fit"
       >
         <a
-          href="mailto: wyatt.goettsch@gmail.com"
-          class="flex items-center gap-8 hover:text-sky-300"
+          href="https://linkedin.com/in/wyattgoettsch"
+          target="_blank"
+          class="flex items-center gap-8 hover:text-sky-300 transition"
         >
-          <i class="gg-mail" style="--ggs: 2"></i>
-          <span> wyatt.goettsch@gmail.com </span>
+          <img class="w-[36px] icon" src="/public/img/linkedin.png" />
+          <span> wyattgoettsch </span>
+        </a>
+      </div>
+
+      <div
+        class="p-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md w-fit"
+      >
+        <a
+          href="tel: +14427778425"
+          class="flex items-center gap-8 hover:text-sky-300 transition"
+        >
+          <i class="gg-phone" style="--ggs: 2"></i>
+          <span> (442) 777-8435 </span>
         </a>
       </div>
     </div>

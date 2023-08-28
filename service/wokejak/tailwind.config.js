@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       fontFamily: {
         "sans": ["Tektur", ...defaultTheme.fontFamily.sans],
+        "serif": ["Fredoka", ...defaultTheme.fontFamily.serif],
       },
     },
   },

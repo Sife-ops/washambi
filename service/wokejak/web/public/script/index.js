@@ -22,14 +22,18 @@ const carouselWrapper = document.querySelector("#carousel-wrapper");
 /** @type {HTMLElement} */
 const carousel = document.querySelector("#carousel");
 
-carouselWrapper.style.height = `calc(100vh - ${header.clientHeight + footer.clientHeight}px)`;
-carousel.style.height = `calc(100vh - ${header.clientHeight + footer.clientHeight}px)`;
+carouselWrapper.style.height = `calc(100vh - ${header.clientHeight + footer.clientHeight
+    }px)`;
+carousel.style.height = `calc(100vh - ${header.clientHeight + footer.clientHeight
+    }px)`;
 let carouselState = "first";
 
-for (const contentBtn in contentBtns) {
-    contentBtns[contentBtn].addEventListener("click", function () {
-        const btn = contentBtns[contentBtn];
-
+/**
+ * @param {HTMLButtonElement} btn
+ * @returns {EventListener}
+ */
+function goToCarouselItem(btn) {
+    return function () {
         for (const contentBtn in contentBtns) {
             if (contentBtn === btn.id) {
                 selectedContentBtns[contentBtn + "-selected"].style.display = "block";
@@ -57,6 +61,20 @@ for (const contentBtn in contentBtns) {
             default:
                 break;
         }
-    });
+    };
 }
 
+for (const contentBtn in contentBtns) {
+    contentBtns[contentBtn].addEventListener(
+        "click",
+        goToCarouselItem(contentBtns[contentBtn])
+    );
+}
+
+/** @type {HTMLButtonElement} */
+const contactNowBtn = document.querySelector("#contact-now");
+
+contactNowBtn.addEventListener(
+    "click",
+    goToCarouselItem(contentBtns["contact-btn"])
+);
