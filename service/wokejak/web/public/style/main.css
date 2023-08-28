@@ -562,6 +562,10 @@ video {
   display: none;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .w-\[22px\] {
   width: 22px;
 }
@@ -577,6 +581,10 @@ video {
 
 .w-full {
   width: 100%;
+}
+
+.w-\[100vw\] {
+  width: 100vw;
 }
 
 .flex-col {
@@ -687,6 +695,11 @@ video {
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
+}
+
+.px-\[30\%\] {
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .text-center {
