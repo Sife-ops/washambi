@@ -4,8 +4,11 @@
     <meta charset="UTF-8" />
     <title>Wyatt Goettsch - Developer</title>
 
-    <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
     <link rel="stylesheet" href="/public/style/icon.css" type="text/css" />
+    <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
+    {{ range .styles }}
+    <link rel="stylesheet" href="/public/style/{{ . }}.css" type="text/css" />
+    {{ end }}
 
     <!-- fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,6 +20,5 @@
   </head>
   <body>
     {{ block "content" . }} {{ end }}
-    <script type="module" src="/public/script/index.js"></script>
   </body>
 </html>

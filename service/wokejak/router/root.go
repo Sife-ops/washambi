@@ -1,8 +1,11 @@
 package router
 
 import (
+	// "log"
+	"fmt"
 	"net/http"
 	"os"
+	"strings"
 
 	"wokejak/web"
 )
@@ -10,7 +13,13 @@ import (
 func Root(w http.ResponseWriter, r *http.Request) {
 	cornpopUrl, _ := os.LookupEnv("WASHAMBI_CORNPOP_URL")
 
-	web.Parse("page/root.html").Execute(w, map[string]string{
+	variant := "desktop"
+	if m := strings.Contains(r.Header.Get("User-Agent"), "Mobile"); m {
+		variant = "mobile"
+	}
+
+	web.Parse(fmt.Sprintf("page/%s.html", variant)).Execute(w, map[string]interface{}{
 		"cornpopUrl": cornpopUrl,
+		"styles":     []string{variant},
 	})
 }

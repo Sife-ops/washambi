@@ -17,6 +17,6 @@ func Parse(files ...string) *template.Template {
 }
 
 var (
-	Root = Parse("page/root.html")
-	// Foo  = Parse("page/foo.html", "page/bar.html")
+// Root = Parse("page/root.html")
+// Foo  = Parse("page/foo.html", "page/bar.html")
 )

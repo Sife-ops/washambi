@@ -1,0 +1,32 @@
+#carousel {
+    width: 300vw;
+    transition-duration: 600ms;
+    /* -webkit-transition-duration: 600ms; */
+}
+
+#carousel.first {
+    transform: translate(0vw);
+    /* -webkit-transform: translate(100%);     */
+}
+
+#carousel.second {
+    transform: translate(-100vw);
+}
+
+#carousel.third {
+    transform: translate(-200vw);
+
+}
+
+.carousel-item {
+    width: 100vw;
+    margin: 2.5rem;
+    /* content: ""; */
+    /* display: block; */
+    /* margin: auto; */
+    /* height: 100%; */
+}
+
+.hideWebkitScrollbar::-webkit-scrollbar {
+    display: none;
+}

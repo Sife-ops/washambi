@@ -1,0 +1,140 @@
+{{ define "content" }} {{ with .cornpopUrl }}
+<iframe id="bg-iframe" src="{{ . }}/bg/forest/page.html"></iframe>
+{{ end }}
+
+<div
+  id="header"
+  class="fixed z-50 w-full py-5 flex justify-center text-white text-3xl bg-slate-900/75 backdrop-blur-md border-b border-slate-500"
+>
+  <a href="#home" class="mr-20 flex items-center gap-2">
+    <i class="gg-home icon"></i>
+    <span> Home </span>
+  </a>
+  <a href="#about" class="mr-20 flex items-center gap-2">
+    <i class="gg-info icon"></i>
+    <span> About </span>
+  </a>
+  <a href="#contact" class="mr-20 flex items-center gap-2">
+    <i class="gg-phone icon"></i>
+    <span> Contact </span>
+  </a>
+  <a href="https://github.com/Sife-ops" target="_blank" id="github-btn">
+    <div class="flex items-center gap-2">
+      <img class="w-[22px] icon" src="/public/img/github-mark-white.svg" />
+      <span> Github </span>
+    </div>
+  </a>
+</div>
+
+<div id="content">
+  <div id="home" class="flex flex-col justify-center">
+    <div
+      class="py-10 bg-slate-900/75 border border-y-slate-500 border-x-slate-900/75 backdrop-blur-md text-white flex flex-col items-center gap-5"
+    >
+      {{ with .cornpopUrl }}
+      <!-- <div style="aspect-ratio: 1/1; height: 100%; max-height: 768px"> -->
+      <div style="aspect-ratio: 1/1; width: 75%">
+        <iframe
+          id="bg-iframe"
+          src="{{ . }}/bg/head/page.html"
+          class="static"
+          style="position: static"
+        ></iframe>
+      </div>
+      {{ end }}
+      <h1 class="text-8xl font-extrabold">Wyatt Goettsch</h1>
+      <p class="font-serif text-5xl">Full Stack Engineer™</p>
+      <a
+        href="#contact"
+        class="p-3 bg-green-900 border border-green-500 text-3xl"
+        id="contact-now"
+      >
+        Contact Now!
+      </a>
+    </div>
+  </div>
+
+  <div id="about" class="flex flex-col justify-center">
+    <div
+      class="p-10 bg-slate-900/75 border border-y-slate-500 border-x-slate-900/75 backdrop-blur-md text-white flex flex-col items-center gap-5 indent-8 font-serif text-3xl text-justify"
+    >
+      <h1 class="text-5xl font-sans font-extrabold text-center indent-0">About Me</h1>
+      <p>
+        I am a full-stack developer based in San Diego, California with over
+        five years of experience in building web applications using various
+        technologies and frameworks. I enjoy creating user-friendly, responsive,
+        and scalable web solutions that can meet the needs and expectations of
+        different clients and users.
+      </p>
+
+      <p>
+        I'm proficient in standard web development technologies (HTML, CSS,
+        JavaScript, Node.js, Express, PostgreSQL, MongoDB, React, Vue, AWS,
+        Google Cloud, Azure... the list of what you need to know goes on and
+        on), but the most important thing to me is my commitment to learning new
+        things to deliver on my promises. Recently I've been doing a deep dive
+        into developing more maintainable "frameworkless" web applications using
+        the Go standard library and three.js (which is what this website uses).
+      </p>
+
+      <p>
+        As a computer science student at the University of Osaka (where I
+        studied abroad), I have been involved in various internship programs
+        that I thought were very rewarding. One such internship was at
+        Matsushita where I worked on the development of PCB layout and low-level
+        systems design for thermostats and other electronics, and another I
+        enjoyed was doing an internship at Panasonic where I helped develop apps
+        using Python and Vue.js for monitoring production output of various
+        factory assembly lines. I then worked for the Shimamoto Board of
+        Education (in Osaka) working on Java systems for managing student
+        grading and enrollment.
+      </p>
+
+      <p>
+        I currently work at College Board where me and the team develop the
+        React-based application known as Test Day Tookit - the app used by
+        teachers to manage and administer the SAT worldwide.
+      </p>
+    </div>
+  </div>
+
+  <div
+    id="contact"
+    class="px-10 flex flex-col justify-center gap-10 text-white text-3xl"
+  >
+    <a
+      href="mailto: wyatt.goettsch@gmail.com"
+      class="flex justify-center items-center gap-8 py-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md"
+    >
+      <i class="gg-mail" style="--ggs: 2"></i>
+      <span> wyatt.goettsch@gmail.com </span>
+    </a>
+
+    <a
+      href="https://linkedin.com/in/wyattgoettsch"
+      target="_blank"
+      class="flex justify-center items-center gap-8 py-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md"
+    >
+      <img class="w-[36px] icon" src="/public/img/linkedin.png" />
+      <span> wyattgoettsch </span>
+      <!-- <i class="gg-mail" style="--ggs: 2"></i>
+      <span> wyatt.goettsch@gmail.com </span> -->
+    </a>
+
+    <a
+      href="tel: +14427778425"
+      class="flex justify-center items-center gap-8 py-10 bg-slate-900/75 border border-slate-500 backdrop-blur-md"
+    >
+      <i class="gg-phone" style="--ggs: 2"></i>
+      <span> (442) 777-8435 </span>
+    </a>
+  </div>
+</div>
+
+<!-- <div
+  id="footer"
+  class="py-5 text-white text-xl bg-slate-900/75 backdrop-blur-md border-t border-slate-500"
+></div> -->
+
+<script type="module" src="/public/script/mobile.js"></script>
+{{ end }}
