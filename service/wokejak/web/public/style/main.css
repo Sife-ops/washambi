@@ -615,6 +615,10 @@ video {
   gap: 1.25rem;
 }
 
+.overflow-scroll {
+  overflow: scroll;
+}
+
 .border {
   border-width: 1px;
 }
