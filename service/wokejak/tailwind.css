@@ -23,16 +23,6 @@ body {
     pointer-events: none;
 }
 
-.carousel-item {
-    width: 100vw;
-    margin: 2.5rem;
-    /* content: ""; */
-    /* display: block; */
-    /* margin: auto; */
-    /* height: 100%; */
-}
-
-
 #carousel {
     width: 300vw;
     transition-duration: 600ms;
@@ -50,5 +40,19 @@ body {
 
 #carousel.third {
     transform: translate(-200vw);
+
+}
+
+.carousel-item {
+    width: 100vw;
+    margin: 2.5rem;
+    /* content: ""; */
+    /* display: block; */
+    /* margin: auto; */
+    /* height: 100%; */
+}
+
+.hideWebkitScrollbar::-webkit-scrollbar {
+    display: none;
 
 }
