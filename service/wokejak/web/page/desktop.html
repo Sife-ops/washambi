@@ -66,9 +66,19 @@
   <div id="carousel" class="first flex">
     <div class="w-[100vw] p-10 h-full">
       <div
-        class="h-full p-5 bg-slate-900/75 border border-slate-500 backdrop-blur-md text-white flex gap-5 items-center justify-evenly overflow-scroll hideWebkitScrollbar"
+        class="h-full p-5 bg-slate-900/75 border border-slate-500 backdrop-blur-md text-white flex gap-5 items-center justify-center overflow-scroll hideWebkitScrollbar"
         id="home"
       >
+        {{ with .cornpopUrl }}
+        <div class="h-full max-h-[640px]" style="aspect-ratio: 1/1;">
+          <iframe
+            id="bg-iframe"
+            src="{{ . }}/bg/head/page.html"
+            class="static"
+            style="position: static"
+          ></iframe>
+        </div>
+        {{ end }}
         <div
           class="flex flex-col justify-center gap-5 overflow-scroll hideWebkitScrollbar"
         >
@@ -83,16 +93,6 @@
             </button>
           </div>
         </div>
-        {{ with .cornpopUrl }}
-        <div style="aspect-ratio: 1/1; height: 100%; max-height: 768px">
-          <iframe
-            id="bg-iframe"
-            src="{{ . }}/bg/head/page.html"
-            class="static"
-            style="position: static"
-          ></iframe>
-        </div>
-        {{ end }}
       </div>
     </div>
 
