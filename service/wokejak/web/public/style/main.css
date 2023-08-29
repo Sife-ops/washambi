@@ -570,6 +570,10 @@ video {
   max-height: 640px;
 }
 
+.w-\[100vw\] {
+  width: 100vw;
+}
+
 .w-\[22px\] {
   width: 22px;
 }
@@ -587,10 +591,6 @@ video {
   width: 100%;
 }
 
-.w-\[100vw\] {
-  width: 100vw;
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -601,10 +601,6 @@ video {
 
 .justify-center {
   justify-content: center;
-}
-
-.justify-evenly {
-  justify-content: space-evenly;
 }
 
 .gap-10 {
@@ -686,9 +682,9 @@ video {
   padding-right: 2.5rem;
 }
 
-.px-\[10\%\] {
-  padding-left: 10%;
-  padding-right: 10%;
+.px-\[30\%\] {
+  padding-left: 30%;
+  padding-right: 30%;
 }
 
 .py-10 {
@@ -699,11 +695,6 @@ video {
 .py-5 {
   padding-top: 1.25rem;
   padding-bottom: 1.25rem;
-}
-
-.px-\[30\%\] {
-  padding-left: 30%;
-  padding-right: 30%;
 }
 
 .text-center {
