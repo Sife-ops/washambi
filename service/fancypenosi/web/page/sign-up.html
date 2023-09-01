@@ -6,14 +6,23 @@
 <iframe id="bg-iframe" src="{{ . }}/bg/{{ $.bg }}/page.html"></iframe>
 {{ end }}
 
-<div class="flex justify-center h-full">
-  <div class="flex flex-col justify-center w-2/5">
-    <div class="p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+<div id="carousel" class="sign-in retracted flex w-[200vw] h-full">
+  <div class="h-full w-[100vw] flex justify-center items-center">
+    <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+      <div class="flex justify-center">
+        <button id="sign-up" type="button">
+          Don't have an account? Sign up
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-full w-[100vw] flex justify-center items-center">
+    <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
       <div class="flex justify-center mb-5">
         <h1 class="font-bold text-3xl">Sign Up for Washambi</h1>
       </div>
 
-      <!-- <form hx-post="/ajax/sign-up" hx-target="this" hx-swap="none"> -->
       <form id="sign-up-form">
         <div class="flex flex-col space-y-5">
           <div>
@@ -25,7 +34,6 @@
               type="email"
               required
             />
-            <!-- <p class="mt-2">🚫 Invalid e-mail</p> -->
           </div>
 
           <div>
@@ -37,7 +45,6 @@
               type="password"
               required
             />
-            <!-- <p class="mt-2">🚫 Must contain number(s) and special character(s)</p> -->
           </div>
 
           <div>
@@ -51,7 +58,6 @@
               type="password"
               required
             />
-            <!-- <p class="mt-2">🚫 Passwords do not match</p> -->
           </div>
 
           <button

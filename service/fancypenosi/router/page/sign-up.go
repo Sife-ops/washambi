@@ -8,7 +8,7 @@ import (
 	"fancypenosi/web"
 )
 
-func (p *PageRouter) SignUp(w http.ResponseWriter, r *http.Request) {
+func SignUp(w http.ResponseWriter, r *http.Request) {
 	cornpopUrl, _ := os.LookupEnv("WASHAMBI_CORNPOP_URL")
 	bgs := []string{"forest", "city"}
 

@@ -3,11 +3,12 @@ package ajax
 import (
 	"context"
 	"encoding/json"
-	"log"
+	// "log"
 	"net/http"
 	"net/mail"
 	"strings"
 
+	"fancypenosi/rpc"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 )
 
@@ -16,9 +17,9 @@ type signUpReq struct {
 	Password string
 }
 
-func (a *AjaxRouter) SignUp(w http.ResponseWriter, r *http.Request) {
-	log.Println("debug")
-	w.Header().Add("lmao", "ok")
+func SignUp(w http.ResponseWriter, r *http.Request) {
+	// log.Println("debug")
+	// w.Header().Add("lmao", "ok")
 
 	var b signUpReq
 	if e := json.NewDecoder(r.Body).Decode(&b); e != nil {
@@ -36,7 +37,7 @@ func (a *AjaxRouter) SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, e := a.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+	if _, e := rpc.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Email:    b.Email,
 		Password: b.Password,
 	}); e != nil {

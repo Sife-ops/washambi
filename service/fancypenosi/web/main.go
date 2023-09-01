@@ -30,14 +30,6 @@ func wrapPage(f string) *template.Template {
 }
 
 var (
-	Foo    = wrapPage("page/foo.html")
+	// Foo    = wrapPage("page/foo.html")
 	SignUp = wrapPage("page/sign-up.html")
 )
-
-// func Foo(w io.Writer) error {
-// 	return foo.Execute(w, nil)
-// }
-
-// func SignUp(w io.Writer) error {
-//     return signUp.Execute(w, nil)
-// }

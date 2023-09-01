@@ -2,3 +2,28 @@ html, body {
     height: 100%;
     margin: 0;
 }
+
+body {
+    overflow-x: hidden;
+    overflow-y: hidden;
+}
+
+#carousel {
+    /* width: 200vw; */
+    /* height: 200vh; */
+    transition-duration: 600ms;
+    /* -webkit-transition-duration: 600ms; */
+}
+
+#carousel.sign-in {
+    transform: translate(0vw);
+}
+
+#carousel.sign-up {
+    transform: translate(-100vw);
+    /* -webkit-transform: translate(100%);     */
+}
+
+#carousel.retracted {
+    transform: translateY(100vh);
+}

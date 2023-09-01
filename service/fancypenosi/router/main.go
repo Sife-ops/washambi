@@ -4,22 +4,18 @@
 package router
 
 import (
+	"errors"
 	"fmt"
 	"io/fs"
 	"net/http"
+	"os"
 
 	"github.com/go-chi/chi"
 
 	"fancypenosi/router/ajax"
 	"fancypenosi/router/page"
 	"fancypenosi/web"
-	blazerxd_pb "washambi-rpc/blazerxd/v1"
 )
-
-type Router struct {
-	*chi.Mux
-	blazerxd_pb.BlazerxdClient
-}
 
 func serveStatic(m *chi.Mux, s string) error {
 	sub, e := fs.Sub(web.Embed, s)
@@ -38,18 +34,25 @@ func serveStatic(m *chi.Mux, s string) error {
 	return nil
 }
 
-func NewRouter(b blazerxd_pb.BlazerxdClient) (*Router, error) {
-	r := Router{
-		chi.NewMux(),
-		b,
+func Serve() error {
+	m := chi.NewMux()
+
+	m.Get("/sign-up", page.SignUp)
+	m.Post("/sign-up", ajax.SignUp)
+
+	if e := serveStatic(m, "public"); e != nil {
+		return e
 	}
 
-	r.Mux.Mount("/", page.NewPageRouter(b))
-	r.Mux.Mount("/ajax", ajax.NewAjaxRouter(b))
-
-	if e := serveStatic(r.Mux, "public"); e != nil {
-		return nil, e
+	p, e := os.LookupEnv("WASHAMBI_FANCYPENOSI_PORT")
+	if !e {
+		return errors.New("environment variable not set: WASHAMBI_FANCYPENOSI_PORT")
 	}
 
-	return &r, nil
+	s := http.Server{
+		Addr:    fmt.Sprintf(":%s", p),
+		Handler: m,
+	}
+
+	return s.ListenAndServe()
 }
