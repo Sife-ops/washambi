@@ -26,7 +26,7 @@ document
 ////////////////////////////////////////////////////////////////////////////////
 
 /** @type {HTMLInputElement} */
-const password = document.querySelector("#password");
+const signUpPassword = document.querySelector("#sign-up-password");
 /** @type {HTMLInputElement} */
 const confirmPassword = document.querySelector("#confirm-password");
 
@@ -35,14 +35,14 @@ const passwordRegex = new RegExp(
 );
 
 function validate() {
-    if (!passwordRegex.test(password.value)) {
-        password.setCustomValidity(
+    if (!passwordRegex.test(signUpPassword.value)) {
+        signUpPassword.setCustomValidity(
             "Must contain number(s) and special character(s)."
         );
     } else {
-        password.setCustomValidity("");
+        signUpPassword.setCustomValidity("");
     }
-    if (password.value != confirmPassword.value) {
+    if (signUpPassword.value != confirmPassword.value) {
         confirmPassword.setCustomValidity("Passwords do not match.");
     } else if (!passwordRegex.test(confirmPassword.value)) {
         confirmPassword.setCustomValidity(
@@ -53,7 +53,7 @@ function validate() {
     }
 }
 
-password.onchange = validate;
+signUpPassword.onchange = validate;
 confirmPassword.onchange = validate;
 
 document
@@ -62,29 +62,25 @@ document
         event.preventDefault();
 
         /** @type {HTMLInputElement} */
-        const email = document.querySelector("#email");
-        /** @type {HTMLInputElement} */
-        const password = document.querySelector("#password");
-        /** @type {HTMLInputElement} */
-        const confirmPassword = document.querySelector("#confirm-password");
+        const signUpEmail = document.querySelector("#sign-up-email");
         /** @type {HTMLButtonElement} */
-        const submit = document.querySelector("#submit");
+        const signUpSubmit = document.querySelector("#sign-up-submit");
         /** @type {HTMLButtonElement} */
-        const focusSignIn = document.querySelector(".focus-sign-in");
+        const focusSignIn = document.querySelector("button.focus-sign-in");
         /** @type {HTMLElement} */
-        const success = document.querySelector("#success");
+        const signUpSuccess = document.querySelector("#sign-up-success");
         /** @type {HTMLElement} */
-        const error = document.querySelector("#error");
+        const signUpError = document.querySelector("#sign-up-error");
         /** @type {HTMLElement} */
-        const errorText = document.querySelector("#error-text");
+        const signUpErrorText = document.querySelector("#sign-up-error-text");
 
-        email.readOnly = true;
-        password.readOnly = true;
+        signUpEmail.readOnly = true;
+        signUpPassword.readOnly = true;
         confirmPassword.readOnly = true;
-        submit.disabled = true;
+        signUpSubmit.disabled = true;
         focusSignIn.disabled = true;
-        error.style.display = "none";
-        success.style.display = "none";
+        signUpError.style.display = "none";
+        signUpSuccess.style.display = "none";
         // todo: spinner
 
         // const res = await fetch("/sign-up", {
@@ -102,30 +98,31 @@ document
         };
 
         setTimeout(function () {
-            email.readOnly = false;
-            password.readOnly = false;
+            signUpEmail.readOnly = false;
+            signUpPassword.readOnly = false;
             confirmPassword.readOnly = false;
-            submit.disabled = false;
+            signUpSubmit.disabled = false;
             focusSignIn.disabled = false;
 
             if (res.ok) {
-                success.style.display = "block";
+                signUpSuccess.style.display = "block";
                 setTimeout(function () {
-                    /** @type {HTMLButtonElement} */
-                    const btn = document.querySelector(".focus-sign-in");
-                    btn.click();
+                    focusSignIn.click();
                 }, 1000);
                 return;
             }
 
-            error.style.display = "block";
+            signUpError.style.display = "block";
             switch (res.statusText) {
                 case "Conflict":
-                    errorText.innerText = "An account with that e-mail already exists!";
+                    signUpErrorText.innerText = "An account with that e-mail already exists!";
                     break;
                 default:
-                    errorText.innerText = "An unkown error occurred. Please try again later.";
+                    signUpErrorText.innerText = "An unkown error occurred. Please try again later.";
                     break;
             }
         }, 1000)
     });
+
+////////////////////////////////////////////////////////////////////////////////
+// todo: sign-in
