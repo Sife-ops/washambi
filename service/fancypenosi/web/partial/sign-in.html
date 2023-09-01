@@ -1,19 +1,14 @@
 {{ define "sign-in" }}
 
 <div class="h-full w-[100vw] flex justify-center items-center">
-  <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
-    <div class="flex justify-center">
-      {{ if eq .accountAction "sign-in" }}
-      <button id="focus-second" type="button">
-        Don't have an account? Sign up
-      </button>
-      {{ else }}
-      <button id="focus-first" type="button">
-        Don't have an account? Sign up
-      </button>
-      {{ end }}
+    <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+        <div class="flex justify-center">
+            <button {{ if eq .accountAction "sign-in" }} id="focus-second" {{ else }} id="focus-first" {{ end }}
+                type="button">
+                Don't have an account? Sign up
+            </button>
+        </div>
     </div>
-  </div>
 </div>
 
 {{ end }}
