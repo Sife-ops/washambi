@@ -12,8 +12,8 @@ import (
 	"strings"
 )
 
-//go:embed page public
-var Embed embed.FS
+//go:embed page partial public
+var Embeds embed.FS
 
 var funcs = template.FuncMap{
 	"uppercase": func(s string) string {
@@ -21,15 +21,14 @@ var funcs = template.FuncMap{
 	},
 }
 
-func wrapPage(f string) *template.Template {
-	return template.Must(
+func Parse(files ...string) *template.Template {
+	t := template.Must(
 		template.New("template.html").
 			Funcs(funcs).
-			ParseFS(Embed, "page/template.html", f),
+			ParseFS(Embeds, "page/template.html"),
 	)
+	for _, f := range files {
+		t = template.Must(t.ParseFS(Embeds, f))
+	}
+	return t
 }
-
-var (
-	// Foo    = wrapPage("page/foo.html")
-	SignUp = wrapPage("page/sign-up.html")
-)

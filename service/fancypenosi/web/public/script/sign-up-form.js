@@ -6,21 +6,21 @@ document
 // }, 1000);
 
 document
-    .querySelector("#sign-in")
+    .querySelector("#focus-second")
     .addEventListener("click", function () {
         document
             .querySelector("#carousel")
             .classList
-            .replace("sign-up", "sign-in");
+            .replace("first", "second");
     });
 
 document
-    .querySelector("#sign-up")
+    .querySelector("#focus-first")
     .addEventListener("click", function () {
         document
             .querySelector("#carousel")
             .classList
-            .replace("sign-in", "sign-up");
+            .replace("second", "first");
     });
 
 ////////////////////////////////////////////////////////////////////////////////

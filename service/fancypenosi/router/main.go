@@ -18,7 +18,7 @@ import (
 )
 
 func serveStatic(m *chi.Mux, s string) error {
-	sub, e := fs.Sub(web.Embed, s)
+	sub, e := fs.Sub(web.Embeds, s)
 	if e != nil {
 		return e
 	}
@@ -37,7 +37,8 @@ func serveStatic(m *chi.Mux, s string) error {
 func Serve() error {
 	m := chi.NewMux()
 
-	m.Get("/sign-up", page.SignUp)
+	m.Get("/sign-up", page.Account(page.SignUp))
+	m.Get("/sign-in", page.Account(page.SignIn))
 	m.Post("/sign-up", ajax.SignUp)
 
 	if e := serveStatic(m, "public"); e != nil {

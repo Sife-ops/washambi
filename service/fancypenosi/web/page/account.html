@@ -1,0 +1,27 @@
+{{define "content"}}
+<!-- todo: captcha -->
+<!-- todo: responsive -->
+
+{{ with .cornpopUrl }}
+<iframe id="bg-iframe" src="{{ . }}/bg/{{ $.bg }}/page.html"></iframe>
+{{ end }}
+
+<div id="carousel" class="first retracted flex w-[200vw] h-full">
+  {{ if eq .accountAction "sign-in" }}
+  <!--  -->
+  {{ block "sign-in" . }} {{ end }}
+  <!--  -->
+  {{ block "sign-up" . }} {{ end }}
+  <!--  -->
+  {{ else }}
+  <!--  -->
+  {{ block "sign-up" . }} {{ end }}
+  <!--  -->
+  {{ block "sign-in" . }} {{ end }}
+  <!--  -->
+  {{ end }}
+</div>
+
+<script src="/public/script/sign-up-form.js"></script>
+
+{{end}}
