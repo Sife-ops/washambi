@@ -41,12 +41,10 @@
                     ✅ <span>Account created successfully!</span>
                 </div>
 
-                <div class="flex justify-center">
-                    <button {{ if eq .accountAction "sign-up" }} id="focus-second" {{ else }} id="focus-first" {{ end }}
-                        type="button">
-                        Already have an account? Sign in
-                    </button>
-                </div>
+                <button {{ if eq .accountAction "sign-up" }} id="focus-second" {{ else }} id="focus-first" {{ end }}
+                    class="text-center focus-sign-in" type="button">
+                    Already have an account? Sign in
+                </button>
             </div>
         </form>
     </div>

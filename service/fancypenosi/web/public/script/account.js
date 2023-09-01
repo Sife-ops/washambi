@@ -70,7 +70,7 @@ document
         /** @type {HTMLButtonElement} */
         const submit = document.querySelector("#submit");
         /** @type {HTMLButtonElement} */
-        const signIn = document.querySelector("#sign-in");
+        const focusSignIn = document.querySelector(".focus-sign-in");
         /** @type {HTMLElement} */
         const success = document.querySelector("#success");
         /** @type {HTMLElement} */
@@ -82,7 +82,7 @@ document
         password.readOnly = true;
         confirmPassword.readOnly = true;
         submit.disabled = true;
-        signIn.disabled = true;
+        focusSignIn.disabled = true;
         error.style.display = "none";
         success.style.display = "none";
         // todo: spinner
@@ -106,15 +106,14 @@ document
             password.readOnly = false;
             confirmPassword.readOnly = false;
             submit.disabled = false;
-            signIn.disabled = false;
+            focusSignIn.disabled = false;
 
             if (res.ok) {
                 success.style.display = "block";
                 setTimeout(function () {
-                    document
-                        .querySelector("#carousel")
-                        .classList
-                        .replace("sign-up", "sign-in");
+                    /** @type {HTMLButtonElement} */
+                    const btn = document.querySelector(".focus-sign-in");
+                    btn.click();
                 }, 1000);
                 return;
             }
