@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <title>Washambi</title>
 
@@ -14,8 +15,11 @@
     {{ range .styles }}
     <link rel="stylesheet" href="/public/style/{{ . }}.css" type="text/css" />
     {{ end }}
-  </head>
-  <body>
+</head>
+
+<body>
     {{ block "content" . }} {{ end }}
-  </body>
+    <script type="module" src="/public/script/main.js"></script>
+</body>
+
 </html>

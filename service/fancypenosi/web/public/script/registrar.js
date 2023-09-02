@@ -2,16 +2,22 @@
 const carousel = document
     .querySelector("#carousel");
 
-if (carousel.classList.contains("carousel-sign-in-below")) {
-    carousel
-        .classList
-        .replace("carousel-sign-in-below", "carousel-sign-in");
-}
-if (carousel.classList.contains("carousel-sign-up-below")) {
-    carousel
-        .classList
-        .replace("carousel-sign-up-below", "carousel-sign-up");
-}
+window.addEventListener("load", function () {
+    setTimeout(() => {
+        if (carousel.classList.contains("carousel-sign-in-below")) {
+            carousel
+                .classList
+                .replace("carousel-sign-in-below", "carousel-sign-in");
+        }
+        if (carousel.classList.contains("carousel-sign-up-below")) {
+            carousel
+                .classList
+                .replace("carousel-sign-up-below", "carousel-sign-up");
+        }
+    }, 500);
+});
+
+////////////////////////////////////////////////////////////////////////////////
 
 /** @type {HTMLButtonElement} */
 const focusSignUp = document.querySelector("#focus-carousel-sign-up");
@@ -117,7 +123,7 @@ document
                 signUpSuccess.style.display = "block";
                 setTimeout(function () {
                     focusSignIn.click();
-                }, 1000);
+                }, 500);
                 return;
             }
 
@@ -130,7 +136,7 @@ document
                     break;
             }
             signUpError.style.display = "block";
-        }, 1000)
+        }, 500)
     });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,17 +183,17 @@ document
                     carousel
                         .classList
                         .replace("carousel-sign-in", "carousel-sign-in-above");
-                }, 1000);
+                    document.querySelector("body").style.opacity = "0";
+                }, 500);
                 return
             }
 
             switch (res.statusText) {
                 case "todo":
                     break;
-
                 default:
                     break;
             }
             signInError.style.display = "block";
-        }, 1000);
+        }, 500);
     })

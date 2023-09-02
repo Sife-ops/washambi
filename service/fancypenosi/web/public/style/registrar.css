@@ -10,7 +10,7 @@ body {
 }
 
 #carousel {
-    transition-duration: 1000ms;
+    transition: transform 1000ms;
     /* -webkit-transition-duration: 600ms; */
 }
 
