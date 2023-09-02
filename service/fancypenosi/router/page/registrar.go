@@ -8,29 +8,29 @@ import (
 	"fancypenosi/web"
 )
 
-type AccountAction string
+type RegistrarAction string
 
 const (
-	SignUp AccountAction = "sign-up"
-	SignIn AccountAction = "sign-in"
+	SignUp RegistrarAction = "sign-up"
+	SignIn RegistrarAction = "sign-in"
 )
 
-func Account(aa AccountAction) http.HandlerFunc {
+func Registrar(aa RegistrarAction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cornpopUrl, _ := os.LookupEnv("WASHAMBI_CORNPOP_URL")
 		bgs := []string{"forest", "city"}
 
 		web.
 			Parse(
-				"page/account.html",
+				"page/registrar.html",
 				// "partial/sign-in.html",
 				// "partial/sign-up.html",
 			).
 			Execute(w, map[string]interface{}{
-				"accountAction": aa,
-				"styles":        []string{"sign-up"},
-				"cornpopUrl":    cornpopUrl,
-				"bg":            bgs[rand.Intn(len(bgs))],
+				"registrarAction": aa,
+				"styles":          []string{"registrar"},
+				"cornpopUrl":      cornpopUrl,
+				"bg":              bgs[rand.Intn(len(bgs))],
 			})
 	}
 }

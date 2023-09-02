@@ -6,7 +6,7 @@
 <iframe id="bg-iframe" src="{{ . }}/bg/{{ $.bg }}/page.html"></iframe>
 {{ end }}
 
-<div id="carousel" {{ if eq .accountAction "sign-in" }} class="carousel-sign-in-below flex w-[200vw] h-full" {{ else }}
+<div id="carousel" {{ if eq .registrarAction "sign-in" }} class="carousel-sign-in-below flex w-[200vw] h-full" {{ else }}
     class="carousel-sign-up-below flex w-[200vw] h-full" {{ end }}>
     <div class="h-full w-[100vw] flex justify-center items-center">
         <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
@@ -91,6 +91,6 @@
     </div>
 </div>
 
-<script src="/public/script/account.js"></script>
+<script src="/public/script/registrar.js"></script>
 
 {{ end }}

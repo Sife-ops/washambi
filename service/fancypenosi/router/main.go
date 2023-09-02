@@ -37,8 +37,8 @@ func serveStatic(m *chi.Mux, s string) error {
 func Serve() error {
 	m := chi.NewMux()
 
-	m.Get("/sign-up", page.Account(page.SignUp))
-	m.Get("/sign-in", page.Account(page.SignIn))
+	m.Get("/sign-up", page.Registrar(page.SignUp))
+	m.Get("/sign-in", page.Registrar(page.SignIn))
 	m.Post("/sign-up", ajax.SignUp)
 
 	if e := serveStatic(m, "public"); e != nil {
