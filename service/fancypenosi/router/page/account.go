@@ -23,8 +23,8 @@ func Account(aa AccountAction) http.HandlerFunc {
 		web.
 			Parse(
 				"page/account.html",
-				"partial/sign-in.html",
-				"partial/sign-up.html",
+				// "partial/sign-in.html",
+				// "partial/sign-up.html",
 			).
 			Execute(w, map[string]interface{}{
 				"accountAction": aa,

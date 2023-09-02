@@ -1,28 +1,38 @@
 /** @type {HTMLElement} */
 const carousel = document
     .querySelector("#carousel");
-// setTimeout(() => {
-carousel
-    .classList
-    .remove("retracted");
-// }, 1000);
 
-document
-    .querySelector("#focus-second")
+if (carousel.classList.contains("carousel-sign-in-below")) {
+    carousel
+        .classList
+        .replace("carousel-sign-in-below", "carousel-sign-in");
+}
+if (carousel.classList.contains("carousel-sign-up-below")) {
+    carousel
+        .classList
+        .replace("carousel-sign-up-below", "carousel-sign-up");
+}
+
+/** @type {HTMLButtonElement} */
+const focusSignUp = document.querySelector("#focus-carousel-sign-up");
+
+focusSignUp
     .addEventListener("click", function () {
         document
             .querySelector("#carousel")
             .classList
-            .replace("first", "second");
+            .replace("carousel-sign-in", "carousel-sign-up");
     });
 
-document
-    .querySelector("#focus-first")
+/** @type {HTMLButtonElement} */
+const focusSignIn = document.querySelector("#focus-carousel-sign-in");
+
+focusSignIn
     .addEventListener("click", function () {
         document
             .querySelector("#carousel")
             .classList
-            .replace("second", "first");
+            .replace("carousel-sign-up", "carousel-sign-in");
     });
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -35,8 +45,6 @@ const signUpPassword = document.querySelector("#sign-up-password");
 const confirmPassword = document.querySelector("#confirm-password");
 /** @type {HTMLButtonElement} */
 const signUpSubmit = document.querySelector("#sign-up-submit");
-/** @type {HTMLButtonElement} */
-const focusSignIn = document.querySelector("button.focus-sign-in");
 /** @type {HTMLElement} */
 const signUpSuccess = document.querySelector("#sign-up-success");
 /** @type {HTMLElement} */
@@ -133,8 +141,6 @@ const signInEmail = document.querySelector("#sign-in-email");
 const signInPassword = document.querySelector("#sign-in-password");
 /** @type {HTMLButtonElement} */
 const signInSubmit = document.querySelector("#sign-in-submit");
-/** @type {HTMLButtonElement} */
-const focusSignUp = document.querySelector("button.focus-sign-up");
 /** @type {HTMLElement} */
 const signInSuccess = document.querySelector("#sign-in-success");
 /** @type {HTMLElement} */
@@ -168,11 +174,9 @@ document
             if (res.ok) {
                 signInSuccess.style.display = "block";
                 setTimeout(() => {
-                    // console.log("okokok")
-                    const tx = carousel
+                    carousel
                         .classList
-                        .contains("first") ? "0vw" : "-100vw";
-                    carousel.style.transform = `translate(${tx}, -100vh)`;
+                        .replace("carousel-sign-in", "carousel-sign-in-above");
                 }, 1000);
                 return
             }

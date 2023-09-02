@@ -6,20 +6,89 @@
 <iframe id="bg-iframe" src="{{ . }}/bg/{{ $.bg }}/page.html"></iframe>
 {{ end }}
 
-<div id="carousel" class="first retracted flex w-[200vw] h-full">
-  {{ if eq .accountAction "sign-in" }}
-  <!--  -->
-  {{ block "sign-in" . }} {{ end }}
-  <!--  -->
-  {{ block "sign-up" . }} {{ end }}
-  <!--  -->
-  {{ else }}
-  <!--  -->
-  {{ block "sign-up" . }} {{ end }}
-  <!--  -->
-  {{ block "sign-in" . }} {{ end }}
-  <!--  -->
-  {{ end }}
+<div id="carousel" {{ if eq .accountAction "sign-in" }} class="carousel-sign-in-below flex w-[200vw] h-full" {{ else }}
+    class="carousel-sign-up-below flex w-[200vw] h-full" {{ end }}>
+    <div class="h-full w-[100vw] flex justify-center items-center">
+        <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+            <form id="sign-in-form" class="flex flex-col space-y-5">
+                <h1 class="font-bold text-3xl text-center">Sign In to Washambi</h1>
+
+                <div>
+                    <label class="font-bold" for="sign-in-email">Email:</label>
+                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-in-email"
+                        name="sign-in-email" type="email" required />
+                </div>
+
+                <div>
+                    <label class="font-bold" for="sign-in-password">Password:</label>
+                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-in-password"
+                        name="sign-in-password" type="password" required />
+                </div>
+
+                <button id="sign-in-submit" class="py-2 bg-green-200 outline outline-2 outline-green-500 rounded-full"
+                    type="submit">
+                    Sign In
+                </button>
+
+                <div id="sign-in-error" class="p-3 outline outline-1 outline-red-500 bg-red-200 hidden">
+                    🚫 <span id="sign-in-error-text"></span>
+                </div>
+
+                <div id="sign-in-success" class="p-3 outline outline-1 outline-green-500 bg-green-200 hidden">
+                    ✅ <span>Sign in successful!</span>
+                </div>
+
+                <button id="focus-carousel-sign-up" type="button" class="text-center">
+                    Don't have an account? Sign up
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div class="h-full w-[100vw] flex justify-center items-center">
+        <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+            <form id="sign-up-form" class="flex flex-col space-y-5">
+                <h1 class="font-bold text-3xl text-center">Sign Up for Washambi</h1>
+
+                <div>
+                    <label class="font-bold" for="sign-up-email">Email:</label>
+                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-up-email"
+                        name="sign-up-email" type="email" required />
+                </div>
+
+                <div>
+                    <label class="font-bold" for="sign-up-password">Password:</label>
+                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-up-password"
+                        name="sign-up-password" type="password" required />
+                </div>
+
+                <div>
+                    <label class="font-bold" for="confirm-password">
+                        Confirm password:
+                    </label>
+                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="confirm-password"
+                        name="confirm-password" type="password" required />
+                </div>
+
+                <button id="sign-up-submit" class="py-2 bg-green-200 outline outline-2 outline-green-500 rounded-full"
+                    type="submit">
+                    Sign Up
+                </button>
+
+                <div id="sign-up-error" class="p-3 outline outline-1 outline-red-500 bg-red-200 hidden">
+                    🚫 <span id="sign-up-error-text"></span>
+                </div>
+
+                <div id="sign-up-success" class="p-3 outline outline-1 outline-green-500 bg-green-200 hidden">
+                    ✅ <span>Account created successfully!</span>
+                </div>
+
+                <button id="focus-carousel-sign-in" class="text-center" type="button">
+                    Already have an account? Sign in
+                </button>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script src="/public/script/account.js"></script>
