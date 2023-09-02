@@ -2,50 +2,46 @@
 
 <div class="h-full w-[100vw] flex justify-center items-center">
     <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
-        <div class="flex justify-center mb-5">
-            <h1 class="font-bold text-3xl">Sign Up for Washambi</h1>
-        </div>
+        <form id="sign-up-form" class="flex flex-col space-y-5">
+            <h1 class="font-bold text-3xl text-center">Sign Up for Washambi</h1>
 
-        <form id="sign-up-form">
-            <div class="flex flex-col space-y-5">
-                <div>
-                    <label class="font-bold" for="sign-up-email">Email:</label>
-                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-up-email"
-                        name="sign-up-email" type="email" required />
-                </div>
-
-                <div>
-                    <label class="font-bold" for="sign-up-password">Password:</label>
-                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-up-password"
-                        name="sign-up-password" type="password" required />
-                </div>
-
-                <div>
-                    <label class="font-bold" for="confirm-password">
-                        Confirm password:
-                    </label>
-                    <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="confirm-password"
-                        name="confirm-password" type="password" required />
-                </div>
-
-                <button id="sign-up-submit" class="py-2 bg-green-200 outline outline-2 outline-green-500 rounded-full"
-                    type="submit">
-                    Sign Up
-                </button>
-
-                <div id="sign-up-error" class="p-3 outline outline-1 outline-red-500 bg-red-200 hidden">
-                    🚫 <span id="sign-up-error-text"></span>
-                </div>
-
-                <div id="sign-up-success" class="p-3 outline outline-1 outline-green-500 bg-green-200 hidden">
-                    ✅ <span>Account created successfully!</span>
-                </div>
-
-                <button {{ if eq .accountAction "sign-up" }} id="focus-second" {{ else }} id="focus-first" {{ end }}
-                    class="text-center focus-sign-in" type="button">
-                    Already have an account? Sign in
-                </button>
+            <div>
+                <label class="font-bold" for="sign-up-email">Email:</label>
+                <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-up-email"
+                    name="sign-up-email" type="email" required />
             </div>
+
+            <div>
+                <label class="font-bold" for="sign-up-password">Password:</label>
+                <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="sign-up-password"
+                    name="sign-up-password" type="password" required />
+            </div>
+
+            <div>
+                <label class="font-bold" for="confirm-password">
+                    Confirm password:
+                </label>
+                <input class="w-full rounded border-2 border-slate-300 valid:border-green-500" id="confirm-password"
+                    name="confirm-password" type="password" required />
+            </div>
+
+            <button id="sign-up-submit" class="py-2 bg-green-200 outline outline-2 outline-green-500 rounded-full"
+                type="submit">
+                Sign Up
+            </button>
+
+            <div id="sign-up-error" class="p-3 outline outline-1 outline-red-500 bg-red-200 hidden">
+                🚫 <span id="sign-up-error-text"></span>
+            </div>
+
+            <div id="sign-up-success" class="p-3 outline outline-1 outline-green-500 bg-green-200 hidden">
+                ✅ <span>Account created successfully!</span>
+            </div>
+
+            <button {{ if eq .accountAction "sign-up" }} id="focus-second" {{ else }} id="focus-first" {{ end }}
+                class="text-center focus-sign-in" type="button">
+                Already have an account? Sign in
+            </button>
         </form>
     </div>
 </div>
