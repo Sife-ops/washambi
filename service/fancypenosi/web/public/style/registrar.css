@@ -9,9 +9,12 @@ body {
     overflow-y: hidden;
 }
 
-#carousel {
-    transition: transform 1000ms;
-    /* -webkit-transition-duration: 600ms; */
+#fader.fader-below {
+    transform: translateY(100vh)
+}
+
+#fader.fader-above {
+    transform: translateY(-100vh)
 }
 
 #carousel.carousel-sign-in {

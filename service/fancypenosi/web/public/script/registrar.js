@@ -2,19 +2,20 @@
 // animate in
 
 /** @type {HTMLElement} */
+const fader = document.querySelector("#fader");
+
+/** @type {HTMLElement} */
 const carousel = document.querySelector("#carousel");
 
 window.addEventListener("load", function () {
     setTimeout(() => {
+        fader.classList.remove("fader-below");
+
         if (carousel.classList.contains("carousel-sign-in-below")) {
-            carousel
-                .classList
-                .replace("carousel-sign-in-below", "carousel-sign-in");
+            carousel.classList.replace("carousel-sign-in-below", "carousel-sign-in");
         }
         if (carousel.classList.contains("carousel-sign-up-below")) {
-            carousel
-                .classList
-                .replace("carousel-sign-up-below", "carousel-sign-up");
+            carousel.classList.replace("carousel-sign-up-below", "carousel-sign-up");
         }
     }, 500);
 });
@@ -28,21 +29,25 @@ function initForms() {
     /** @type {HTMLButtonElement} */
     const focusSignUp = document.querySelector("#focus-carousel-sign-up");
 
-    focusSignUp
-        .addEventListener("click", function () {
-            /** @type {HTMLElement} */
-            const a = document.querySelector("#sign-in-page");
+    focusSignUp.addEventListener("click", function () {
+        /** @type {HTMLElement} */
+        const a = document.querySelector("#sign-in-page");
+        /** @type {HTMLElement} */
+        const b = document.querySelector("#sign-up-page");
+
+        a.style.opacity = "0";
+        setTimeout(() => {
             a.style.display = "none";
-
-            /** @type {HTMLElement} */
-            const b = document.querySelector("#sign-up-page");
             b.style.display = "flex";
+            setTimeout(() => {
+                b.style.opacity = "1";
+            }, 10);
+        }, 500);
 
-            document
-                .querySelector("#carousel")
-                .classList
-                .replace("carousel-sign-in", "carousel-sign-up");
-        });
+        document
+            .querySelector("#carousel")
+            .classList.replace("carousel-sign-in", "carousel-sign-up");
+    });
 
     /** @type {HTMLButtonElement} */
     const focusSignIn = document.querySelector("#focus-carousel-sign-in");
@@ -52,16 +57,21 @@ function initForms() {
         .addEventListener("click", function () {
             /** @type {HTMLElement} */
             const a = document.querySelector("#sign-in-page");
-            a.style.display = "flex";
-
             /** @type {HTMLElement} */
             const b = document.querySelector("#sign-up-page");
-            b.style.display = "none";
+
+            b.style.opacity = "0";
+            setTimeout(() => {
+                b.style.display = "none";
+                a.style.display = "flex";
+                setTimeout(() => {
+                    a.style.opacity = "1";
+                }, 10);
+            }, 500);
 
             document
                 .querySelector("#carousel")
-                .classList
-                .replace("carousel-sign-up", "carousel-sign-in");
+                .classList.replace("carousel-sign-up", "carousel-sign-in");
         });
 
     // sign-in form
@@ -93,8 +103,8 @@ function initForms() {
 
             // todo: fetch
             const res = {
-                ok: true
-            }
+                ok: true,
+            };
 
             setTimeout(() => {
                 signInEmail.readOnly = false;
@@ -105,12 +115,16 @@ function initForms() {
                 if (res.ok) {
                     signInSuccess.style.display = "block";
                     setTimeout(() => {
-                        carousel
-                            .classList
-                            .replace("carousel-sign-in", "carousel-sign-in-above");
+                        fader.classList.add("fader-above");
+
+                        carousel.classList.replace(
+                            "carousel-sign-in",
+                            "carousel-sign-in-above"
+                        );
+
                         document.querySelector("body").style.opacity = "0";
                     }, 500);
-                    return
+                    return;
                 }
 
                 switch (res.statusText) {
@@ -121,7 +135,7 @@ function initForms() {
                 }
                 signInError.style.display = "block";
             }, 500);
-        })
+        });
 
     // sign-up form
 
@@ -191,7 +205,7 @@ function initForms() {
             //     })
             // })
             const res = {
-                ok: true
+                ok: true,
             };
 
             setTimeout(function () {
@@ -211,37 +225,36 @@ function initForms() {
 
                 switch (res.statusText) {
                     case "Conflict":
-                        signUpErrorText.innerText = "An account with that e-mail already exists!";
+                        signUpErrorText.innerText =
+                            "An account with that e-mail already exists!";
                         break;
                     default:
-                        signUpErrorText.innerText = "An unkown error occurred. Please try again later.";
+                        signUpErrorText.innerText =
+                            "An unkown error occurred. Please try again later.";
                         break;
                 }
                 signUpError.style.display = "block";
-            }, 500)
+            }, 500);
         });
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // responsive
 
-/** @type {HTMLElement} */
-const fader = document.querySelector("#fader");
-
 const lg = window.matchMedia("(min-width: 1024px)");
 
 /** @param {MediaQueryListEvent | MediaQueryList} event */
 function lgFn(event) {
+    // todo: keep input state
+
     /** @type {HTMLElement} */
-    const signInForm = document
-        .querySelector("#sign-in-form");
+    const signInForm = document.querySelector("#sign-in-form");
 
     const t = signInForm.outerHTML;
     signInForm.outerHTML = "";
 
     /** @type {HTMLElement} */
-    const signUpForm = document
-        .querySelector("#sign-up-form");
+    const signUpForm = document.querySelector("#sign-up-form");
 
     const tt = signUpForm.outerHTML;
     signUpForm.outerHTML = "";
