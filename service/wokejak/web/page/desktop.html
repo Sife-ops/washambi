@@ -70,14 +70,11 @@
         id="home"
       >
         {{ with .cornpopUrl }}
-        <div class="h-full max-h-[640px]" style="aspect-ratio: 1/1">
-          <iframe
-            id="bg-iframe"
-            src="{{ . }}/bg/head/page.html"
-            class="static"
-            style="position: static"
-          ></iframe>
-        </div>
+        <iframe
+          class="h-full max-h-[640px]"
+          style="aspect-ratio: 1/1"
+          src="{{ . }}/bg/head/page.html"
+        ></iframe>
         {{ end }}
         <div
           class="flex flex-col justify-center gap-5 overflow-scroll hideWebkitScrollbar"

@@ -6,10 +6,9 @@
 <iframe id="bg-iframe" src="{{ . }}/bg/{{ $.bg }}/page.html"></iframe>
 {{ end }}
 
-<div id="carousel" {{ if eq .registrarAction "sign-in" }} class="carousel-sign-in-below flex w-[200vw] h-full" {{ else }}
-    class="carousel-sign-up-below flex w-[200vw] h-full" {{ end }}>
-    <div class="h-full w-[100vw] flex justify-center items-center">
-        <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+<div id="fader" class="h-full">
+    <div id="sign-in-page" class="h-full flex justify-center items-center">
+        <div id="sign-in-window" class="w-[90%] p-5 bg-white/75 rounded-lg backdrop-blur-sm">
             <form id="sign-in-form" class="flex flex-col space-y-5">
                 <h1 class="font-bold text-3xl text-center">Sign In to Washambi</h1>
 
@@ -45,8 +44,8 @@
         </div>
     </div>
 
-    <div class="h-full w-[100vw] flex justify-center items-center">
-        <div class="w-2/5 p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+    <div id="sign-up-page" class="h-full flex justify-center items-center hidden">
+        <div id="sign-up-window" class="w-[90%] p-5 bg-white/75 rounded-lg backdrop-blur-sm">
             <form id="sign-up-form" class="flex flex-col space-y-5">
                 <h1 class="font-bold text-3xl text-center">Sign Up for Washambi</h1>
 
@@ -87,6 +86,19 @@
                     Already have an account? Sign in
                 </button>
             </form>
+        </div>
+    </div>
+</div>
+
+<div id="carousel" {{ if eq .registrarAction "sign-in" }} class="carousel-sign-in-below flex w-[200vw] h-full" {{ else
+    }} class="carousel-sign-up-below flex w-[200vw] h-full" {{ end }}>
+    <div class="h-full w-[100vw] flex justify-center items-center">
+        <div id="sign-in-window-lg" class="w-[640px] p-5 bg-white/75 rounded-lg backdrop-blur-sm">
+        </div>
+    </div>
+
+    <div class="h-full w-[100vw] flex justify-center items-center">
+        <div id="sign-up-window-lg" class="w-[640px] p-5 bg-white/75 rounded-lg backdrop-blur-sm">
         </div>
     </div>
 </div>

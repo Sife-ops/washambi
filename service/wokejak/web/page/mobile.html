@@ -37,15 +37,10 @@
       class="py-10 bg-slate-900/75 border border-y-slate-500 border-x-slate-900/75 backdrop-blur-md text-white flex flex-col items-center gap-5"
     >
       {{ with .cornpopUrl }}
-      <!-- <div style="aspect-ratio: 1/1; height: 100%; max-height: 768px"> -->
-      <div style="aspect-ratio: 1/1; width: 75%">
-        <iframe
-          id="bg-iframe"
-          src="{{ . }}/bg/head/page.html"
-          class="static"
-          style="position: static"
-        ></iframe>
-      </div>
+      <iframe
+        src="{{ . }}/bg/head/page.html"
+        style="aspect-ratio: 1/1; width: 75%"
+      ></iframe>
       {{ end }}
       <h1 class="text-8xl font-extrabold">Wyatt Goettsch</h1>
       <p class="font-serif text-5xl">Full Stack Engineer™</p>
