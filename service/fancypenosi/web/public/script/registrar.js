@@ -83,6 +83,10 @@ function initForms() {
     /** @type {HTMLButtonElement} */
     const signInSubmit = document.querySelector("#sign-in-submit");
     /** @type {HTMLElement} */
+    const signInText = document.querySelector("#sign-in-text");
+    /** @type {HTMLElement} */
+    const signInLoader = document.querySelector("#sign-in-loader");
+    /** @type {HTMLElement} */
     const signInSuccess = document.querySelector("#sign-in-success");
     /** @type {HTMLElement} */
     const signInError = document.querySelector("#sign-in-error");
@@ -97,9 +101,10 @@ function initForms() {
             signInEmail.readOnly = true;
             signInPassword.readOnly = true;
             signInSubmit.disabled = true;
-            focusSignUp.disabled = true;
-            signInSuccess.style.display = "none";
+            signInText.style.display = "none";
+            signInLoader.style.display = "block";
             signInError.style.display = "none";
+            focusSignUp.disabled = true;
 
             // todo: fetch
             const res = {
@@ -113,15 +118,14 @@ function initForms() {
                 focusSignUp.disabled = false;
 
                 if (res.ok) {
+                    signInLoader.style.display = "none";
                     signInSuccess.style.display = "block";
                     setTimeout(() => {
                         fader.classList.add("fader-above");
-
                         carousel.classList.replace(
                             "carousel-sign-in",
                             "carousel-sign-in-above"
                         );
-
                         document.querySelector("body").style.opacity = "0";
                     }, 500);
                     return;
@@ -147,6 +151,10 @@ function initForms() {
     const confirmPassword = document.querySelector("#confirm-password");
     /** @type {HTMLButtonElement} */
     const signUpSubmit = document.querySelector("#sign-up-submit");
+    /** @type {HTMLElement} */
+    const signUpText = document.querySelector("#sign-up-text");
+    /** @type {HTMLElement} */
+    const signUpLoader = document.querySelector("#sign-up-loader");
     /** @type {HTMLElement} */
     const signUpSuccess = document.querySelector("#sign-up-success");
     /** @type {HTMLElement} */
@@ -189,10 +197,10 @@ function initForms() {
             signUpPassword.readOnly = true;
             confirmPassword.readOnly = true;
             signUpSubmit.disabled = true;
-            focusSignIn.disabled = true;
-            signUpSuccess.style.display = "none";
+            signUpText.style.display = "none";
+            signUpLoader.style.display = "block";
             signUpError.style.display = "none";
-            // todo: spinner
+            focusSignIn.disabled = true;
 
             // const res = await fetch("/sign-up", {
             //     method: "POST",
@@ -216,7 +224,8 @@ function initForms() {
                 focusSignIn.disabled = false;
 
                 if (res.ok) {
-                    signUpSuccess.style.display = "block";
+                    signUpLoader.style.display = "none";
+                    signUpSuccess.style.display = "block"
                     setTimeout(function () {
                         focusSignIn.click();
                     }, 500);
