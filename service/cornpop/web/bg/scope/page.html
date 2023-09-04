@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=yes"
+    />
+    <title>Washambi</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+      #c {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    </style>
+  </head>
+
+  <body>
+    <canvas id="c"></canvas>
+  </body>
+
+  <!-- todo: may not be needed -->
+  <script
+    async
+    src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"
+  ></script>
+
+  <!-- todo: use cdn -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.155.0/build/three.module.min.js",
+        "three/": "https://unpkg.com/three@0.155.0/"
+      }
+    }
+  </script>
+
+  <script type="module" src="/bg/scope/render.js"></script>
+</html>

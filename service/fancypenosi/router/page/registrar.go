@@ -18,7 +18,7 @@ const (
 func Registrar(aa RegistrarAction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		cornpopUrl, _ := os.LookupEnv("WASHAMBI_CORNPOP_URL")
-		bgs := []string{"forest", "city"} // todo: cornpop grpc
+		bgs := []string{"forest", "city", "scope"} // todo: cornpop grpc
 
 		web.
 			Parse(
