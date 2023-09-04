@@ -8,11 +8,12 @@ package web
 
 import (
 	"embed"
+	"fmt"
 	"html/template"
 	"strings"
 )
 
-//go:embed page public
+//go:embed page partial public
 var Embeds embed.FS
 
 var funcs = template.FuncMap{
@@ -21,14 +22,26 @@ var funcs = template.FuncMap{
 	},
 }
 
-func Parse(files ...string) *template.Template {
+func Parse(tmpl string, file string, files ...string) *template.Template {
 	t := template.Must(
-		template.New("template.html").
+		template.New(tmpl).
 			Funcs(funcs).
-			ParseFS(Embeds, "page/template.html"),
+			ParseFS(Embeds, file),
 	)
 	for _, f := range files {
 		t = template.Must(t.ParseFS(Embeds, f))
 	}
 	return t
+}
+
+func ParsePage(files ...string) *template.Template {
+	return Parse("template.html", "page/template.html", files...)
+}
+
+func ParsePartial(tmpl string, files ...string) *template.Template {
+	return Parse(
+		fmt.Sprintf("%s.html", tmpl),
+		fmt.Sprintf("partial/%s.html", tmpl),
+		files...,
+	)
 }

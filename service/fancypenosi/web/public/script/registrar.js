@@ -287,3 +287,5 @@ function lgFn(event) {
 
 lgFn(lg);
 lg.addEventListener("change", lgFn);
+
+export { };

@@ -14,6 +14,7 @@ import (
 
 	"fancypenosi/router/ajax"
 	"fancypenosi/router/page"
+	"fancypenosi/router/partial"
 	"fancypenosi/web"
 )
 
@@ -39,6 +40,10 @@ func Serve() error {
 
 	m.Get("/sign-up", page.Registrar(page.SignUp))
 	m.Get("/sign-in", page.Registrar(page.SignIn))
+	m.Get("/account", page.Account)
+
+	m.Get("/partial/navigator", partial.Navigator)
+
 	m.Post("/sign-up", ajax.SignUp)
 
 	if e := serveStatic(m, "public"); e != nil {

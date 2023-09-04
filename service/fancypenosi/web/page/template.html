@@ -19,6 +19,11 @@
 
 <body>
     {{ block "content" . }} {{ end }}
+
+    <script>
+        const fancyPenosiUrl = {{ .fancyPenosiUrl }};
+    </script>
+
     <script type="module" src="/public/script/main.js"></script>
 </body>
 

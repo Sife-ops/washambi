@@ -17,20 +17,14 @@ const (
 
 func Registrar(aa RegistrarAction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		cornpopUrl, _ := os.LookupEnv("WASHAMBI_CORNPOP_URL")
 		bgs := []string{"forest", "city", "scope"} // todo: cornpop grpc
 
 		web.
-			Parse(
-				"page/registrar.html",
-				// "page/registrar/sign-in.html",
-				// "partial/sign-in.html",
-				// "partial/sign-up.html",
-			).
+			ParsePage("page/registrar.html").
 			Execute(w, map[string]interface{}{
 				"registrarAction": aa,
 				"styles":          []string{"registrar"},
-				"cornpopUrl":      cornpopUrl,
+				"cornpopUrl":      os.Getenv("WASHAMBI_CORNPOP_URL"),
 				"bg":              bgs[rand.Intn(len(bgs))],
 			})
 	}
