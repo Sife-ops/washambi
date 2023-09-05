@@ -133,10 +133,10 @@ function initForms() {
                             "carousel-sign-in",
                             "carousel-sign-in-above"
                         );
-                        // document.querySelector("body").style.opacity = "0";
+                        document.querySelector("body").style.opacity = "0";
 
                         setTimeout(() => {
-                            // location.href = "/account"
+                            location.href = "/account"
                         }, 2000);
                     }, 500);
 
@@ -149,10 +149,17 @@ function initForms() {
                 signInSubmit.disabled = false;
 
                 switch (res.statusText) {
-                    case "todo":
+                    case "Not Found":
+                        signInErrorText.innerText = "An account with that e-mail doesn't exist."
+                        break;
+
+                    case "Unauthorized":
+                        signInErrorText.innerText = "Incorrect password."
                         break;
 
                     default:
+                        signUpErrorText.innerText =
+                            "An unkown error occurred. Please try again later.";
                         break;
                 }
                 signInError.style.display = "block";

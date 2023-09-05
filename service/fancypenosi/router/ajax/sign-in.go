@@ -3,7 +3,6 @@ package ajax
 import (
 	"context"
 	"encoding/json"
-	"log"
 	"net/http"
 	"strings"
 
@@ -42,5 +41,13 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-    log.Println("correct")
+	http.SetCookie(w, &http.Cookie{
+		Name:  "id",
+		Value: u.User.Id,
+
+		Secure:   true,
+		HttpOnly: true,
+		MaxAge:   10,
+		SameSite: http.SameSiteStrictMode,
+	})
 }

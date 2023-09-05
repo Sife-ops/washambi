@@ -4,6 +4,7 @@
 package router
 
 import (
+	"context"
 	"errors"
 	"fmt"
 	"io/fs"
@@ -35,24 +36,55 @@ func serveStatic(m *chi.Mux, s string) error {
 	return nil
 }
 
+// todo: refresh cookie
+func Auth(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		c, e := r.Cookie("id")
+		if e == nil {
+			// todo: fetch user
+			ctx := context.WithValue(r.Context(), "user_id", c.Value)
+			r = r.WithContext(ctx)
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+func Redirect(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if v := r.Context().Value("user_id"); v == nil {
+			// todo: client redirect
+			http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
+			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
 func Serve() error {
 	m := chi.NewMux()
 
+	m.Get("/account", page.Account)
 	m.Get("/sign-up", page.Registrar(page.SignUp))
 	m.Get("/sign-in", page.Registrar(page.SignIn))
-	m.Get("/account", page.Account)
-
-	m.Get("/partial/navigator", partial.Navigator)
 
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
+
+	// authorized
+	// m.Route("/", func(r chi.Router) {
+	//  r.Use(Auth)
+	// 	r.Get("/account", page.Account)
+	// })
+
+	m.With(Auth).Get("/partial/navigator", partial.Navigator)
+	m.With(Auth, Redirect).Get("/account", page.Account)
 
 	if e := serveStatic(m, "public"); e != nil {
 		return e
 	}
 
 	p, e := os.LookupEnv("WASHAMBI_FANCYPENOSI_PORT")
-	if !e {
+	if !e || p == "" {
 		return errors.New("environment variable not set: WASHAMBI_FANCYPENOSI_PORT")
 	}
 
