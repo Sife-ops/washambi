@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="h-full">
 
 <head>
     <meta charset="UTF-8" />
@@ -12,16 +12,18 @@
     {{ end }} {{ end }}
 
     <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
+    <link rel="stylesheet" href="{{ .fancypenosiUrl }}/public/style/navigator.css" type="text/css" />
+
     {{ range .styles }}
     <link rel="stylesheet" href="/public/style/{{ . }}.css" type="text/css" />
     {{ end }}
 </head>
 
-<body>
+<body class="h-full opacity-0 transition-opacity duration-[2000ms] bg-slate-800 text-white">
     {{ block "content" . }} {{ end }}
 
     <script>
-        const fancyPenosiUrl = {{ .fancyPenosiUrl }};
+        const fancypenosiUrl = {{ .fancypenosiUrl }};
     </script>
 
     <script type="module" src="/public/script/main.js"></script>

@@ -1,6 +1,7 @@
 package page
 
 import (
+	"log"
 	"math/rand"
 	"net/http"
 	"os"
@@ -17,6 +18,11 @@ const (
 
 func Registrar(aa RegistrarAction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		cornpopUrl, defined := os.LookupEnv("WASHAMBI_CORNPOP_URL")
+		if !defined || cornpopUrl == "" {
+			log.Fatal("environment variable not set: WASHAMBI_CORNPOP_URL")
+		}
+
 		bgs := []string{"forest", "city", "scope"} // todo: cornpop grpc
 
 		web.
@@ -24,7 +30,7 @@ func Registrar(aa RegistrarAction) http.HandlerFunc {
 			Execute(w, map[string]interface{}{
 				"registrarAction": aa,
 				"styles":          []string{"registrar"},
-				"cornpopUrl":      os.Getenv("WASHAMBI_CORNPOP_URL"),
+				"cornpopUrl":      cornpopUrl,
 				"bg":              bgs[rand.Intn(len(bgs))],
 			})
 	}

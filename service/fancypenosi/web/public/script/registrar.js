@@ -112,28 +112,36 @@ function initForms() {
             };
 
             setTimeout(() => {
-                signInEmail.readOnly = false;
-                signInPassword.readOnly = false;
-                signInSubmit.disabled = false;
-                focusSignUp.disabled = false;
-
                 if (res.ok) {
                     signInLoader.style.display = "none";
                     signInSuccess.style.display = "block";
+
                     setTimeout(() => {
                         fader.classList.add("fader-above");
+
                         carousel.classList.replace(
                             "carousel-sign-in",
                             "carousel-sign-in-above"
                         );
                         document.querySelector("body").style.opacity = "0";
+
+                        setTimeout(() => {
+                            location.href = "/account"
+                        }, 2000);
                     }, 500);
+
                     return;
                 }
+
+                signInEmail.readOnly = false;
+                signInPassword.readOnly = false;
+                signInSubmit.disabled = false;
+                focusSignUp.disabled = false;
 
                 switch (res.statusText) {
                     case "todo":
                         break;
+
                     default:
                         break;
                 }
@@ -217,26 +225,29 @@ function initForms() {
             };
 
             setTimeout(function () {
+                if (res.ok) {
+                    signUpLoader.style.display = "none";
+                    signUpSuccess.style.display = "block"
+
+                    setTimeout(function () {
+                        focusSignIn.click();
+                    }, 500);
+
+                    return;
+                }
+
                 signUpEmail.readOnly = false;
                 signUpPassword.readOnly = false;
                 confirmPassword.readOnly = false;
                 signUpSubmit.disabled = false;
                 focusSignIn.disabled = false;
 
-                if (res.ok) {
-                    signUpLoader.style.display = "none";
-                    signUpSuccess.style.display = "block"
-                    setTimeout(function () {
-                        focusSignIn.click();
-                    }, 500);
-                    return;
-                }
-
                 switch (res.statusText) {
                     case "Conflict":
                         signUpErrorText.innerText =
                             "An account with that e-mail already exists!";
                         break;
+
                     default:
                         signUpErrorText.innerText =
                             "An unkown error occurred. Please try again later.";

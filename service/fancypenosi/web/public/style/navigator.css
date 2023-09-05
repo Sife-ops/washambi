@@ -1,0 +1,51 @@
+#navigator {
+    background-color: rgb(15 23 42);
+    border-bottom: 1px solid rgb(14, 165, 233);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+#toolbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+#menu-btn {
+    --ggs: 1.5;
+    height: 30px;
+    width: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* icon */
+
+.gg-menu {
+    transform: scale(var(--ggs, 1))
+}
+
+.gg-menu,
+.gg-menu::after,
+.gg-menu::before {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    width: 20px;
+    height: 2px;
+    border-radius: 3px;
+    background: currentColor
+}
+
+.gg-menu::after,
+.gg-menu::before {
+    content: "";
+    position: absolute;
+    top: -6px
+}
+
+.gg-menu::after {
+    top: 6px
+}
