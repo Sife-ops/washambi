@@ -108,13 +108,13 @@ function initForms() {
             const res = await fetch("/sign-in", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     email: signInEmail.value,
                     password: signInPassword.value,
-                })
-            })
+                }),
+            });
 
             // const res = {
             //     ok: true,
@@ -136,7 +136,17 @@ function initForms() {
                         document.querySelector("body").style.opacity = "0";
 
                         setTimeout(() => {
-                            location.href = "/account"
+                            let redirect = "/";
+
+                            // todo: remove cookie
+                            document.cookie.split(";").map((x) => {
+                                const y = x.split("=");
+                                if (y[0] === "redirect") {
+                                    redirect = y[1];
+                                }
+                            });
+
+                            location.href = redirect;
                         }, 2000);
                     }, 500);
 
@@ -150,11 +160,12 @@ function initForms() {
 
                 switch (res.statusText) {
                     case "Not Found":
-                        signInErrorText.innerText = "An account with that e-mail doesn't exist."
+                        signInErrorText.innerText =
+                            "An account with that e-mail doesn't exist.";
                         break;
 
                     case "Unauthorized":
-                        signInErrorText.innerText = "Incorrect password."
+                        signInErrorText.innerText = "Incorrect password.";
                         break;
 
                     default:
@@ -229,13 +240,13 @@ function initForms() {
             const res = await fetch("/sign-up", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json"
+                    "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
                     email: signUpEmail.value,
                     password: signUpPassword.value,
-                })
-            })
+                }),
+            });
 
             // const res = {
             //     ok: true,
@@ -245,7 +256,7 @@ function initForms() {
                 signUpLoader.style.display = "none";
 
                 if (res.ok) {
-                    signUpSuccess.style.display = "block"
+                    signUpSuccess.style.display = "block";
 
                     setTimeout(function () {
                         focusSignIn.click();

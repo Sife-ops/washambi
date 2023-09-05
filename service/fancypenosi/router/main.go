@@ -1,6 +1,3 @@
-// source:
-// static https://github.com/go-chi/chi/blob/master/_examples/fileserver/main.go
-
 package router
 
 import (
@@ -19,6 +16,7 @@ import (
 	"fancypenosi/web"
 )
 
+// source: https://github.com/go-chi/chi/blob/master/_examples/fileserver/main.go
 func serveStatic(m *chi.Mux, s string) error {
 	sub, e := fs.Sub(web.Embeds, s)
 	if e != nil {
@@ -37,6 +35,7 @@ func serveStatic(m *chi.Mux, s string) error {
 }
 
 // todo: refresh cookie
+// todo: context https://stackoverflow.com/a/40380147
 func Auth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		c, e := r.Cookie("id")
@@ -53,6 +52,13 @@ func Redirect(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if v := r.Context().Value("user_id"); v == nil {
 			// todo: client redirect
+			http.SetCookie(w, &http.Cookie{
+				Name:     "redirect",
+				Value:    r.URL.String(),
+				Secure:   true,
+				HttpOnly: false,
+				SameSite: http.SameSiteStrictMode,
+			})
 			http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 			return
 		}
@@ -63,6 +69,7 @@ func Redirect(next http.Handler) http.Handler {
 func Serve() error {
 	m := chi.NewMux()
 
+	m.Get("/", page.Home)
 	m.Get("/account", page.Account)
 	m.Get("/sign-up", page.Registrar(page.SignUp))
 	m.Get("/sign-in", page.Registrar(page.SignIn))
