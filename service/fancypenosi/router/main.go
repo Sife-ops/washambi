@@ -39,18 +39,23 @@ func serveStatic(m *chi.Mux, s string) error {
 func Auth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		c, e := r.Cookie("id")
-		if e == nil {
+		var ctx context.Context
+		if e != nil || c.Value == "" {
 			// todo: fetch user
-			ctx := context.WithValue(r.Context(), "user_id", c.Value)
-			r = r.WithContext(ctx)
+			ctx = context.WithValue(r.Context(), "authorized", false)
+		} else {
+			ctx = context.WithValue(r.Context(), "authorized", true)
+			ctx = context.WithValue(ctx, "user_id", c.Value)
 		}
+
+		r = r.WithContext(ctx)
 		next.ServeHTTP(w, r)
 	})
 }
 
 func Redirect(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if v := r.Context().Value("user_id"); v == nil {
+		if v := r.Context().Value("authorized"); v != true {
 			// todo: client redirect
 			http.SetCookie(w, &http.Cookie{
 				Name:     "redirect",
@@ -76,6 +81,7 @@ func Serve() error {
 
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
+	m.Post("/sign-out", ajax.SignOut)
 
 	// authorized
 	// m.Route("/", func(r chi.Router) {

@@ -21,6 +21,10 @@
     align-items: center;
 }
 
+.account-action {
+    text-decoration-line: underline;
+}
+
 /* icon */
 
 .gg-menu {

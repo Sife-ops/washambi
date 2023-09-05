@@ -18,7 +18,7 @@ type signInReq struct {
 }
 
 func SignIn(w http.ResponseWriter, r *http.Request) {
-	var b signUpReq
+	var b signInReq
 	if e := json.NewDecoder(r.Body).Decode(&b); e != nil {
 		http.Error(w, "JSON unmarshal", http.StatusBadRequest)
 		return

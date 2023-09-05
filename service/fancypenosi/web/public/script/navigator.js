@@ -20,6 +20,20 @@ async function main() {
             drawer.style.display = "none";
         }
     });
+
+    /** @type {HTMLButtonElement} */
+    const signOut = document.querySelector("#sign-out");
+
+    signOut.addEventListener("click", async function () {
+        // @ts-ignore
+        const res = await fetch(`${fancypenosiUrl}/sign-out`, {
+            method: "POST",
+        });
+        if (res.ok) {
+            // @ts-ignore
+            window.fadeTo("/sign-in");
+        }
+    });
 }
 
 main();

@@ -8,4 +8,12 @@
 
 <div id="drawer" style="display: none;">
     <div>tools</div>
+    {{ if .authorized }}
+    <button class="account-action" id="sign-out">sign out</button>
+    {{ else }}
+    <div>
+        <button class="account-action" onclick='fadeTo("/sign-in")'>sign in</button> /
+        <button class="account-action" onclick='fadeTo("/sign-up")'>sign up</button>
+    </div>
+    {{ end }}
 </div>
