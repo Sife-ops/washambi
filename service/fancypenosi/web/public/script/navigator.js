@@ -1,5 +1,4 @@
 async function main() {
-    // @ts-ignore
     await fetch(`${fancypenosiUrl}/partial/navigator`, {
         method: "GET",
     })
@@ -25,7 +24,6 @@ async function main() {
     const signOut = document.querySelector("#sign-out");
 
     signOut.addEventListener("click", async function () {
-        // @ts-ignore
         const res = await fetch(`${fancypenosiUrl}/sign-out`, {
             method: "POST",
         });

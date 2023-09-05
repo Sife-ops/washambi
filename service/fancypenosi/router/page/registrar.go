@@ -29,7 +29,7 @@ func Registrar(aa RegistrarAction) http.HandlerFunc {
 			ParsePage("page/registrar.html").
 			Execute(w, map[string]interface{}{
 				"registrarAction": aa,
-				"styles":          []string{"registrar"},
+				"styles":          []string{"/public/style/registrar.css"},
 				"cornpopUrl":      cornpopUrl,
 				"bg":              bgs[rand.Intn(len(bgs))],
 			})

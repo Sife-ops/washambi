@@ -5,6 +5,7 @@
 
 <iframe id="bg-iframe" src="{{ .cornpopUrl }}/bg/{{ .bg }}/page.html"></iframe>
 
+    <div>{{.transitionDuration}}</div>
 <div id="fader" class="fader-below h-full transition-transform duration-1000 text-2xl">
     <div id="sign-in-page" class="h-full flex justify-center items-center transition-opacity duration-500" {{ if eq
         .registrarAction "sign-up" }} style="display: none; opacity: 0;" {{ else }} style="display: flex; opacity: 1;"

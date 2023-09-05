@@ -1,3 +1,5 @@
+{{ $transitionDuration := 500 }}
+
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 
@@ -5,25 +7,30 @@
     <meta charset="UTF-8" />
     <title>Washambi</title>
 
-    {{ range .scripts }} {{ if .type }}
-    <script type="{{ .type }}" src="{{ .path }}"></script>
-    {{ else }}
-    <script src="{{ .path }}"></script>
-    {{ end }} {{ end }}
+    <style>
+        body {
+            opacity: 0;
+            transition-property: opacity;
+            /* transition-timing-function: ease-in-out; */
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: {{ $transitionDuration }}ms;
+        }
+    </style>
 
     <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
     <link rel="stylesheet" href="{{ .fancypenosiUrl }}/public/style/navigator.css" type="text/css" />
 
     {{ range .styles }}
-    <link rel="stylesheet" href="/public/style/{{ . }}.css" type="text/css" />
+    <link rel="stylesheet" href="{{ . }}" type="text/css" />
     {{ end }}
 </head>
 
-<body class="h-full opacity-0 transition-opacity duration-[2000ms] bg-slate-800 text-white">
+<body class="h-full bg-slate-800 text-white">
     {{ block "content" . }} {{ end }}
 
     <script>
         const fancypenosiUrl = "{{ .fancypenosiUrl }}";
+        const transitionDuration = {{ $transitionDuration }};
     </script>
 
     <script type="module" src="/public/script/main.js"></script>

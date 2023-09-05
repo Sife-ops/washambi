@@ -9,7 +9,7 @@ window.fadeTo = function (url) {
     document.querySelector("body").style.opacity = "0";
     setTimeout(() => {
         location.href = url;
-    }, 2000);
+    }, transitionDuration);
 };
 
 export { };
