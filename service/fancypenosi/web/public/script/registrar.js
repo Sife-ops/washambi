@@ -104,16 +104,26 @@ function initForms() {
             signInText.style.display = "none";
             signInLoader.style.display = "block";
             signInError.style.display = "none";
-            focusSignUp.disabled = true;
 
-            // todo: fetch
-            const res = {
-                ok: true,
-            };
+            const res = await fetch("/sign-in", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: signInEmail.value,
+                    password: signInPassword.value,
+                })
+            })
+
+            // const res = {
+            //     ok: true,
+            // };
 
             setTimeout(() => {
+                signInLoader.style.display = "none";
+
                 if (res.ok) {
-                    signInLoader.style.display = "none";
                     signInSuccess.style.display = "block";
 
                     setTimeout(() => {
@@ -123,20 +133,20 @@ function initForms() {
                             "carousel-sign-in",
                             "carousel-sign-in-above"
                         );
-                        document.querySelector("body").style.opacity = "0";
+                        // document.querySelector("body").style.opacity = "0";
 
                         setTimeout(() => {
-                            location.href = "/account"
+                            // location.href = "/account"
                         }, 2000);
                     }, 500);
 
                     return;
                 }
 
+                signInText.style.display = "block";
                 signInEmail.readOnly = false;
                 signInPassword.readOnly = false;
                 signInSubmit.disabled = false;
-                focusSignUp.disabled = false;
 
                 switch (res.statusText) {
                     case "todo":
@@ -208,25 +218,26 @@ function initForms() {
             signUpText.style.display = "none";
             signUpLoader.style.display = "block";
             signUpError.style.display = "none";
-            focusSignIn.disabled = true;
 
-            // const res = await fetch("/sign-up", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-Type": "application/json"
-            //     },
-            //     body: JSON.stringify({
-            //         email: email.value,
-            //         password: password.value,
-            //     })
-            // })
-            const res = {
-                ok: true,
-            };
+            const res = await fetch("/sign-up", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email: signUpEmail.value,
+                    password: signUpPassword.value,
+                })
+            })
+
+            // const res = {
+            //     ok: true,
+            // };
 
             setTimeout(function () {
+                signUpLoader.style.display = "none";
+
                 if (res.ok) {
-                    signUpLoader.style.display = "none";
                     signUpSuccess.style.display = "block"
 
                     setTimeout(function () {
@@ -236,11 +247,11 @@ function initForms() {
                     return;
                 }
 
+                signUpText.style.display = "block";
                 signUpEmail.readOnly = false;
                 signUpPassword.readOnly = false;
                 confirmPassword.readOnly = false;
                 signUpSubmit.disabled = false;
-                focusSignIn.disabled = false;
 
                 switch (res.statusText) {
                     case "Conflict":

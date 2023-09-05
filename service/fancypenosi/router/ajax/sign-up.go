@@ -3,10 +3,11 @@ package ajax
 import (
 	"context"
 	"encoding/json"
-	// "log"
 	"net/http"
 	"net/mail"
 	"strings"
+
+	"golang.org/x/crypto/bcrypt"
 
 	"fancypenosi/rpc"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
@@ -37,9 +38,15 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	h, e := bcrypt.GenerateFromPassword([]byte(b.Password), 0) // default to 10
+	if e != nil {
+		http.Error(w, "password hash", http.StatusInternalServerError)
+		return
+	}
+
 	if _, e := rpc.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Email:    b.Email,
-		Password: b.Password,
+		Password: string(h),
 	}); e != nil {
 		if strings.Contains(e.Error(), "AlreadyExists") {
 			http.Error(w, "already exists", http.StatusConflict)

@@ -44,6 +44,7 @@ func Serve() error {
 
 	m.Get("/partial/navigator", partial.Navigator)
 
+	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
 
 	if e := serveStatic(m, "public"); e != nil {

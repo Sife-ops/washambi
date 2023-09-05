@@ -3,9 +3,7 @@
 
 {{ define "content" }}
 
-{{ with .cornpopUrl }}
-<iframe id="bg-iframe" src="{{ . }}/bg/{{ $.bg }}/page.html"></iframe>
-{{ end }}
+<iframe id="bg-iframe" src="{{ .cornpopUrl }}/bg/{{ .bg }}/page.html"></iframe>
 
 <div id="fader" class="fader-below h-full transition-transform duration-1000 text-2xl">
     <div id="sign-in-page" class="h-full flex justify-center items-center transition-opacity duration-500" {{ if eq
@@ -35,7 +33,7 @@
                     <span id="sign-in-success" class="hidden"> Success! </span>
                 </button>
 
-                <div id="sign-in-error" class="p-3 outline outline-1 outline-red-500 bg-red-200 hidden">
+                <div id="sign-in-error" class="p-3 outline outline-1 outline-red-500 bg-red-800 hidden">
                     🚫 <span id="sign-in-error-text"></span>
                 </div>
 
@@ -81,7 +79,7 @@
                     <span id="sign-up-success" class="hidden"> Success! </span>
                 </button>
 
-                <div id="sign-up-error" class="p-3 outline outline-1 outline-red-500 bg-red-200 hidden">
+                <div id="sign-up-error" class="p-3 outline outline-1 outline-red-500 bg-red-800 hidden">
                     🚫 <span id="sign-up-error-text"></span>
                 </div>
 
