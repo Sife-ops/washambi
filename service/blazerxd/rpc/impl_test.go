@@ -6,6 +6,7 @@ import (
 	"strings"
 	"testing"
 
+	"blazerxd/db"
 	zt "blazerxd/db/zoomers/table"
 	"blazerxd/test"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
@@ -13,15 +14,8 @@ import (
 	. "github.com/go-jet/jet/v2/postgres"
 )
 
-var testClients *test.TestClients
-
 func TestMain(m *testing.M) {
 	// before all
-	tc, e := test.NewTestClients()
-	if e != nil {
-		panic(e)
-	}
-	testClients = tc
 
 	code := m.Run()
 
@@ -41,14 +35,14 @@ func createTestUser() error {
 		INSERT(zt.User.Email, zt.User.Password).
 		VALUES(testUser.Email, testUser.Password).
 		RETURNING(zt.User.AllColumns)
-	_, e := stmt.Exec(testClients.Db)
+	_, e := stmt.Exec(db.Connection)
 	return e
 }
 
 // move to package test
 func deleteTestUser() {
 	stmt := zt.User.DELETE().WHERE(zt.User.Email.EQ(String(testUser.Email)))
-	stmt.Exec(testClients.Db)
+	stmt.Exec(db.Connection)
 }
 
 func beforeEach() {
@@ -63,7 +57,7 @@ func Test_Create_Success(t *testing.T) {
 	beforeEach()
 	defer afterEach()
 
-	_, e := testClients.Grpc.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+	_, e := test.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Email:    testUser.Email,
 		Password: testUser.Password,
 	})
@@ -81,7 +75,7 @@ func Test_Create_DuplicateUserError(t *testing.T) {
 	}
 	defer afterEach()
 
-	_, e := testClients.Grpc.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+	_, e := test.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Email:    testUser.Email,
 		Password: testUser.Password,
 	})
@@ -101,7 +95,7 @@ func Test_Get_Success(t *testing.T) {
 	}
 	defer afterEach()
 
-	_, e := testClients.Grpc.Get(context.TODO(), &blazerxd_pb.GetRequest{
+	_, e := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
 		Email: testUser.Email,
 	})
 	if e != nil {
@@ -115,7 +109,7 @@ func Test_Get_UserNotFoundError(t *testing.T) {
 	beforeEach()
 	defer afterEach()
 
-	_, e := testClients.Grpc.Get(context.TODO(), &blazerxd_pb.GetRequest{
+	_, e := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
 		Email: testUser.Email,
 	})
 	if e != nil {

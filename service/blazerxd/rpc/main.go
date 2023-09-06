@@ -1,54 +1,28 @@
 package rpc
 
 import (
-	"database/sql"
+	"fmt"
+	"log"
 	"net"
 
-	_ "github.com/jackc/pgx/v5/stdlib"
 	"google.golang.org/grpc"
 
-	"blazerxd/db"
+	env "washambi-env"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 )
 
 type ServerImpl struct {
-	Db *sql.DB
 	blazerxd_pb.UnimplementedBlazerxdServer
 }
 
-func NewServerImpl() (*ServerImpl, error) {
-	d, e := db.PostgresConnection()
+func Serve() error {
+	l, e := net.Listen("tcp", fmt.Sprintf(":%s", env.BlazerxdPort))
 	if e != nil {
-		return nil, e
-	}
-
-	return &ServerImpl{
-		Db: d,
-	}, nil
-}
-
-type Server struct {
-	listener   net.Listener
-	grpcServer *grpc.Server
-}
-
-func NewServer() (*Server, error) {
-	l, e := net.Listen("tcp", ":50051")
-	if e != nil {
-		return nil, e
-	}
-
-	i, e := NewServerImpl()
-	if e != nil {
-		return nil, e
+		log.Fatalf("grpc listen: %v", e)
 	}
 
 	g := grpc.NewServer()
-	blazerxd_pb.RegisterBlazerxdServer(g, i)
+	blazerxd_pb.RegisterBlazerxdServer(g, &ServerImpl{})
 
-	return &Server{l, g}, nil
-}
-
-func (s *Server) Serve() error {
-	return s.grpcServer.Serve(s.listener)
+	return g.Serve(l)
 }

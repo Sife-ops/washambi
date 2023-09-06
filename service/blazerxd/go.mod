@@ -7,6 +7,8 @@ require (
 	github.com/google/uuid v1.3.0
 	github.com/jackc/pgx/v5 v5.4.3
 	google.golang.org/grpc v1.57.0
+	google.golang.org/protobuf v1.31.0
+	washambi-env v0.0.0
 	washambi-rpc v0.0.0
 )
 
@@ -23,8 +25,9 @@ require (
 	golang.org/x/sys v0.8.0 // indirect
 	golang.org/x/text v0.9.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20230525234030-28d5490b6b19 // indirect
-	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
+
+replace washambi-env v0.0.0 => ../../env/go
 
 replace washambi-rpc v0.0.0 => ../../rpc/package/go

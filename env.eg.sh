@@ -2,10 +2,16 @@
 # washambi
 #
 export WASHAMBI_PG_DATABASE=washambi_local
-export WASHAMBI_PG_HOST=localhost
+export WASHAMBI_PG_HOST=127.0.0.1
 export WASHAMBI_PG_USER=washambi_local
 export WASHAMBI_PG_PASSWORD=washambi
 export WASHAMBI_PG_PORT=5432
+
+#
+# blazerxd
+#
+export WASHAMBI_BLAZERXD_PORT=50051
+export WASHAMBI_BLAZERXD_URL=http://127.0.0.1:${WASHAMBI_BLAZERXD_PORT}
 
 #
 # cornpop

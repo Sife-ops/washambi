@@ -2,11 +2,9 @@ package router
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"io/fs"
 	"net/http"
-	"os"
 
 	"github.com/go-chi/chi"
 
@@ -14,6 +12,7 @@ import (
 	"fancypenosi/router/page"
 	"fancypenosi/router/partial"
 	"fancypenosi/web"
+    env "washambi-env"
 )
 
 // source: https://github.com/go-chi/chi/blob/master/_examples/fileserver/main.go
@@ -96,13 +95,8 @@ func Serve() error {
 		return e
 	}
 
-	p, e := os.LookupEnv("WASHAMBI_FANCYPENOSI_PORT")
-	if !e || p == "" {
-		return errors.New("environment variable not set: WASHAMBI_FANCYPENOSI_PORT")
-	}
-
 	s := http.Server{
-		Addr:    fmt.Sprintf(":%s", p),
+		Addr:    fmt.Sprintf(":%s", env.FancypenosiPort),
 		Handler: m,
 	}
 

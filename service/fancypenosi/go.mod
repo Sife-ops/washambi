@@ -6,6 +6,7 @@ require (
 	github.com/go-chi/chi v1.5.4
 	golang.org/x/crypto v0.12.0
 	google.golang.org/grpc v1.57.0
+	washambi-env v0.0.0
 	washambi-rpc v0.0.0
 )
 
@@ -18,4 +19,5 @@ require (
 	google.golang.org/protobuf v1.31.0 // indirect
 )
 
+replace washambi-env v0.0.0 => ../../env/go
 replace washambi-rpc v0.0.0 => ../../rpc/package/go

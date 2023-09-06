@@ -19,7 +19,7 @@ sql:
 watch:
 	air
 
-asdf:
+test-once:
 	go test -v ./...
 
 test-watch:

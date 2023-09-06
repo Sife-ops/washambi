@@ -3,10 +3,10 @@ package router
 import (
 	"fmt"
 	"net/http"
-	"os"
 	"strings"
 
 	"wokejak/web"
+    "washambi-env"
 )
 
 func Root(w http.ResponseWriter, r *http.Request) {
@@ -16,7 +16,7 @@ func Root(w http.ResponseWriter, r *http.Request) {
 	}
 
 	web.Parse(fmt.Sprintf("page/%s.html", variant)).Execute(w, map[string]interface{}{
-		"cornpopUrl": os.Getenv("WASHAMBI_CORNPOP_URL"),
+		"cornpopUrl": env.CornpopUrl,
 		"styles":     []string{variant},
 	})
 }

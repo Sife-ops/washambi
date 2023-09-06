@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+    "blazerxd/db"
 	zm "blazerxd/db/zoomers/model"
 	zt "blazerxd/db/zoomers/table"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
@@ -38,7 +39,7 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 		RETURNING(zt.User.AllColumns)
 
 	u := []zm.User{}
-	e := stmt.Query(s.Db, &u)
+	e := stmt.Query(db.Connection, &u)
 	if e != nil {
 		if strings.Contains(e.Error(), "23505") {
 			return nil, status.Error(codes.AlreadyExists, e.Error())
@@ -57,7 +58,7 @@ func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*bl
 		WHERE(zt.User.Email.EQ(String(call.Email)))
 
 	u := []zm.User{}
-	e := stmt.Query(s.Db, &u)
+	e := stmt.Query(db.Connection, &u)
 	if e != nil {
 		return nil, e
 	}
