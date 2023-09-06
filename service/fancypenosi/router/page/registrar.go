@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"fancypenosi/web"
-	"washambi-env"
+	env "washambi-env"
 )
 
 type RegistrarAction string
@@ -15,14 +15,14 @@ const (
 	SignIn RegistrarAction = "sign-in"
 )
 
-func Registrar(aa RegistrarAction) http.HandlerFunc {
+func Registrar(ra RegistrarAction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		bgs := []string{"forest", "city", "scope"} // todo: cornpop grpc
 
 		web.
 			ParsePage("page/registrar.html").
 			Execute(w, map[string]interface{}{
-				"registrarAction": aa,
+				"registrarAction": ra,
 				"styles":          []string{"/public/style/registrar.css"},
 				"cornpopUrl":      env.CornpopUrl,
 				"bg":              bgs[rand.Intn(len(bgs))],

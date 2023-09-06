@@ -12,7 +12,7 @@ import (
 	"fancypenosi/router/page"
 	"fancypenosi/router/partial"
 	"fancypenosi/web"
-    env "washambi-env"
+	"washambi-env"
 )
 
 // source: https://github.com/go-chi/chi/blob/master/_examples/fileserver/main.go

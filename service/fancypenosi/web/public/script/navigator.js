@@ -28,7 +28,6 @@ async function main() {
             method: "POST",
         });
         if (res.ok) {
-            // @ts-ignore
             window.fadeTo("/sign-in");
         }
     });

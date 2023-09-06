@@ -22,58 +22,39 @@ window.addEventListener("load", function () {
 ////////////////////////////////////////////////////////////////////////////////
 // forms
 
-function initForms() {
-    // switch action
+// switch action
 
-    /** @type {HTMLButtonElement} */
-    const focusSignUp = document.querySelector("#focus-carousel-sign-up");
+window.switchAction = function (action) {
+    /** @type {Record<string,HTMLElement>} */
+    const pages = {
+        "sign-in": document.querySelector("#sign-in-page"),
+        "sign-up": document.querySelector("#sign-up-page"),
+    };
 
-    focusSignUp.addEventListener("click", function () {
-        /** @type {HTMLElement} */
-        const a = document.querySelector("#sign-in-page");
-        /** @type {HTMLElement} */
-        const b = document.querySelector("#sign-up-page");
+    pages[registrarAction].style.opacity = "0";
 
-        a.style.opacity = "0";
+    setTimeout(() => {
+        for (const p in pages) {
+            if (p === action) continue;
+            pages[p].style.display = "none";
+        }
+        pages[action].style.display = "flex";
         setTimeout(() => {
-            a.style.display = "none";
-            b.style.display = "flex";
-            setTimeout(() => {
-                b.style.opacity = "1";
-            }, 10);
-        }, 500);
-
-        document
-            .querySelector("#carousel")
-            .classList.replace("carousel-sign-in", "carousel-sign-up");
-    });
-
-    /** @type {HTMLButtonElement} */
-    const focusSignIn = document.querySelector("#focus-carousel-sign-in");
+            pages[action].style.opacity = "1";
+        }, 10);
+    }, 500);
 
     document
-        .querySelector("#focus-carousel-sign-in")
-        .addEventListener("click", function () {
-            /** @type {HTMLElement} */
-            const a = document.querySelector("#sign-in-page");
-            /** @type {HTMLElement} */
-            const b = document.querySelector("#sign-up-page");
+        .querySelector("#carousel")
+        .classList.replace(`carousel-${registrarAction}`, `carousel-${action}`);
 
-            b.style.opacity = "0";
-            setTimeout(() => {
-                b.style.display = "none";
-                a.style.display = "flex";
-                setTimeout(() => {
-                    a.style.opacity = "1";
-                }, 10);
-            }, 500);
+    registrarAction = action;
+};
 
-            document
-                .querySelector("#carousel")
-                .classList.replace("carousel-sign-up", "carousel-sign-in");
-        });
+// sign in
 
-    // sign-in form
+window.signIn = async function (event) {
+    event.preventDefault();
 
     /** @type {HTMLInputElement} */
     const signInEmail = document.querySelector("#sign-in-email");
@@ -92,91 +73,85 @@ function initForms() {
     /** @type {HTMLElement} */
     const signInErrorText = document.querySelector("#sign-in-error-text");
 
-    document
-        .querySelector("#sign-in-form")
-        .addEventListener("submit", async function (event) {
-            event.preventDefault();
+    signInEmail.readOnly = true;
+    signInPassword.readOnly = true;
+    signInSubmit.disabled = true;
+    signInText.style.display = "none";
+    signInLoader.style.display = "block";
+    signInError.style.display = "none";
 
-            signInEmail.readOnly = true;
-            signInPassword.readOnly = true;
-            signInSubmit.disabled = true;
-            signInText.style.display = "none";
-            signInLoader.style.display = "block";
-            signInError.style.display = "none";
+    const res = await fetch("/sign-in", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email: signInEmail.value,
+            password: signInPassword.value,
+        }),
+    });
 
-            const res = await fetch("/sign-in", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: signInEmail.value,
-                    password: signInPassword.value,
-                }),
-            });
+    setTimeout(() => {
+        signInLoader.style.display = "none";
 
-            // const res = {
-            //     ok: true,
-            // };
+        if (res.ok) {
+            signInSuccess.style.display = "block";
 
             setTimeout(() => {
-                signInLoader.style.display = "none";
+                fader.classList.add("fader-above");
 
-                if (res.ok) {
-                    signInSuccess.style.display = "block";
+                carousel.classList.replace(
+                    "carousel-sign-in",
+                    "carousel-sign-in-above"
+                );
+                document.querySelector("body").style.opacity = "0";
 
-                    setTimeout(() => {
-                        fader.classList.add("fader-above");
+                setTimeout(() => {
+                    let redirect = "/";
 
-                        carousel.classList.replace(
-                            "carousel-sign-in",
-                            "carousel-sign-in-above"
-                        );
-                        document.querySelector("body").style.opacity = "0";
+                    // todo: remove cookie
+                    document.cookie.split(";").map((x) => {
+                        const y = x.split("=");
+                        if (y[0] === "redirect") {
+                            redirect = y[1];
+                        }
+                    });
 
-                        setTimeout(() => {
-                            let redirect = "/";
-
-                            // todo: remove cookie
-                            document.cookie.split(";").map((x) => {
-                                const y = x.split("=");
-                                if (y[0] === "redirect") {
-                                    redirect = y[1];
-                                }
-                            });
-
-                            location.href = redirect;
-                        }, transitionDuration);
-                    }, 500);
-
-                    return;
-                }
-
-                signInText.style.display = "block";
-                signInEmail.readOnly = false;
-                signInPassword.readOnly = false;
-                signInSubmit.disabled = false;
-
-                switch (res.statusText) {
-                    case "Not Found":
-                        signInErrorText.innerText =
-                            "An account with that e-mail doesn't exist.";
-                        break;
-
-                    case "Unauthorized":
-                        signInErrorText.innerText = "Incorrect password.";
-                        break;
-
-                    default:
-                        signUpErrorText.innerText =
-                            "An unkown error occurred. Please try again later.";
-                        break;
-                }
-                signInError.style.display = "block";
+                    location.href = redirect;
+                }, transitionDuration);
             }, 500);
-        });
 
-    // sign-up form
+            return;
+        }
+
+        signInText.style.display = "block";
+        signInEmail.readOnly = false;
+        signInPassword.readOnly = false;
+        signInSubmit.disabled = false;
+
+        switch (res.statusText) {
+            case "Not Found":
+                signInErrorText.innerText =
+                    "An account with that e-mail doesn't exist.";
+                break;
+
+            case "Unauthorized":
+                signInErrorText.innerText = "Incorrect password.";
+                break;
+
+            default:
+                signInErrorText.innerText =
+                    "An unkown error occurred. Please try again later.";
+                break;
+        }
+        signInError.style.display = "block";
+    }, 500);
+};
+
+// sign up
+
+window.signUp = async function (event) {
+    event.preventDefault();
 
     /** @type {HTMLInputElement} */
     const signUpEmail = document.querySelector("#sign-up-email");
@@ -223,68 +198,58 @@ function initForms() {
     signUpPassword.onchange = validate;
     confirmPassword.onchange = validate;
 
-    document
-        .querySelector("#sign-up-form")
-        .addEventListener("submit", async function (event) {
-            event.preventDefault();
+    signUpEmail.readOnly = true;
+    signUpPassword.readOnly = true;
+    confirmPassword.readOnly = true;
+    signUpSubmit.disabled = true;
+    signUpText.style.display = "none";
+    signUpLoader.style.display = "block";
+    signUpError.style.display = "none";
 
-            signUpEmail.readOnly = true;
-            signUpPassword.readOnly = true;
-            confirmPassword.readOnly = true;
-            signUpSubmit.disabled = true;
-            signUpText.style.display = "none";
-            signUpLoader.style.display = "block";
-            signUpError.style.display = "none";
+    const res = await fetch("/sign-up", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+            email: signUpEmail.value,
+            password: signUpPassword.value,
+        }),
+    });
 
-            const res = await fetch("/sign-up", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email: signUpEmail.value,
-                    password: signUpPassword.value,
-                }),
-            });
+    setTimeout(function () {
+        signUpLoader.style.display = "none";
 
-            // const res = {
-            //     ok: true,
-            // };
+        if (res.ok) {
+            signUpSuccess.style.display = "block";
 
             setTimeout(function () {
-                signUpLoader.style.display = "none";
-
-                if (res.ok) {
-                    signUpSuccess.style.display = "block";
-
-                    setTimeout(function () {
-                        focusSignIn.click();
-                    }, 500);
-
-                    return;
-                }
-
-                signUpText.style.display = "block";
-                signUpEmail.readOnly = false;
-                signUpPassword.readOnly = false;
-                confirmPassword.readOnly = false;
-                signUpSubmit.disabled = false;
-
-                switch (res.statusText) {
-                    case "Conflict":
-                        signUpErrorText.innerText =
-                            "An account with that e-mail already exists!";
-                        break;
-
-                    default:
-                        signUpErrorText.innerText =
-                            "An unkown error occurred. Please try again later.";
-                        break;
-                }
-                signUpError.style.display = "block";
+                window.focusSignIn();
             }, 500);
-        });
-}
+
+            return;
+        }
+
+        signUpText.style.display = "block";
+        signUpEmail.readOnly = false;
+        signUpPassword.readOnly = false;
+        confirmPassword.readOnly = false;
+        signUpSubmit.disabled = false;
+
+        switch (res.statusText) {
+            case "Conflict":
+                signUpErrorText.innerText =
+                    "An account with that e-mail already exists!";
+                break;
+
+            default:
+                signUpErrorText.innerText =
+                    "An unkown error occurred. Please try again later.";
+                break;
+        }
+        signUpError.style.display = "block";
+    }, 500);
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // responsive
@@ -320,8 +285,6 @@ function lgFn(event) {
         document.querySelector("#sign-in-window").innerHTML = t;
         document.querySelector("#sign-up-window").innerHTML = tt;
     }
-
-    initForms();
 }
 
 lgFn(lg);

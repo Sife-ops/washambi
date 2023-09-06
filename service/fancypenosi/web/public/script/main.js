@@ -3,8 +3,6 @@ window.addEventListener("load", function () {
     document.querySelector("body").style.opacity = "1";
 });
 
-/** @param {string} url */
-// @ts-ignore
 window.fadeTo = function (url) {
     document.querySelector("body").style.opacity = "0";
     setTimeout(() => {

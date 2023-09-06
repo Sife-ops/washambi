@@ -5,13 +5,13 @@
 
 <iframe id="bg-iframe" src="{{ .cornpopUrl }}/bg/{{ .bg }}/page.html"></iframe>
 
-    <div>{{.transitionDuration}}</div>
+<div>{{.transitionDuration}}</div>
 <div id="fader" class="fader-below h-full transition-transform duration-1000 text-2xl">
     <div id="sign-in-page" class="h-full flex justify-center items-center transition-opacity duration-500" {{ if eq
         .registrarAction "sign-up" }} style="display: none; opacity: 0;" {{ else }} style="display: flex; opacity: 1;"
         {{ end }}>
         <div id="sign-in-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm text-white">
-            <form id="sign-in-form" class="flex flex-col gap-5">
+            <form id="sign-in-form" class="flex flex-col gap-5" onsubmit="signIn(event)">
                 <h1 class="font-bold text-5xl lg:text-3xl text-center">Sign In to Washambi</h1>
 
                 <div>
@@ -25,6 +25,10 @@
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="sign-in-password" name="sign-in-password" type="password" required />
                     <!-- todo: forgot password -->
+                    <button id="focus-forgot-password" class="underline mt-1">
+                        Forgot password?
+                    </button>
+
                 </div>
 
                 <button id="sign-in-submit"
@@ -39,8 +43,8 @@
                     🚫 <span id="sign-in-error-text"></span>
                 </div>
 
-                <button id="focus-carousel-sign-up" type="button" class="text-center">
-                    Don't have an account? Sign up
+                <button type="button" onclick='switchAction("sign-up")' class="text-center">
+                    Don't have an account? <span class="underline">Sign up</span>
                 </button>
             </form>
         </div>
@@ -50,7 +54,7 @@
         .registrarAction "sign-in" }} style="display: none; opacity: 0;" {{ else }} style="display: flex; opacity: 1;"
         {{ end }}>
         <div id="sign-up-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm text-white">
-            <form id="sign-up-form" class="flex flex-col gap-5">
+            <form id="sign-up-form" class="flex flex-col gap-5" onsubmit="signUp(event)">
                 <h1 class="font-bold text-5xl lg:text-3xl text-center">Sign Up for Washambi</h1>
 
                 <div>
@@ -85,8 +89,8 @@
                     🚫 <span id="sign-up-error-text"></span>
                 </div>
 
-                <button id="focus-carousel-sign-in" class="text-center" type="button">
-                    Already have an account? Sign in
+                <button onclick='switchAction("sign-in")' class="text-center" type="button">
+                    Already have an account? <span class="underline">Sign in</span>
                 </button>
             </form>
         </div>
