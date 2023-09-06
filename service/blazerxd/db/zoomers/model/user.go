@@ -13,9 +13,16 @@ import (
 )
 
 type User struct {
-	ID        uuid.UUID `sql:"primary_key"`
-	Email     string
-	Password  string
-	CreatedAt time.Time
-	DeletedAt *time.Time
+	ID              uuid.UUID `sql:"primary_key"`
+	Email           string
+	Password        string
+	RecoveryPrompt1 string
+	RecoveryPrompt2 string
+	RecoveryPrompt3 string
+	RecoveryAnswer1 string
+	RecoveryAnswer2 string
+	RecoveryAnswer3 string
+	CreatedAt       time.Time
+	UpdatedAt       *time.Time
+	DeletedAt       *time.Time
 }

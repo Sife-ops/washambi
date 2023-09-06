@@ -20,14 +20,27 @@ message User {
   string id = 1;
   string email = 2;
   string password = 3;
-  google.protobuf.Timestamp created_at = 4;
-  google.protobuf.Timestamp deleted_at = 5;
+  string recoveryPrompt1 = 4;
+  string recoveryPrompt2 = 5;
+  string recoveryPrompt3 = 6;
+  string recoveryAnswer1 = 7;
+  string recoveryAnswer2 = 8;
+  string recoveryAnswer3 = 9;
+  google.protobuf.Timestamp created_at = 10;
+  google.protobuf.Timestamp updated_at = 11;
+  google.protobuf.Timestamp deleted_at = 12;
 }
 
 // create
 message CreateRequest {
   string email = 1;
   string password = 2;
+  string recoveryPrompt1 = 3;
+  string recoveryPrompt2 = 4;
+  string recoveryPrompt3 = 5;
+  string recoveryAnswer1 = 6;
+  string recoveryAnswer2 = 7;
+  string recoveryAnswer3 = 8;
 }
 
 message CreateResponse { User user = 1; }

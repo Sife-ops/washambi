@@ -17,11 +17,18 @@ type userTable struct {
 	postgres.Table
 
 	// Columns
-	ID        postgres.ColumnString
-	Email     postgres.ColumnString
-	Password  postgres.ColumnString
-	CreatedAt postgres.ColumnTimestamp
-	DeletedAt postgres.ColumnTimestamp
+	ID              postgres.ColumnString
+	Email           postgres.ColumnString
+	Password        postgres.ColumnString
+	RecoveryPrompt1 postgres.ColumnString
+	RecoveryPrompt2 postgres.ColumnString
+	RecoveryPrompt3 postgres.ColumnString
+	RecoveryAnswer1 postgres.ColumnString
+	RecoveryAnswer2 postgres.ColumnString
+	RecoveryAnswer3 postgres.ColumnString
+	CreatedAt       postgres.ColumnTimestamp
+	UpdatedAt       postgres.ColumnTimestamp
+	DeletedAt       postgres.ColumnTimestamp
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -62,24 +69,38 @@ func newUserTable(schemaName, tableName, alias string) *UserTable {
 
 func newUserTableImpl(schemaName, tableName, alias string) userTable {
 	var (
-		IDColumn        = postgres.StringColumn("id")
-		EmailColumn     = postgres.StringColumn("email")
-		PasswordColumn  = postgres.StringColumn("password")
-		CreatedAtColumn = postgres.TimestampColumn("created_at")
-		DeletedAtColumn = postgres.TimestampColumn("deleted_at")
-		allColumns      = postgres.ColumnList{IDColumn, EmailColumn, PasswordColumn, CreatedAtColumn, DeletedAtColumn}
-		mutableColumns  = postgres.ColumnList{EmailColumn, PasswordColumn, CreatedAtColumn, DeletedAtColumn}
+		IDColumn              = postgres.StringColumn("id")
+		EmailColumn           = postgres.StringColumn("email")
+		PasswordColumn        = postgres.StringColumn("password")
+		RecoveryPrompt1Column = postgres.StringColumn("recovery_prompt_1")
+		RecoveryPrompt2Column = postgres.StringColumn("recovery_prompt_2")
+		RecoveryPrompt3Column = postgres.StringColumn("recovery_prompt_3")
+		RecoveryAnswer1Column = postgres.StringColumn("recovery_answer_1")
+		RecoveryAnswer2Column = postgres.StringColumn("recovery_answer_2")
+		RecoveryAnswer3Column = postgres.StringColumn("recovery_answer_3")
+		CreatedAtColumn       = postgres.TimestampColumn("created_at")
+		UpdatedAtColumn       = postgres.TimestampColumn("updated_at")
+		DeletedAtColumn       = postgres.TimestampColumn("deleted_at")
+		allColumns            = postgres.ColumnList{IDColumn, EmailColumn, PasswordColumn, RecoveryPrompt1Column, RecoveryPrompt2Column, RecoveryPrompt3Column, RecoveryAnswer1Column, RecoveryAnswer2Column, RecoveryAnswer3Column, CreatedAtColumn, UpdatedAtColumn, DeletedAtColumn}
+		mutableColumns        = postgres.ColumnList{EmailColumn, PasswordColumn, RecoveryPrompt1Column, RecoveryPrompt2Column, RecoveryPrompt3Column, RecoveryAnswer1Column, RecoveryAnswer2Column, RecoveryAnswer3Column, CreatedAtColumn, UpdatedAtColumn, DeletedAtColumn}
 	)
 
 	return userTable{
 		Table: postgres.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:        IDColumn,
-		Email:     EmailColumn,
-		Password:  PasswordColumn,
-		CreatedAt: CreatedAtColumn,
-		DeletedAt: DeletedAtColumn,
+		ID:              IDColumn,
+		Email:           EmailColumn,
+		Password:        PasswordColumn,
+		RecoveryPrompt1: RecoveryPrompt1Column,
+		RecoveryPrompt2: RecoveryPrompt2Column,
+		RecoveryPrompt3: RecoveryPrompt3Column,
+		RecoveryAnswer1: RecoveryAnswer1Column,
+		RecoveryAnswer2: RecoveryAnswer2Column,
+		RecoveryAnswer3: RecoveryAnswer3Column,
+		CreatedAt:       CreatedAtColumn,
+		UpdatedAt:       UpdatedAtColumn,
+		DeletedAt:       DeletedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

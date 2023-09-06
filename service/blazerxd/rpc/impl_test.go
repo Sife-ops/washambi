@@ -25,15 +25,39 @@ func TestMain(m *testing.M) {
 
 // move to package test
 var testUser = blazerxd_pb.User{
-	Email:    "blazer@xd.com",
-	Password: "blazerxd",
+	Email:           "blazer@xd.com",
+	Password:        "blazerxd",
+	RecoveryPrompt1: "favorite book",
+	RecoveryPrompt2: "favorite movie",
+	RecoveryPrompt3: "favorite food",
+	RecoveryAnswer1: "teh stand",
+	RecoveryAnswer2: "teh thing",
+	RecoveryAnswer3: "piza",
 }
 
 // move to package test
 func createTestUser() error {
 	stmt := zt.User.
-		INSERT(zt.User.Email, zt.User.Password).
-		VALUES(testUser.Email, testUser.Password).
+		INSERT(
+			zt.User.Email,
+			zt.User.Password,
+			zt.User.RecoveryPrompt1,
+			zt.User.RecoveryPrompt2,
+			zt.User.RecoveryPrompt3,
+			zt.User.RecoveryAnswer1,
+			zt.User.RecoveryAnswer2,
+			zt.User.RecoveryAnswer3,
+		).
+		VALUES(
+			testUser.Email,
+			testUser.Password,
+			testUser.RecoveryPrompt1,
+			testUser.RecoveryPrompt2,
+			testUser.RecoveryPrompt3,
+			testUser.RecoveryAnswer1,
+			testUser.RecoveryAnswer2,
+			testUser.RecoveryAnswer3,
+		).
 		RETURNING(zt.User.AllColumns)
 	_, e := stmt.Exec(db.Connection)
 	return e
