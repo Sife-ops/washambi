@@ -31,6 +31,11 @@ body {
     /* -webkit-transform: translate(100%);     */
 }
 
+#carousel.carousel-recovery {
+    transform: translate(-200vw, 0vh);
+    /* -webkit-transform: translate(100%);     */
+}
+
 #carousel.carousel-sign-in-below {
     transform: translate(0vw, 100vh);
 }

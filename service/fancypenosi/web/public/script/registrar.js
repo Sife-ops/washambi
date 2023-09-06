@@ -29,6 +29,7 @@ window.switchAction = function (action) {
     const pages = {
         "sign-in": document.querySelector("#sign-in-page"),
         "sign-up": document.querySelector("#sign-up-page"),
+        "recovery": document.querySelector("#recovery-page"),
     };
 
     pages[registrarAction].style.opacity = "0";
@@ -251,6 +252,37 @@ window.signUp = async function (event) {
     }, 500);
 };
 
+// recovery
+
+window.recovery1 = async function (event) {
+    event.preventDefault();
+
+    /** @type {HTMLElement} */
+    const recoveryForm1 = document.querySelector("#recovery-form-1")
+    recoveryForm1.style.display = "none";
+
+    /** @type {HTMLElement} */
+    const recoveryForm2 = document.querySelector("#recovery-form-2")
+    recoveryForm2.style.display = "flex";
+};
+
+window.recovery2 = async function (event) {
+    event.preventDefault();
+
+    /** @type {HTMLElement} */
+    const recoveryForm2 = document.querySelector("#recovery-form-2")
+    recoveryForm2.style.display = "none";
+
+    /** @type {HTMLElement} */
+    const recoveryForm3 = document.querySelector("#recovery-form-3")
+    recoveryForm3.style.display = "flex";
+};
+
+window.recovery3 = async function (event) {
+    event.preventDefault();
+
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // responsive
 
@@ -261,29 +293,46 @@ function lgFn(event) {
     // todo: keep input state
 
     /** @type {HTMLElement} */
-    const signInForm = document.querySelector("#sign-in-form");
-
-    const t = signInForm.outerHTML;
-    signInForm.outerHTML = "";
+    const signInWindowLg = document.querySelector("#sign-in-window-lg")
+    /** @type {HTMLElement} */
+    const signInWindow = document.querySelector("#sign-in-window")
 
     /** @type {HTMLElement} */
-    const signUpForm = document.querySelector("#sign-up-form");
+    const signUpWindowLg = document.querySelector("#sign-up-window-lg")
+    /** @type {HTMLElement} */
+    const signUpWindow = document.querySelector("#sign-up-window")
 
-    const tt = signUpForm.outerHTML;
-    signUpForm.outerHTML = "";
+    /** @type {HTMLElement} */
+    const recoveryWindowLg = document.querySelector("#recovery-window-lg")
+    /** @type {HTMLElement} */
+    const recoveryWindow = document.querySelector("#recovery-window")
+
+    /**
+     * @param {HTMLElement} src
+     * @param {HTMLElement} dest 
+     */
+    function moveInnerHtml(src, dest) {
+        if (src.innerHTML.trim().length > 0) {
+            dest.innerHTML = src.innerHTML;
+            src.innerHTML = "";
+        }
+    }
 
     if (event.matches) {
         carousel.style.display = "flex";
         fader.style.display = "none";
 
-        document.querySelector("#sign-in-window-lg").innerHTML = t;
-        document.querySelector("#sign-up-window-lg").innerHTML = tt;
+        moveInnerHtml(signInWindow, signInWindowLg);
+        moveInnerHtml(signUpWindow, signUpWindowLg);
+        moveInnerHtml(recoveryWindow, recoveryWindowLg);
+
     } else {
         carousel.style.display = "none";
         fader.style.display = "block";
 
-        document.querySelector("#sign-in-window").innerHTML = t;
-        document.querySelector("#sign-up-window").innerHTML = tt;
+        moveInnerHtml(signInWindowLg, signInWindow);
+        moveInnerHtml(signUpWindowLg, signUpWindow);
+        moveInnerHtml(recoveryWindowLg, recoveryWindow);
     }
 }
 

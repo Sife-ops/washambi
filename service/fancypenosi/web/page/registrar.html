@@ -5,12 +5,11 @@
 
 <iframe id="bg-iframe" src="{{ .cornpopUrl }}/bg/{{ .bg }}/page.html"></iframe>
 
-<div>{{.transitionDuration}}</div>
-<div id="fader" class="fader-below h-full transition-transform duration-1000 text-2xl">
+<div id="fader" class="fader-below h-full transition-transform duration-1000 text-2xl text-white">
     <div id="sign-in-page" class="h-full flex justify-center items-center transition-opacity duration-500" {{ if eq
         .registrarAction "sign-up" }} style="display: none; opacity: 0;" {{ else }} style="display: flex; opacity: 1;"
         {{ end }}>
-        <div id="sign-in-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm text-white">
+        <div id="sign-in-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
             <form id="sign-in-form" class="flex flex-col gap-5" onsubmit="signIn(event)">
                 <h1 class="font-bold text-5xl lg:text-3xl text-center">Sign In to Washambi</h1>
 
@@ -25,10 +24,9 @@
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="sign-in-password" name="sign-in-password" type="password" required />
                     <!-- todo: forgot password -->
-                    <button id="focus-forgot-password" class="underline mt-1">
+                    <button onclick='switchAction("recovery")' type="button" class="underline mt-1">
                         Forgot password?
                     </button>
-
                 </div>
 
                 <button id="sign-in-submit"
@@ -50,10 +48,11 @@
         </div>
     </div>
 
+    <!-- todo: security questions -->
     <div id="sign-up-page" class="h-full flex justify-center items-center transition-opacity duration-500" {{ if eq
         .registrarAction "sign-in" }} style="display: none; opacity: 0;" {{ else }} style="display: flex; opacity: 1;"
         {{ end }}>
-        <div id="sign-up-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm text-white">
+        <div id="sign-up-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
             <form id="sign-up-form" class="flex flex-col gap-5" onsubmit="signUp(event)">
                 <h1 class="font-bold text-5xl lg:text-3xl text-center">Sign Up for Washambi</h1>
 
@@ -95,6 +94,89 @@
             </form>
         </div>
     </div>
+
+    <div id="recovery-page" class="h-full flex justify-center items-center transition-opacity duration-500"
+        style="display: none; opacity: 0;">
+        <div id="recovery-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
+            <form id="recovery-form-1" class="flex flex-col gap-5" onsubmit="recovery1(event)">
+                <h1 class="font-bold text-5xl lg:text-3xl text-center">Recover Account</h1>
+
+                <div>
+                    <label class="font-bold" for="recovery-email">Email:</label>
+                    <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
+                        id="recovery-email" name="recovery-email" type="email" required />
+                </div>
+
+                <button id="recovery-submit-1"
+                    class="h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
+                    type="submit">
+                    <span id="recovery-submit-1-text"> Next </span>
+                    <!-- <img id="recovery-submit-1-loader" class="w-[50px] hidden" src="/public/image/three-dots.svg">
+                    <span id="recovery-submit-1-success" class="hidden"> Success! </span> -->
+                </button>
+            </form>
+
+            <form id="recovery-form-2" class="flex flex-col gap-5 hidden" onsubmit="recovery2(event)">
+                <h1 class="font-bold text-5xl lg:text-3xl text-center">Security Questions</h1>
+
+                <div>
+                    <label class="font-bold" for="security-question-1">Security Question 1</label>
+                    <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
+                        id="security-question-1" name="security-question-1" type="text" required />
+                </div>
+
+                <div>
+                    <label class="font-bold" for="security-question-2">Security Question 2</label>
+                    <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
+                        id="security-question-2" name="security-question-2" type="text" required />
+                </div>
+
+                <div>
+                    <label class="font-bold" for="security-question-3">Security Question 3</label>
+                    <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
+                        id="security-question-3" name="security-question-3" type="text" required />
+                </div>
+
+                <button id="recovery-submit-2"
+                    class="h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
+                    type="submit">
+                    <span id="recovery-submit-2-text"> Next </span>
+                    <!-- <img id="recovery-submit-loader" class="w-[50px] hidden" src="/public/image/three-dots.svg">
+                    <span id="recovery-submit-success" class="hidden"> Success! </span> -->
+                </button>
+            </form>
+
+            <form id="recovery-form-3" class="flex flex-col gap-5 hidden" onsubmit="recovery3(event)">
+                <h1 class="font-bold text-5xl lg:text-3xl text-center">Reset Password</h1>
+
+                <div>
+                    <label class="font-bold" for="recovery-password">New password:</label>
+                    <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
+                        id="recovery-password" name="recovery-password" type="password" required />
+                </div>
+
+                <div>
+                    <label class="font-bold" for="recovery-confirm-password">Confirm new password:</label>
+                    <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
+                        id="recovery-confirm-password" name="recovery-confirm-password" type="password" required />
+                </div>
+
+                <button id="recovery-submit-3"
+                    class="h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
+                    type="submit">
+                    <span id="recovery-submit-3-text"> Submit </span>
+                    <!-- <img id="recovery-submit-1-loader" class="w-[50px] hidden" src="/public/image/three-dots.svg">
+                    <span id="recovery-submit-1-success" class="hidden"> Success! </span> -->
+                </button>
+            </form>
+
+            <div class="mt-5 flex justify-center gap-1">
+                <button onclick='switchAction("sign-in")' class="underline"> Sign In </button>
+                <span>/</span>
+                <button onclick='switchAction("sign-up")' class="underline"> Sign Up </button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <div id="carousel" class='
@@ -103,16 +185,19 @@
     {{ else }} 
     carousel-sign-up-below 
     {{ end }} 
-    flex w-[200vw] h-full transition-transform duration-1000'>
+    flex w-[300vw] h-full transition-transform duration-1000 text-white'>
     <div class="h-full w-[100vw] flex justify-center items-center">
-        <div id="sign-in-window-lg"
-            class="w-[640px] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm text-white">
+        <div id="sign-in-window-lg" class="w-[640px] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
         </div>
     </div>
 
     <div class="h-full w-[100vw] flex justify-center items-center">
-        <div id="sign-up-window-lg"
-            class="w-[640px] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm text-white">
+        <div id="sign-up-window-lg" class="w-[640px] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
+        </div>
+    </div>
+
+    <div class="h-full w-[100vw] flex justify-center items-center">
+        <div id="recovery-window-lg" class="w-[640px] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
         </div>
     </div>
 </div>

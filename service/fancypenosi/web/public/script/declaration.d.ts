@@ -1,11 +1,8 @@
 declare const fancypenosiUrl: string;
 declare const transitionDuration: number;
 
-type RegistrarAction = "sign-in" | "sign-up";
+type RegistrarAction = "sign-in" | "sign-up" | "recovery";
 declare let registrarAction: RegistrarAction;
-
-// declare const lmao: Record<string,string>
-// type lmao = typeof lmao[keyof typeof lmao];
 
 // source: https://www.totaltypescript.com/how-to-properly-type-window
 interface Window {
@@ -15,4 +12,7 @@ interface Window {
   switchAction: (action: RegistrarAction) => void;
   signIn: (event: Event) => Promise<void>;
   signUp: (event: Event) => Promise<void>;
+  recovery1: (event: Event) => Promise<void>;
+  recovery2: (event: Event) => Promise<void>;
+  recovery3: (event: Event) => Promise<void>;
 }
