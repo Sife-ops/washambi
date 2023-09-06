@@ -29,7 +29,7 @@ window.switchAction = function (action) {
     const pages = {
         "sign-in": document.querySelector("#sign-in-page"),
         "sign-up": document.querySelector("#sign-up-page"),
-        "recovery": document.querySelector("#recovery-page"),
+        recovery: document.querySelector("#recovery-page"),
     };
 
     pages[registrarAction].style.opacity = "0";
@@ -160,6 +160,12 @@ window.signUp = async function (event) {
     const signUpPassword = document.querySelector("#sign-up-password");
     /** @type {HTMLInputElement} */
     const confirmPassword = document.querySelector("#confirm-password");
+    /** @type {HTMLInputElement} */
+    const recoveryAnswer1 = document.querySelector("#sign-up-answer-1");
+    /** @type {HTMLInputElement} */
+    const recoveryAnswer2 = document.querySelector("#sign-up-answer-2");
+    /** @type {HTMLInputElement} */
+    const recoveryAnswer3 = document.querySelector("#sign-up-answer-3");
     /** @type {HTMLButtonElement} */
     const signUpSubmit = document.querySelector("#sign-up-submit");
     /** @type {HTMLElement} */
@@ -173,35 +179,39 @@ window.signUp = async function (event) {
     /** @type {HTMLElement} */
     const signUpErrorText = document.querySelector("#sign-up-error-text");
 
-    const passwordRegex = new RegExp(
-        "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
-    );
+    // const passwordRegex = new RegExp(
+    //     "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
+    // );
 
-    function validate() {
-        if (!passwordRegex.test(signUpPassword.value)) {
-            signUpPassword.setCustomValidity(
-                "Must contain number(s) and special character(s)."
-            );
-        } else {
-            signUpPassword.setCustomValidity("");
-        }
-        if (signUpPassword.value != confirmPassword.value) {
-            confirmPassword.setCustomValidity("Passwords do not match.");
-        } else if (!passwordRegex.test(confirmPassword.value)) {
-            confirmPassword.setCustomValidity(
-                "Must contain number(s) and special character(s)."
-            );
-        } else {
-            confirmPassword.setCustomValidity("");
-        }
-    }
+    // function validate() {
+    //     if (!passwordRegex.test(signUpPassword.value)) {
+    //         console.log("wtf?")
+    //         signUpPassword.setCustomValidity(
+    //             "Must contain number(s) and special character(s)."
+    //         );
+    //     } else {
+    //         signUpPassword.setCustomValidity("");
+    //     }
+    //     if (signUpPassword.value != confirmPassword.value) {
+    //         confirmPassword.setCustomValidity("Passwords do not match.");
+    //     } else if (!passwordRegex.test(confirmPassword.value)) {
+    //         confirmPassword.setCustomValidity(
+    //             "Must contain number(s) and special character(s)."
+    //         );
+    //     } else {
+    //         confirmPassword.setCustomValidity("");
+    //     }
+    // }
 
-    signUpPassword.onchange = validate;
-    confirmPassword.onchange = validate;
+    // signUpPassword.onchange = validate;
+    // confirmPassword.onchange = validate;
 
     signUpEmail.readOnly = true;
     signUpPassword.readOnly = true;
     confirmPassword.readOnly = true;
+    recoveryAnswer1.readOnly = true;
+    recoveryAnswer2.readOnly = true;
+    recoveryAnswer3.readOnly = true;
     signUpSubmit.disabled = true;
     signUpText.style.display = "none";
     signUpLoader.style.display = "block";
@@ -215,6 +225,12 @@ window.signUp = async function (event) {
         body: JSON.stringify({
             email: signUpEmail.value,
             password: signUpPassword.value,
+            recoveryPrompt1: "favorite book",
+            recoveryPrompt2: "favorite movie",
+            recoveryPrompt3: "favorite food",
+            recoveryAnswer1: recoveryAnswer1.value,
+            recoveryAnswer2: recoveryAnswer2.value,
+            recoveryAnswer3: recoveryAnswer3.value,
         }),
     });
 
@@ -225,7 +241,7 @@ window.signUp = async function (event) {
             signUpSuccess.style.display = "block";
 
             setTimeout(function () {
-                window.focusSignIn();
+                window.switchAction("sign-in");
             }, 500);
 
             return;
@@ -235,6 +251,9 @@ window.signUp = async function (event) {
         signUpEmail.readOnly = false;
         signUpPassword.readOnly = false;
         confirmPassword.readOnly = false;
+        recoveryAnswer1.readOnly = false;
+        recoveryAnswer2.readOnly = false;
+        recoveryAnswer3.readOnly = false;
         signUpSubmit.disabled = false;
 
         switch (res.statusText) {
@@ -254,37 +273,63 @@ window.signUp = async function (event) {
 
 // recovery
 
-window.recovery1 = async function (event) {
+window.recovery = async function (event) {
     event.preventDefault();
 
-    /** @type {HTMLElement} */
-    const recoveryForm1 = document.querySelector("#recovery-form-1")
-    recoveryForm1.style.display = "none";
+    console.log("ya")
 
-    /** @type {HTMLElement} */
-    const recoveryForm2 = document.querySelector("#recovery-form-2")
-    recoveryForm2.style.display = "flex";
-};
+    // /** @type {HTMLElement} */
+    // const recoveryForm1 = document.querySelector("#recovery-form-1");
+    // recoveryForm1.style.display = "none";
 
-window.recovery2 = async function (event) {
-    event.preventDefault();
-
-    /** @type {HTMLElement} */
-    const recoveryForm2 = document.querySelector("#recovery-form-2")
-    recoveryForm2.style.display = "none";
-
-    /** @type {HTMLElement} */
-    const recoveryForm3 = document.querySelector("#recovery-form-3")
-    recoveryForm3.style.display = "flex";
-};
-
-window.recovery3 = async function (event) {
-    event.preventDefault();
-
+    // /** @type {HTMLElement} */
+    // const recoveryForm2 = document.querySelector("#recovery-form-2");
+    // recoveryForm2.style.display = "flex";
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // responsive
+
+/**
+ * @param {HTMLInputElement} password1
+ * @param {HTMLInputElement} password2
+ */
+function validate(password1, password2) {
+    const passwordRegex = new RegExp(
+        "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
+    );
+
+    return function () {
+        if (!passwordRegex.test(password1.value)) {
+            console.log("yeah");
+            password1.setCustomValidity(
+                "Must contain number(s) and special character(s)."
+            );
+        } else {
+            password1.setCustomValidity("");
+        }
+        if (password1.value != password2.value) {
+            password2.setCustomValidity("Passwords do not match.");
+        } else if (!passwordRegex.test(password2.value)) {
+            password2.setCustomValidity(
+                "Must contain number(s) and special character(s)."
+            );
+        } else {
+            password2.setCustomValidity("");
+        }
+    };
+}
+
+/**
+ * @param {HTMLElement} src
+ * @param {HTMLElement} dest
+ */
+function moveInnerHtml(src, dest) {
+    if (src.innerHTML.trim().length > 0) {
+        dest.innerHTML = src.innerHTML;
+        src.innerHTML = "";
+    }
+}
 
 const lg = window.matchMedia("(min-width: 1024px)");
 
@@ -293,30 +338,19 @@ function lgFn(event) {
     // todo: keep input state
 
     /** @type {HTMLElement} */
-    const signInWindowLg = document.querySelector("#sign-in-window-lg")
+    const signInWindowLg = document.querySelector("#sign-in-window-lg");
     /** @type {HTMLElement} */
-    const signInWindow = document.querySelector("#sign-in-window")
+    const signInWindow = document.querySelector("#sign-in-window");
 
     /** @type {HTMLElement} */
-    const signUpWindowLg = document.querySelector("#sign-up-window-lg")
+    const signUpWindowLg = document.querySelector("#sign-up-window-lg");
     /** @type {HTMLElement} */
-    const signUpWindow = document.querySelector("#sign-up-window")
+    const signUpWindow = document.querySelector("#sign-up-window");
 
     /** @type {HTMLElement} */
-    const recoveryWindowLg = document.querySelector("#recovery-window-lg")
+    const recoveryWindowLg = document.querySelector("#recovery-window-lg");
     /** @type {HTMLElement} */
-    const recoveryWindow = document.querySelector("#recovery-window")
-
-    /**
-     * @param {HTMLElement} src
-     * @param {HTMLElement} dest 
-     */
-    function moveInnerHtml(src, dest) {
-        if (src.innerHTML.trim().length > 0) {
-            dest.innerHTML = src.innerHTML;
-            src.innerHTML = "";
-        }
-    }
+    const recoveryWindow = document.querySelector("#recovery-window");
 
     if (event.matches) {
         carousel.style.display = "flex";
@@ -325,7 +359,6 @@ function lgFn(event) {
         moveInnerHtml(signInWindow, signInWindowLg);
         moveInnerHtml(signUpWindow, signUpWindowLg);
         moveInnerHtml(recoveryWindow, recoveryWindowLg);
-
     } else {
         carousel.style.display = "none";
         fader.style.display = "block";
@@ -334,6 +367,30 @@ function lgFn(event) {
         moveInnerHtml(signUpWindowLg, signUpWindow);
         moveInnerHtml(recoveryWindowLg, recoveryWindow);
     }
+
+    /** @type {HTMLInputElement} */
+    const signUpPassword = document.querySelector("#sign-up-password");
+    /** @type {HTMLInputElement} */
+    const confirmPassword = document.querySelector("#confirm-password");
+
+    signUpPassword.onchange = validate(signUpPassword, confirmPassword);
+    confirmPassword.onchange = validate(signUpPassword, confirmPassword);
+
+    /** @type {HTMLInputElement} */
+    const recoveryPassword = document.querySelector("#recovery-password");
+    /** @type {HTMLInputElement} */
+    const recoveryConfirmPassword = document.querySelector(
+        "#recovery-confirm-password"
+    );
+
+    recoveryPassword.onchange = validate(
+        recoveryPassword,
+        recoveryConfirmPassword
+    );
+    recoveryConfirmPassword.onchange = validate(
+        recoveryPassword,
+        recoveryConfirmPassword
+    );
 }
 
 lgFn(lg);

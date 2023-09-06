@@ -10,6 +10,7 @@ import (
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 
 	. "github.com/go-jet/jet/v2/postgres"
+	"github.com/google/uuid"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
@@ -100,6 +101,27 @@ func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*bl
 	}
 
 	return &blazerxd_pb.GetResponse{
+		User: fromDbUser(&u[0]),
+	}, nil
+}
+
+func (s *ServerImpl) ChangePassword(ctx context.Context, call *blazerxd_pb.ChangePasswordRequest) (*blazerxd_pb.ChangePasswordResponse, error) {
+	u := []zm.User{}
+	e := zt.User.
+		UPDATE(zt.User.Password).
+		SET(call.Password).
+        WHERE(zt.User.ID.EQ(UUID(uuid.MustParse(call.Id)))). // todo: panics
+		RETURNING(zt.User.AllColumns).
+		Query(db.Connection, &u)
+	if e != nil {
+		return nil, e
+	}
+
+	if len(u) < 1 {
+		return nil, status.Errorf(codes.NotFound, "user not found: %s", call.Id)
+	}
+
+	return &blazerxd_pb.ChangePasswordResponse{
 		User: fromDbUser(&u[0]),
 	}, nil
 }

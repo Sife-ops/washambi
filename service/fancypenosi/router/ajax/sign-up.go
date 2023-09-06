@@ -14,8 +14,14 @@ import (
 )
 
 type signUpReq struct {
-	Email    string
-	Password string
+	Email           string
+	Password        string
+	RecoveryPrompt1 string
+	RecoveryPrompt2 string
+	RecoveryPrompt3 string
+	RecoveryAnswer1 string
+	RecoveryAnswer2 string
+	RecoveryAnswer3 string
 }
 
 func SignUp(w http.ResponseWriter, r *http.Request) {
@@ -44,9 +50,20 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if len(b.RecoveryAnswer1) < 1 || len(b.RecoveryAnswer2) < 1 || len(b.RecoveryAnswer3) < 1 {
+		http.Error(w, "recovery answer length", http.StatusBadRequest)
+		return
+	}
+
 	if _, e := rpc.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
-		Email:    b.Email,
-		Password: string(h),
+		Email:           b.Email,
+		Password:        string(h),
+		RecoveryPrompt1: b.RecoveryPrompt1,
+		RecoveryPrompt2: b.RecoveryPrompt2,
+		RecoveryPrompt3: b.RecoveryPrompt3,
+		RecoveryAnswer1: b.RecoveryAnswer1,
+		RecoveryAnswer2: b.RecoveryAnswer2,
+		RecoveryAnswer3: b.RecoveryAnswer3,
 	}); e != nil {
 		if strings.Contains(e.Error(), "AlreadyExists") {
 			http.Error(w, "already exists", http.StatusConflict)

@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"blazerxd/db"
+	zm "blazerxd/db/zoomers/model"
 	zt "blazerxd/db/zoomers/table"
 	"blazerxd/test"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
@@ -36,7 +37,8 @@ var testUser = blazerxd_pb.User{
 }
 
 // move to package test
-func createTestUser() error {
+func createTestUser() (*zm.User, error) {
+	u := []zm.User{}
 	stmt := zt.User.
 		INSERT(
 			zt.User.Email,
@@ -59,8 +61,8 @@ func createTestUser() error {
 			testUser.RecoveryAnswer3,
 		).
 		RETURNING(zt.User.AllColumns)
-	_, e := stmt.Exec(db.Connection)
-	return e
+	e := stmt.Query(db.Connection, &u)
+	return &u[0], e
 }
 
 // move to package test
@@ -94,7 +96,7 @@ func Test_Create_Success(t *testing.T) {
 
 func Test_Create_DuplicateUserError(t *testing.T) {
 	beforeEach()
-	if e := createTestUser(); e != nil {
+	if _, e := createTestUser(); e != nil {
 		t.Fatal(e)
 	}
 	defer afterEach()
@@ -114,7 +116,7 @@ func Test_Create_DuplicateUserError(t *testing.T) {
 
 func Test_Get_Success(t *testing.T) {
 	beforeEach()
-	if e := createTestUser(); e != nil {
+	if _, e := createTestUser(); e != nil {
 		t.Fatal(e)
 	}
 	defer afterEach()
@@ -142,5 +144,26 @@ func Test_Get_UserNotFoundError(t *testing.T) {
 		}
 	} else {
 		t.Fatal(e)
+	}
+}
+
+// todo: error case
+func Test_ChangePassword_Success(t *testing.T) {
+	beforeEach()
+	u, e := createTestUser()
+	if e != nil {
+		t.Fatal(e)
+	}
+	defer afterEach()
+
+	ud, ee := test.BlazerxdClient.ChangePassword(context.TODO(), &blazerxd_pb.ChangePasswordRequest{
+		Id:       u.ID.String(),
+		Password: "lol",
+	})
+	if ee != nil {
+		t.Fatal(ee)
+	}
+	if ud.User.Password != "lol" {
+		t.Fatalf("expected %s, got %s", "lol", ud.User.Password)
 	}
 }

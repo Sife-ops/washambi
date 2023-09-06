@@ -12,7 +12,7 @@ import (
 	"fancypenosi/router/page"
 	"fancypenosi/router/partial"
 	"fancypenosi/web"
-	"washambi-env"
+	env "washambi-env"
 )
 
 // source: https://github.com/go-chi/chi/blob/master/_examples/fileserver/main.go
@@ -81,6 +81,7 @@ func Serve() error {
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
 	m.Post("/sign-out", ajax.SignOut)
+	m.Post("/recover", ajax.Recover)
 
 	// authorized
 	// m.Route("/", func(r chi.Router) {
