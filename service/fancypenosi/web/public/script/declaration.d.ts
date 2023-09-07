@@ -12,5 +12,6 @@ interface Window {
   switchAction: (action: RegistrarAction) => void;
   signIn: (event: Event) => Promise<void>;
   signUp: (event: Event) => Promise<void>;
-  recovery: (event: Event) => Promise<void>;
+  recovery1: (event: Event) => Promise<void>;
+  recovery2: (event: Event) => Promise<void>;
 }

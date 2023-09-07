@@ -86,6 +86,12 @@ func Test_Create_Success(t *testing.T) {
 	_, e := test.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Email:    testUser.Email,
 		Password: testUser.Password,
+		// RecoveryPrompt1: testUser.RecoveryPrompt1,
+		// RecoveryPrompt2: testUser.RecoveryPrompt2,
+		// RecoveryPrompt3: testUser.RecoveryPrompt3,
+		// RecoveryAnswer1: testUser.RecoveryAnswer1,
+		// RecoveryAnswer2: testUser.RecoveryAnswer2,
+		// RecoveryAnswer3: testUser.RecoveryAnswer3,
 	})
 	if e != nil {
 		t.Fatal(e)
@@ -116,18 +122,20 @@ func Test_Create_DuplicateUserError(t *testing.T) {
 
 func Test_Get_Success(t *testing.T) {
 	beforeEach()
-	if _, e := createTestUser(); e != nil {
-		t.Fatal(e)
-	}
-	defer afterEach()
-
-	_, e := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
-		Email: testUser.Email,
-	})
+	_, e := createTestUser()
 	if e != nil {
 		t.Fatal(e)
 	}
+	// t.Log(tu)
+	defer afterEach()
 
+	_, ee := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
+		Email: testUser.Email,
+	})
+	// t.Log(u)
+	if ee != nil {
+		t.Fatal(ee)
+	}
 	// t.Log(r)
 }
 
@@ -156,14 +164,16 @@ func Test_ChangePassword_Success(t *testing.T) {
 	}
 	defer afterEach()
 
+	p := "lol"
 	ud, ee := test.BlazerxdClient.ChangePassword(context.TODO(), &blazerxd_pb.ChangePasswordRequest{
 		Id:       u.ID.String(),
-		Password: "lol",
+		Password: p,
 	})
 	if ee != nil {
 		t.Fatal(ee)
 	}
 	if ud.User.Password != "lol" {
-		t.Fatalf("expected %s, got %s", "lol", ud.User.Password)
+		t.Fatalf("expected %s, got %s", p, ud.User.Password)
 	}
 }
+

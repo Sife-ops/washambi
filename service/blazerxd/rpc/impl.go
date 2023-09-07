@@ -2,6 +2,7 @@ package rpc
 
 import (
 	"context"
+	// "log"
 	"strings"
 
 	"blazerxd/db"
@@ -86,7 +87,7 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 }
 
 func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*blazerxd_pb.GetResponse, error) {
-	stmt := SELECT(zt.User.ID, zt.User.Email, zt.User.Password).
+	stmt := SELECT(zt.User.AllColumns).
 		FROM(zt.User).
 		WHERE(zt.User.Email.EQ(String(call.Email)))
 
@@ -110,7 +111,7 @@ func (s *ServerImpl) ChangePassword(ctx context.Context, call *blazerxd_pb.Chang
 	e := zt.User.
 		UPDATE(zt.User.Password).
 		SET(call.Password).
-        WHERE(zt.User.ID.EQ(UUID(uuid.MustParse(call.Id)))). // todo: panics
+		WHERE(zt.User.ID.EQ(UUID(uuid.MustParse(call.Id)))). // todo: panics
 		RETURNING(zt.User.AllColumns).
 		Query(db.Connection, &u)
 	if e != nil {

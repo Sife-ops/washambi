@@ -23,7 +23,6 @@
                     <label class="font-bold" for="sign-in-password">Password:</label>
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="sign-in-password" name="sign-in-password" type="password" required />
-                    <!-- todo: forgot password -->
                     <button onclick='switchAction("recovery")' type="button" class="underline mt-1">
                         Forgot password?
                     </button>
@@ -118,7 +117,8 @@
     <div id="recovery-page" class="h-full flex justify-center items-center transition-opacity duration-500"
         style="display: none; opacity: 0;">
         <div id="recovery-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
-            <form id="recovery-form-1" class="flex flex-col gap-5" onsubmit="recovery(event)">
+            <!-- todo: transition form -->
+            <form id="recovery-form-1" class="flex flex-col gap-5" onsubmit="recovery1(event)">
                 <h1 class="font-bold text-5xl lg:text-3xl text-center">Recover Account</h1>
 
                 <div>
@@ -127,22 +127,36 @@
                         id="recovery-email" name="recovery-email" type="email" required />
                 </div>
 
-                <h2 class="mt-3 font-bold text-3xl lg:text-2xl text-center">Security Questions</h2>
+                <button id="recovery-submit-1"
+                    class="h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
+                    type="submit">
+                    <span id="recovery-submit-1-text"> Next </span>
+                    <img id="recovery-submit-1-loader" class="w-[50px] hidden" src="/public/image/three-dots.svg">
+                    <!-- <span id="recovery-submit-1-success" class="hidden"> Success! </span> -->
+                </button>
+
+                <div id="recovery-error-1" class="p-3 outline outline-1 outline-red-500 bg-red-800 hidden">
+                    🚫 <span id="recovery-error-1-text"></span>
+                </div>
+            </form>
+
+            <form id="recovery-form-2" class="flex flex-col gap-5 hidden" onsubmit="recovery2(event)">
+                <h1 class="font-bold text-5xl lg:text-3xl text-center">Security Questions</h1>
 
                 <div>
-                    <label class="font-bold" for="recovery-answer-1">Favorite book:</label>
+                    <label id="recovery-prompt-1" class="font-bold" for="recovery-answer-1"></label>
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="recovery-answer-1" name="recovery-answer-1" type="text" required />
                 </div>
 
                 <div>
-                    <label class="font-bold" for="recovery-answer-2">Favorite movie:</label>
+                    <label id="recovery-prompt-2" class="font-bold" for="recovery-answer-2"></label>
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="recovery-answer-2" name="recovery-answer-2" type="text" required />
                 </div>
 
                 <div>
-                    <label class="font-bold" for="recovery-answer-3">Favorite food:</label>
+                    <label id="recovery-prompt-3" class="font-bold" for="recovery-answer-3"></label>
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="recovery-answer-3" name="recovery-answer-3" type="text" required />
                 </div>
@@ -161,20 +175,24 @@
                         id="recovery-confirm-password" name="recovery-confirm-password" type="password" required />
                 </div>
 
-                <button id="recovery-submit-1"
-                    class="mt-3 h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
+                <button id="recovery-submit-2"
+                    class="h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
                     type="submit">
-                    <span id="recovery-submit-1-text"> Next </span>
-                    <!-- <img id="recovery-submit-1-loader" class="w-[50px] hidden" src="/public/image/three-dots.svg">
-                    <span id="recovery-submit-1-success" class="hidden"> Success! </span> -->
+                    <span id="recovery-submit-2-text"> Next </span>
+                    <img id="recovery-submit-2-loader" class="w-[50px] hidden" src="/public/image/three-dots.svg">
+                    <span id="recovery-submit-2-success" class="hidden"> Success! </span>
                 </button>
 
-                <div class="flex justify-center gap-1">
-                    <button onclick='switchAction("sign-in")' type="button" class="underline"> Sign In </button>
-                    <span>/</span>
-                    <button onclick='switchAction("sign-up")' type="button" class="underline"> Sign Up </button>
+                <div id="recovery-error-2" class="p-3 outline outline-1 outline-red-500 bg-red-800 hidden">
+                    🚫 <span id="recovery-error-2-text"></span>
                 </div>
             </form>
+
+            <div class="mt-5 flex justify-center gap-1">
+                <button onclick='switchAction("sign-in")' type="button" class="underline"> Sign In </button>
+                <span>/</span>
+                <button onclick='switchAction("sign-up")' type="button" class="underline"> Sign Up </button>
+            </div>
         </div>
     </div>
 </div>

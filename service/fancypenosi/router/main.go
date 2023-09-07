@@ -81,7 +81,8 @@ func Serve() error {
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
 	m.Post("/sign-out", ajax.SignOut)
-	m.Post("/recover", ajax.Recover)
+	m.Post("/fetch-user", ajax.FetchUser)
+	m.Post("/reset-password", ajax.ResetPassword)
 
 	// authorized
 	// m.Route("/", func(r chi.Router) {

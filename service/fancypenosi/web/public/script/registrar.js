@@ -179,33 +179,6 @@ window.signUp = async function (event) {
     /** @type {HTMLElement} */
     const signUpErrorText = document.querySelector("#sign-up-error-text");
 
-    // const passwordRegex = new RegExp(
-    //     "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
-    // );
-
-    // function validate() {
-    //     if (!passwordRegex.test(signUpPassword.value)) {
-    //         console.log("wtf?")
-    //         signUpPassword.setCustomValidity(
-    //             "Must contain number(s) and special character(s)."
-    //         );
-    //     } else {
-    //         signUpPassword.setCustomValidity("");
-    //     }
-    //     if (signUpPassword.value != confirmPassword.value) {
-    //         confirmPassword.setCustomValidity("Passwords do not match.");
-    //     } else if (!passwordRegex.test(confirmPassword.value)) {
-    //         confirmPassword.setCustomValidity(
-    //             "Must contain number(s) and special character(s)."
-    //         );
-    //     } else {
-    //         confirmPassword.setCustomValidity("");
-    //     }
-    // }
-
-    // signUpPassword.onchange = validate;
-    // confirmPassword.onchange = validate;
-
     signUpEmail.readOnly = true;
     signUpPassword.readOnly = true;
     confirmPassword.readOnly = true;
@@ -273,18 +246,140 @@ window.signUp = async function (event) {
 
 // recovery
 
-window.recovery = async function (event) {
+// let recoveryEmail = ""
+
+// todo: transitions
+window.recovery1 = async function (event) {
     event.preventDefault();
 
-    console.log("ya")
+    /** @type {HTMLElement} */
+    const error = document.querySelector("#recovery-error-1");
+    error.style.display = "none";
 
-    // /** @type {HTMLElement} */
-    // const recoveryForm1 = document.querySelector("#recovery-form-1");
-    // recoveryForm1.style.display = "none";
+    /** @type {HTMLInputElement} */
+    const email = document.querySelector("#recovery-email");
+    const req = fetch("/fetch-user", {
+        method: "POST",
+        body: JSON.stringify({
+            email: email.value,
+        }),
+    });
 
-    // /** @type {HTMLElement} */
-    // const recoveryForm2 = document.querySelector("#recovery-form-2");
-    // recoveryForm2.style.display = "flex";
+    /** @type {HTMLElement} */
+    const text = document.querySelector("#recovery-submit-1-text");
+    text.style.display = "none";
+    /** @type {HTMLElement} */
+    const loader = document.querySelector("#recovery-submit-1-loader");
+    loader.style.display = "block";
+
+    const res = await req;
+    loader.style.display = "none";
+    text.style.display = "block";
+
+    if (!res.ok) {
+        /** @type {HTMLElement} */
+        const errorText = document.querySelector("#recovery-error-1-text");
+        switch (res.statusText) {
+            case "Not Found":
+                errorText.innerText = "An account with that e-mail doesn't exist.";
+                break;
+            default:
+                errorText.innerText =
+                    "An unkown error occurred. Please try again later.";
+                break;
+        }
+        error.style.display = "block";
+        return;
+    }
+
+    const user = await res.json();
+    // recoveryEmail = user.email;
+
+    /** @type {HTMLElement} */
+    const prompt1 = document.querySelector("#recovery-prompt-1");
+    prompt1.innerText = user.recoveryPrompt1 + ":";
+    /** @type {HTMLElement} */
+    const prompt2 = document.querySelector("#recovery-prompt-2");
+    prompt2.innerText = user.recoveryPrompt2 + ":";
+    /** @type {HTMLElement} */
+    const prompt3 = document.querySelector("#recovery-prompt-3");
+    prompt3.innerText = user.recoveryPrompt3 + ":";
+
+    /** @type {HTMLElement} */
+    const form1 = document.querySelector("#recovery-form-1");
+    form1.style.display = "none";
+    /** @type {HTMLElement} */
+    const form2 = document.querySelector("#recovery-form-2");
+    form2.style.display = "flex";
+};
+
+window.recovery2 = async function (event) {
+    event.preventDefault();
+
+    /** @type {HTMLElement} */
+    const error = document.querySelector("#recovery-error-2");
+    error.style.display = "none";
+
+    /** @type {HTMLInputElement} */
+    const email = document.querySelector("#recovery-email");
+    /** @type {HTMLInputElement} */
+    const answer1 = document.querySelector("#recovery-answer-1");
+    /** @type {HTMLInputElement} */
+    const answer2 = document.querySelector("#recovery-answer-2");
+    /** @type {HTMLInputElement} */
+    const answer3 = document.querySelector("#recovery-answer-3");
+    /** @type {HTMLInputElement} */
+    const password = document.querySelector("#recovery-password");
+
+    const req = fetch("/reset-password", {
+        method: "POST",
+        body: JSON.stringify({
+            email: email.value,
+            recoveryAnswer1: answer1.value,
+            recoveryAnswer2: answer2.value,
+            recoveryAnswer3: answer3.value,
+            password: password.value,
+        }),
+    });
+
+    /** @type {HTMLElement} */
+    const text = document.querySelector("#recovery-submit-2-text");
+    text.style.display = "none";
+    /** @type {HTMLElement} */
+    const loader = document.querySelector("#recovery-submit-2-loader");
+    loader.style.display = "block";
+
+    const res = await req;
+    loader.style.display = "none";
+
+    if (!res.ok) {
+        text.style.display = "block";
+
+        /** @type {HTMLElement} */
+        const errorText = document.querySelector("#recovery-error-2-text");
+        const errorRes = await res.text();
+        switch (errorRes.trim()) {
+            case "incorrect answer".trim():
+                errorText.innerText =
+                    "Incorrect answer to one or more security question(s).";
+                break;
+            default:
+                errorText.innerText =
+                    "An unkown error occurred. Please try again later.";
+                break;
+        }
+
+        error.style.display = "block";
+        return;
+    }
+
+    /** @type {HTMLElement} */
+    const success = document.querySelector("#recovery-submit-2-success");
+    success.style.display = "block";
+
+    setTimeout(function () {
+        window.switchAction("sign-in");
+    }, 2000);
 };
 
 ////////////////////////////////////////////////////////////////////////////////
