@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -15,27 +16,9 @@ import (
 	env "washambi-env"
 )
 
-// source: https://github.com/go-chi/chi/blob/master/_examples/fileserver/main.go
-func serveStatic(m *chi.Mux, s string) error {
-	sub, e := fs.Sub(web.Embeds, s)
-	if e != nil {
-		return e
-	}
-
-	m.Handle(
-		fmt.Sprintf("/%s/*", s),
-		http.StripPrefix(
-			fmt.Sprintf("/%s/", s),
-			http.FileServer(http.FS(sub)),
-		),
-	)
-
-	return nil
-}
-
 // todo: refresh cookie
 // todo: context https://stackoverflow.com/a/40380147
-func Auth(next http.Handler) http.Handler {
+func auth(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		c, e := r.Cookie("id")
 		var ctx context.Context
@@ -52,7 +35,7 @@ func Auth(next http.Handler) http.Handler {
 	})
 }
 
-func Redirect(next http.Handler) http.Handler {
+func redirect(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if v := r.Context().Value("authorized"); v != true {
 			// todo: client redirect
@@ -65,6 +48,21 @@ func Redirect(next http.Handler) http.Handler {
 			})
 			http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
 			return
+		}
+		next.ServeHTTP(w, r)
+	})
+}
+
+func cors(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		var origin string
+		switch r.Header["Origin"][0] {
+		case env.ElonbustUrl:
+			origin = env.ElonbustUrl
+		}
+		log.Println(r.Header["Origin"])
+		if origin != "" {
+			w.Header().Add("Access-Control-Allow-Origin", origin)
 		}
 		next.ServeHTTP(w, r)
 	})
@@ -84,18 +82,14 @@ func Serve() error {
 	m.Post("/fetch-user", ajax.FetchUser)
 	m.Post("/reset-password", ajax.ResetPassword)
 
-	// authorized
-	// m.Route("/", func(r chi.Router) {
-	//  r.Use(Auth)
-	// 	r.Get("/account", page.Account)
-	// })
+	m.With(cors, auth).Get("/partial/navigator", partial.Navigator)
+	m.With(auth, redirect).Get("/account", page.Account)
 
-	m.With(Auth).Get("/partial/navigator", partial.Navigator)
-	m.With(Auth, Redirect).Get("/account", page.Account)
-
-	if e := serveStatic(m, "public"); e != nil {
+	sub, e := fs.Sub(web.Embeds, "public")
+	if e != nil {
 		return e
 	}
+	m.With(cors).Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(sub))))
 
 	s := http.Server{
 		Addr:    fmt.Sprintf(":%s", env.FancypenosiPort),
@@ -104,3 +98,9 @@ func Serve() error {
 
 	return s.ListenAndServe()
 }
+
+// authorized
+// m.Route("/", func(r chi.Router) {
+//  r.Use(Auth)
+// 	r.Get("/account", page.Account)
+// })

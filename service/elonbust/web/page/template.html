@@ -1,13 +1,41 @@
+{{ $transitionDuration := 500 }}
+
 <!DOCTYPE html>
 <html lang="en" class="h-full">
 
 <head>
     <meta charset="UTF-8" />
     <title>Washambi</title>
+
+    <style>
+        body {
+            opacity: 0;
+            transition-property: opacity;
+            /* transition-timing-function: ease-in-out; */
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: {{ $transitionDuration }}ms;
+        }
+    </style>
+
+    <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
+    <link rel="stylesheet" href="{{ .fancypenosiUrl }}/public/style/navigator.css" type="text/css" />
 </head>
 
 <body class="h-full bg-slate-800 text-white">
+    <div id="navigator"></div>
+
     {{ block "content" . }} {{ end }}
+
+    <script>
+        const fancypenosiUrl = "{{ .fancypenosiUrl }}";
+        const transitionDuration = {{ $transitionDuration }};
+
+        window.addEventListener("load", function () {
+            document.querySelector("body").style.opacity = "1";
+        });
+    </script>
+
+    <script type="module" src="{{ .fancypenosiUrl }}/public/script/navigator.js"></script>
 </body>
 
 </html>

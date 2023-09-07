@@ -5,9 +5,9 @@ import (
 	"embed"
 )
 
-//go:embed page
-var fs embed.FS
+//go:embed page public
+var Fs embed.FS
 
 var Parser = &web.Parser{
-	FS: fs,
+	FS: Fs,
 }
