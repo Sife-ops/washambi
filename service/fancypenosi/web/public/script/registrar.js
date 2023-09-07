@@ -22,6 +22,47 @@ window.addEventListener("load", function () {
 ////////////////////////////////////////////////////////////////////////////////
 // forms
 
+// validate passwords
+
+/**
+ * @param {string} id1
+ * @param {string} id2
+ */
+function validate(id1, id2) {
+
+    const passwordRegex = new RegExp(
+        "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
+    );
+
+    return function () {
+        /** @type {HTMLInputElement} */
+        const password1 = document.querySelector(id1);
+        /** @type {HTMLInputElement} */
+        const password2 = document.querySelector(id2);
+
+        if (!passwordRegex.test(password1.value)) {
+            console.log("yeah");
+            password1.setCustomValidity(
+                "Must contain number(s) and special character(s)."
+            );
+        } else {
+            password1.setCustomValidity("");
+        }
+        if (password1.value != password2.value) {
+            password2.setCustomValidity("Passwords do not match.");
+        } else if (!passwordRegex.test(password2.value)) {
+            password2.setCustomValidity(
+                "Must contain number(s) and special character(s)."
+            );
+        } else {
+            password2.setCustomValidity("");
+        }
+    };
+}
+
+window.validateSignUpPassword = validate("#sign-up-password", "#confirm-password");
+window.validateResetPassword = validate("#recovery-password", "#recovery-confirm-password");
+
 // switch action
 
 window.switchAction = function (action) {
@@ -58,28 +99,26 @@ window.signIn = async function (event) {
     event.preventDefault();
 
     /** @type {HTMLInputElement} */
-    const signInEmail = document.querySelector("#sign-in-email");
+    const email = document.querySelector("#sign-in-email");
     /** @type {HTMLInputElement} */
-    const signInPassword = document.querySelector("#sign-in-password");
+    const password = document.querySelector("#sign-in-password");
     /** @type {HTMLButtonElement} */
-    const signInSubmit = document.querySelector("#sign-in-submit");
+    const submit = document.querySelector("#sign-in-submit");
     /** @type {HTMLElement} */
-    const signInText = document.querySelector("#sign-in-text");
+    const submitText = document.querySelector("#sign-in-text");
     /** @type {HTMLElement} */
-    const signInLoader = document.querySelector("#sign-in-loader");
+    const submitLoader = document.querySelector("#sign-in-loader");
     /** @type {HTMLElement} */
-    const signInSuccess = document.querySelector("#sign-in-success");
+    const submitSuccess = document.querySelector("#sign-in-success");
     /** @type {HTMLElement} */
-    const signInError = document.querySelector("#sign-in-error");
+    const error = document.querySelector("#sign-in-error");
     /** @type {HTMLElement} */
-    const signInErrorText = document.querySelector("#sign-in-error-text");
+    const errorText = document.querySelector("#sign-in-error-text");
 
-    signInEmail.readOnly = true;
-    signInPassword.readOnly = true;
-    signInSubmit.disabled = true;
-    signInText.style.display = "none";
-    signInLoader.style.display = "block";
-    signInError.style.display = "none";
+    submit.disabled = true;
+    submitText.style.display = "none";
+    submitLoader.style.display = "block";
+    error.style.display = "none";
 
     const res = await fetch("/sign-in", {
         method: "POST",
@@ -87,16 +126,16 @@ window.signIn = async function (event) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: signInEmail.value,
-            password: signInPassword.value,
+            email: email.value,
+            password: password.value,
         }),
     });
 
     setTimeout(() => {
-        signInLoader.style.display = "none";
+        submitLoader.style.display = "none";
 
         if (res.ok) {
-            signInSuccess.style.display = "block";
+            submitSuccess.style.display = "block";
 
             setTimeout(() => {
                 fader.classList.add("fader-above");
@@ -125,27 +164,25 @@ window.signIn = async function (event) {
             return;
         }
 
-        signInText.style.display = "block";
-        signInEmail.readOnly = false;
-        signInPassword.readOnly = false;
-        signInSubmit.disabled = false;
+        submitText.style.display = "block";
+        submit.disabled = false;
 
         switch (res.statusText) {
             case "Not Found":
-                signInErrorText.innerText =
+                errorText.innerText =
                     "An account with that e-mail doesn't exist.";
                 break;
 
             case "Unauthorized":
-                signInErrorText.innerText = "Incorrect password.";
+                errorText.innerText = "Incorrect password.";
                 break;
 
             default:
-                signInErrorText.innerText =
+                errorText.innerText =
                     "An unkown error occurred. Please try again later.";
                 break;
         }
-        signInError.style.display = "block";
+        error.style.display = "block";
     }, 500);
 };
 
@@ -158,20 +195,18 @@ window.signUp = async function (event) {
     const email = document.querySelector("#sign-up-email");
     /** @type {HTMLInputElement} */
     const password = document.querySelector("#sign-up-password");
-    /** @type {HTMLInputElement} */
-    const confirmPassword = document.querySelector("#confirm-password");
     /** @type {HTMLSelectElement} */
-    const prompt1 = document.querySelector("#sign-up-prompt-1");
+    const prompt1 = document.querySelector("#security-prompt-1");
     /** @type {HTMLSelectElement} */
-    const prompt2 = document.querySelector("#sign-up-prompt-2");
+    const prompt2 = document.querySelector("#security-prompt-2");
     /** @type {HTMLSelectElement} */
-    const prompt3 = document.querySelector("#sign-up-prompt-3");
+    const prompt3 = document.querySelector("#security-prompt-3");
     /** @type {HTMLInputElement} */
-    const answer1 = document.querySelector("#sign-up-answer-1");
+    const answer1 = document.querySelector("#security-answer-1");
     /** @type {HTMLInputElement} */
-    const answer2 = document.querySelector("#sign-up-answer-2");
+    const answer2 = document.querySelector("#security-answer-2");
     /** @type {HTMLInputElement} */
-    const answer3 = document.querySelector("#sign-up-answer-3");
+    const answer3 = document.querySelector("#security-answer-3");
     /** @type {HTMLButtonElement} */
     const submit = document.querySelector("#sign-up-submit");
     /** @type {HTMLElement} */
@@ -185,13 +220,6 @@ window.signUp = async function (event) {
     /** @type {HTMLElement} */
     const errorText = document.querySelector("#sign-up-error-text");
 
-    email.readOnly = true;
-    password.readOnly = true;
-    confirmPassword.readOnly = true;
-    // todo: freeze prompts
-    answer1.readOnly = true;
-    answer2.readOnly = true;
-    answer3.readOnly = true;
     submit.disabled = true;
     submitText.style.display = "none";
     submitLoader.style.display = "block";
@@ -228,12 +256,6 @@ window.signUp = async function (event) {
         }
 
         submitText.style.display = "block";
-        email.readOnly = false;
-        password.readOnly = false;
-        confirmPassword.readOnly = false;
-        answer1.readOnly = false;
-        answer2.readOnly = false;
-        answer3.readOnly = false;
         submit.disabled = false;
 
         switch (res.statusText) {
@@ -254,9 +276,9 @@ window.signUp = async function (event) {
 window.selectPrompt = function (event) {
     /** @type {Record<string, HTMLSelectElement>} */
     const prompts = {
-        "sign-up-prompt-1": document.querySelector("#sign-up-prompt-1"),
-        "sign-up-prompt-2": document.querySelector("#sign-up-prompt-2"),
-        "sign-up-prompt-3": document.querySelector("#sign-up-prompt-3"),
+        "security-prompt-1": document.querySelector("#security-prompt-1"),
+        "security-prompt-2": document.querySelector("#security-prompt-2"),
+        "security-prompt-3": document.querySelector("#security-prompt-3"),
     };
     for (const p in prompts) {
         // @ts-ignore
@@ -408,36 +430,6 @@ window.recovery2 = async function (event) {
 // responsive
 
 /**
- * @param {HTMLInputElement} password1
- * @param {HTMLInputElement} password2
- */
-function validate(password1, password2) {
-    const passwordRegex = new RegExp(
-        "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
-    );
-
-    return function () {
-        if (!passwordRegex.test(password1.value)) {
-            console.log("yeah");
-            password1.setCustomValidity(
-                "Must contain number(s) and special character(s)."
-            );
-        } else {
-            password1.setCustomValidity("");
-        }
-        if (password1.value != password2.value) {
-            password2.setCustomValidity("Passwords do not match.");
-        } else if (!passwordRegex.test(password2.value)) {
-            password2.setCustomValidity(
-                "Must contain number(s) and special character(s)."
-            );
-        } else {
-            password2.setCustomValidity("");
-        }
-    };
-}
-
-/**
  * @param {HTMLElement} src
  * @param {HTMLElement} dest
  */
@@ -484,30 +476,6 @@ function lgFn(event) {
         moveInnerHtml(signUpWindowLg, signUpWindow);
         moveInnerHtml(recoveryWindowLg, recoveryWindow);
     }
-
-    /** @type {HTMLInputElement} */
-    const signUpPassword = document.querySelector("#sign-up-password");
-    /** @type {HTMLInputElement} */
-    const confirmPassword = document.querySelector("#confirm-password");
-
-    signUpPassword.onchange = validate(signUpPassword, confirmPassword);
-    confirmPassword.onchange = validate(signUpPassword, confirmPassword);
-
-    /** @type {HTMLInputElement} */
-    const recoveryPassword = document.querySelector("#recovery-password");
-    /** @type {HTMLInputElement} */
-    const recoveryConfirmPassword = document.querySelector(
-        "#recovery-confirm-password"
-    );
-
-    recoveryPassword.onchange = validate(
-        recoveryPassword,
-        recoveryConfirmPassword
-    );
-    recoveryConfirmPassword.onchange = validate(
-        recoveryPassword,
-        recoveryConfirmPassword
-    );
 }
 
 lgFn(lg);

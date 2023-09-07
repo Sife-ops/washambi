@@ -12,6 +12,8 @@ interface Window {
   switchAction: (action: RegistrarAction) => void;
   signIn: (event: Event) => Promise<void>;
   signUp: (event: Event) => Promise<void>;
+  validateSignUpPassword: (event: Event) => void;
+  validateResetPassword: (event: Event) => void;
   selectPrompt: (event: Event) => void;
   recovery1: (event: Event) => Promise<void>;
   recovery2: (event: Event) => Promise<void>;
