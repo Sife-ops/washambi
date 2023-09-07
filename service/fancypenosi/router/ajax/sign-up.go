@@ -25,9 +25,6 @@ type signUpReq struct {
 }
 
 func SignUp(w http.ResponseWriter, r *http.Request) {
-	// log.Println("debug")
-	// w.Header().Add("lmao", "ok")
-
 	var b signUpReq
 	if e := json.NewDecoder(r.Body).Decode(&b); e != nil {
 		http.Error(w, "JSON unmarshal", http.StatusBadRequest)

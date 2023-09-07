@@ -78,19 +78,49 @@
                 <h2 class="mt-3 font-bold text-3xl lg:text-2xl text-center">Security Questions</h2>
 
                 <div>
-                    <label class="font-bold" for="sign-up-answer-1">Favorite book:</label>
+                    <select id="sign-up-prompt-1" name="sign-up-prompt-1" class="w-full text-black"
+                        onchange="selectPrompt(event)" required>
+                        <option value="">-- select question --</option>
+                        <option value="Favorite actor">Favorite actor</option>
+                        <option value="Favorite band">Favorite band</option>
+                        <option value="Favorite book">Favorite book</option>
+                        <option value="Favorite food">Favorite food</option>
+                        <option value="Favorite movie">Favorite movie</option>
+                        <option value="First pet's name">First pet's name</option>
+                        <option value="Street you grew up on">Street you grew up on</option>
+                    </select>
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="sign-up-answer-1" name="sign-up-answer-1" type="text" required />
                 </div>
 
                 <div>
-                    <label class="font-bold" for="sign-up-answer-2">Favorite movie:</label>
+                    <select id="sign-up-prompt-2" name="sign-up-prompt-2" class="w-full text-black"
+                        onchange="selectPrompt(event)" required>
+                        <option value="">-- select question --</option>
+                        <option value="Favorite actor">Favorite actor</option>
+                        <option value="Favorite band">Favorite band</option>
+                        <option value="Favorite book">Favorite book</option>
+                        <option value="Favorite food">Favorite food</option>
+                        <option value="Favorite movie">Favorite movie</option>
+                        <option value="First pet's name">First pet's name</option>
+                        <option value="Street you grew up on">Street you grew up on</option>
+                    </select>
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="sign-up-answer-2" name="sign-up-answer-2" type="text" required />
                 </div>
 
                 <div>
-                    <label class="font-bold" for="sign-up-answer-3">Favorite food:</label>
+                    <select id="sign-up-prompt-3" name="sign-up-prompt-3" class="w-full text-black"
+                        onchange="selectPrompt(event)" required>
+                        <option value="">-- select question --</option>
+                        <option value="Favorite actor">Favorite actor</option>
+                        <option value="Favorite band">Favorite band</option>
+                        <option value="Favorite book">Favorite book</option>
+                        <option value="Favorite food">Favorite food</option>
+                        <option value="Favorite movie">Favorite movie</option>
+                        <option value="First pet's name">First pet's name</option>
+                        <option value="Street you grew up on">Street you grew up on</option>
+                    </select>
                     <input class="text-black w-full rounded border-2 border-slate-300 valid:border-green-500"
                         id="sign-up-answer-3" name="sign-up-answer-3" type="text" required />
                 </div>
@@ -176,9 +206,9 @@
                 </div>
 
                 <button id="recovery-submit-2"
-                    class="h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
+                    class="mt-3 h-[50px] lg:h-[40px] flex justify-center items-center font-bold bg-green-800 hover:bg-green-900 border border-green-500 rounded-full"
                     type="submit">
-                    <span id="recovery-submit-2-text"> Next </span>
+                    <span id="recovery-submit-2-text"> Reset </span>
                     <img id="recovery-submit-2-loader" class="w-[50px] hidden" src="/public/image/three-dots.svg">
                     <span id="recovery-submit-2-success" class="hidden"> Success! </span>
                 </button>

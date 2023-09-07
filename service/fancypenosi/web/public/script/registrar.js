@@ -155,40 +155,47 @@ window.signUp = async function (event) {
     event.preventDefault();
 
     /** @type {HTMLInputElement} */
-    const signUpEmail = document.querySelector("#sign-up-email");
+    const email = document.querySelector("#sign-up-email");
     /** @type {HTMLInputElement} */
-    const signUpPassword = document.querySelector("#sign-up-password");
+    const password = document.querySelector("#sign-up-password");
     /** @type {HTMLInputElement} */
     const confirmPassword = document.querySelector("#confirm-password");
+    /** @type {HTMLSelectElement} */
+    const prompt1 = document.querySelector("#sign-up-prompt-1");
+    /** @type {HTMLSelectElement} */
+    const prompt2 = document.querySelector("#sign-up-prompt-2");
+    /** @type {HTMLSelectElement} */
+    const prompt3 = document.querySelector("#sign-up-prompt-3");
     /** @type {HTMLInputElement} */
-    const recoveryAnswer1 = document.querySelector("#sign-up-answer-1");
+    const answer1 = document.querySelector("#sign-up-answer-1");
     /** @type {HTMLInputElement} */
-    const recoveryAnswer2 = document.querySelector("#sign-up-answer-2");
+    const answer2 = document.querySelector("#sign-up-answer-2");
     /** @type {HTMLInputElement} */
-    const recoveryAnswer3 = document.querySelector("#sign-up-answer-3");
+    const answer3 = document.querySelector("#sign-up-answer-3");
     /** @type {HTMLButtonElement} */
-    const signUpSubmit = document.querySelector("#sign-up-submit");
+    const submit = document.querySelector("#sign-up-submit");
     /** @type {HTMLElement} */
-    const signUpText = document.querySelector("#sign-up-text");
+    const submitText = document.querySelector("#sign-up-text");
     /** @type {HTMLElement} */
-    const signUpLoader = document.querySelector("#sign-up-loader");
+    const submitLoader = document.querySelector("#sign-up-loader");
     /** @type {HTMLElement} */
-    const signUpSuccess = document.querySelector("#sign-up-success");
+    const submitSuccess = document.querySelector("#sign-up-success");
     /** @type {HTMLElement} */
-    const signUpError = document.querySelector("#sign-up-error");
+    const error = document.querySelector("#sign-up-error");
     /** @type {HTMLElement} */
-    const signUpErrorText = document.querySelector("#sign-up-error-text");
+    const errorText = document.querySelector("#sign-up-error-text");
 
-    signUpEmail.readOnly = true;
-    signUpPassword.readOnly = true;
+    email.readOnly = true;
+    password.readOnly = true;
     confirmPassword.readOnly = true;
-    recoveryAnswer1.readOnly = true;
-    recoveryAnswer2.readOnly = true;
-    recoveryAnswer3.readOnly = true;
-    signUpSubmit.disabled = true;
-    signUpText.style.display = "none";
-    signUpLoader.style.display = "block";
-    signUpError.style.display = "none";
+    // todo: freeze prompts
+    answer1.readOnly = true;
+    answer2.readOnly = true;
+    answer3.readOnly = true;
+    submit.disabled = true;
+    submitText.style.display = "none";
+    submitLoader.style.display = "block";
+    error.style.display = "none";
 
     const res = await fetch("/sign-up", {
         method: "POST",
@@ -196,22 +203,22 @@ window.signUp = async function (event) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: signUpEmail.value,
-            password: signUpPassword.value,
-            recoveryPrompt1: "favorite book",
-            recoveryPrompt2: "favorite movie",
-            recoveryPrompt3: "favorite food",
-            recoveryAnswer1: recoveryAnswer1.value,
-            recoveryAnswer2: recoveryAnswer2.value,
-            recoveryAnswer3: recoveryAnswer3.value,
+            email: email.value,
+            password: password.value,
+            recoveryPrompt1: prompt1.value,
+            recoveryPrompt2: prompt2.value,
+            recoveryPrompt3: prompt3.value,
+            recoveryAnswer1: answer1.value,
+            recoveryAnswer2: answer2.value,
+            recoveryAnswer3: answer3.value,
         }),
     });
 
     setTimeout(function () {
-        signUpLoader.style.display = "none";
+        submitLoader.style.display = "none";
 
         if (res.ok) {
-            signUpSuccess.style.display = "block";
+            submitSuccess.style.display = "block";
 
             setTimeout(function () {
                 window.switchAction("sign-in");
@@ -220,33 +227,48 @@ window.signUp = async function (event) {
             return;
         }
 
-        signUpText.style.display = "block";
-        signUpEmail.readOnly = false;
-        signUpPassword.readOnly = false;
+        submitText.style.display = "block";
+        email.readOnly = false;
+        password.readOnly = false;
         confirmPassword.readOnly = false;
-        recoveryAnswer1.readOnly = false;
-        recoveryAnswer2.readOnly = false;
-        recoveryAnswer3.readOnly = false;
-        signUpSubmit.disabled = false;
+        answer1.readOnly = false;
+        answer2.readOnly = false;
+        answer3.readOnly = false;
+        submit.disabled = false;
 
         switch (res.statusText) {
             case "Conflict":
-                signUpErrorText.innerText =
+                errorText.innerText =
                     "An account with that e-mail already exists!";
                 break;
 
             default:
-                signUpErrorText.innerText =
+                errorText.innerText =
                     "An unkown error occurred. Please try again later.";
                 break;
         }
-        signUpError.style.display = "block";
+        error.style.display = "block";
     }, 500);
 };
 
-// recovery
+window.selectPrompt = function (event) {
+    /** @type {Record<string, HTMLSelectElement>} */
+    const prompts = {
+        "sign-up-prompt-1": document.querySelector("#sign-up-prompt-1"),
+        "sign-up-prompt-2": document.querySelector("#sign-up-prompt-2"),
+        "sign-up-prompt-3": document.querySelector("#sign-up-prompt-3"),
+    };
+    for (const p in prompts) {
+        // @ts-ignore
+        if (p === event.target.id) continue;
+        // @ts-ignore
+        if (prompts[p].value === event.target.value) {
+            prompts[p].value = ""
+        }
+    }
+}
 
-// let recoveryEmail = ""
+// recovery
 
 // todo: transitions
 window.recovery1 = async function (event) {
