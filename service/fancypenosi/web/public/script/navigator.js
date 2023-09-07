@@ -14,8 +14,8 @@ async function main() {
 
     menuBtn.addEventListener("click", function () {
         let d = drawer.style.display;
-        if (d != "block") {
-            drawer.style.display = "block";
+        if (d != "flex") {
+            drawer.style.display = "flex";
         } else {
             drawer.style.display = "none";
         }

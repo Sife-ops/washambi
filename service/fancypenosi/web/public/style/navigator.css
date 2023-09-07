@@ -14,16 +14,35 @@
 
 #menu-btn {
     --ggs: 1.5;
-    height: 30px;
+    height: 30px; /* todo: use rem? */
     width: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
 }
 
 #drawer {
     display: none;
     justify-content: space-between;
+}
+
+#services {
+    display: flex;
+    flex-direction: column;
+}
+
+#services h1 {
+    font-weight: 700;
+}
+
+#services a {
+    cursor: pointer;
+}
+
+#account-actions {
+    display: flex;
+    gap: 0.5rem;
 }
 
 .account-action {

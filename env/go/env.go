@@ -30,4 +30,8 @@ var (
 	FancypenosiUrl  = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_URL")
 
 	WokejakPort = LookupEnvOrPanic("WASHAMBI_WOKEJAK_PORT")
+	WokejakUrl = LookupEnvOrPanic("WASHAMBI_WOKEJAK_URL")
+
+	ElonbustPort = LookupEnvOrPanic("WASHAMBI_ELONBUST_PORT")
+	ElonbustUrl = LookupEnvOrPanic("WASHAMBI_ELONBUST_URL")
 )

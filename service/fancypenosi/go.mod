@@ -3,7 +3,7 @@ module fancypenosi
 go 1.21.0
 
 require (
-	github.com/go-chi/chi v1.5.4
+	github.com/go-chi/chi/v5 v5.0.10
 	golang.org/x/crypto v0.12.0
 	google.golang.org/grpc v1.57.0
 	washambi-env v0.0.0
@@ -20,4 +20,5 @@ require (
 )
 
 replace washambi-env v0.0.0 => ../../env/go
+
 replace washambi-rpc v0.0.0 => ../../rpc/package/go
