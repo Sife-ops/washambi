@@ -13,7 +13,8 @@ async function main() {
     const drawer = document.querySelector("#drawer");
 
     menuBtn.addEventListener("click", function () {
-        if (drawer.style.display === "none") {
+        let d = drawer.style.display;
+        if (d != "block") {
             drawer.style.display = "block";
         } else {
             drawer.style.display = "none";

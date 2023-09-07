@@ -21,6 +21,11 @@
     align-items: center;
 }
 
+#drawer {
+    display: none;
+    justify-content: space-between;
+}
+
 .account-action {
     text-decoration-line: underline;
 }

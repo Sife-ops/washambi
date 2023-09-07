@@ -6,9 +6,8 @@
 <iframe id="bg-iframe" src="{{ .cornpopUrl }}/bg/{{ .bg }}/page.html"></iframe>
 
 <div id="fader" class="fader-below h-full transition-transform duration-1000 text-2xl text-white">
-    <div id="sign-in-page" class="h-full flex justify-center items-center transition-opacity duration-500" {{ if eq
-        .registrarAction "sign-up" }} style="display: none; opacity: 0;" {{ else }} style="display: flex; opacity: 1;"
-        {{ end }}>
+    <div id="sign-in-page"
+        class='h-full flex justify-center items-center transition-opacity duration-500 {{ if eq .registrarAction "sign-up" }} opacity-0 hidden {{ end }}'>
         <div id="sign-in-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
             <form id="sign-in-form" class="flex flex-col gap-5" onsubmit="signIn(event)">
                 <h1 class="font-bold text-5xl lg:text-3xl text-center">Sign In to Washambi</h1>
@@ -47,9 +46,8 @@
         </div>
     </div>
 
-    <div id="sign-up-page" class="h-full flex justify-center items-center transition-opacity duration-500" {{ if eq
-        .registrarAction "sign-in" }} style="display: none; opacity: 0;" {{ else }} style="display: flex; opacity: 1;"
-        {{ end }}>
+    <div id="sign-up-page"
+        class='h-full flex justify-center items-center transition-opacity duration-500 {{ if eq .registrarAction "sign-in" }} opacity-0 hidden {{ end }}'>
         <div id="sign-up-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
             <form id="sign-up-form" class="flex flex-col gap-5" onsubmit="signUp(event)">
                 <h1 class="font-bold text-5xl lg:text-3xl text-center">Sign Up for Washambi</h1>
@@ -145,8 +143,8 @@
         </div>
     </div>
 
-    <div id="recovery-page" class="h-full flex justify-center items-center transition-opacity duration-500"
-        style="display: none; opacity: 0;">
+    <div id="recovery-page"
+        class="h-full flex justify-center items-center transition-opacity duration-500 opacity-0 hidden">
         <div id="recovery-window" class="w-[90%] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
             <!-- todo: transition form -->
             <form id="recovery-form-1" class="flex flex-col gap-5" onsubmit="recovery1(event)">
@@ -230,13 +228,8 @@
     </div>
 </div>
 
-<div id="carousel" class='
-    {{ if eq .registrarAction "sign-in" }} 
-    carousel-sign-in-below 
-    {{ else }} 
-    carousel-sign-up-below 
-    {{ end }} 
-    flex w-[300vw] h-full transition-transform duration-1000 text-white'>
+<div id="carousel"
+    class=' {{ if eq .registrarAction "sign-in" }} carousel-sign-in-below {{ else }} carousel-sign-up-below {{ end }} flex w-[300vw] h-full transition-transform duration-1000 text-white'>
     <div class="h-full w-[100vw] flex justify-center items-center">
         <div id="sign-in-window-lg" class="w-[640px] p-5 bg-slate-900/75 border border-sky-500 backdrop-blur-sm">
         </div>
