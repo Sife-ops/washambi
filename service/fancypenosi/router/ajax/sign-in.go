@@ -47,7 +47,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 
 		Secure:   true,
 		HttpOnly: true,
-		MaxAge:   10,
+		MaxAge:   300,
 		SameSite: http.SameSiteStrictMode,
 	})
 }

@@ -20,9 +20,21 @@ window.addEventListener("load", function () {
 });
 
 ////////////////////////////////////////////////////////////////////////////////
-// forms
+// validation
 
-// validate passwords
+// username
+
+window.validateUsername = function (event) {
+    const t = /** @type {HTMLInputElement} */ (event.target)
+    const l = t.value.length;
+    if (l < 8 || l > 32) {
+        t.setCustomValidity("Must be 8-32 characters.")
+    } else {
+        t.setCustomValidity("")
+    }
+};
+
+// password
 
 /**
  * @param {string} id1
@@ -40,7 +52,6 @@ function validate(id1, id2) {
         const password2 = document.querySelector(id2);
 
         if (!passwordRegex.test(password1.value)) {
-            console.log("yeah");
             password1.setCustomValidity(
                 "Must contain number(s) and special character(s)."
             );
@@ -59,8 +70,12 @@ function validate(id1, id2) {
     };
 }
 
+// todo: autofill causes error
 window.validateSignUpPassword = validate("#sign-up-password", "#confirm-password");
 window.validateResetPassword = validate("#recovery-password", "#recovery-confirm-password");
+
+////////////////////////////////////////////////////////////////////////////////
+// forms
 
 // switch action
 
