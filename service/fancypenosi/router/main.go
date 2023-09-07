@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"io/fs"
-	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -55,14 +54,16 @@ func redirect(next http.Handler) http.Handler {
 
 func cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var origin string
-		switch r.Header["Origin"][0] {
-		case env.ElonbustUrl:
-			origin = env.ElonbustUrl
-		}
-		log.Println(r.Header["Origin"])
-		if origin != "" {
-			w.Header().Add("Access-Control-Allow-Origin", origin)
+		var originHeader = r.Header["Origin"]
+		if len(originHeader) > 0 {
+			var origin string
+			switch originHeader[0] { // todo: if len > 1?
+			case env.ElonbustUrl:
+				origin = env.ElonbustUrl
+			}
+			if origin != "" {
+				w.Header().Add("Access-Control-Allow-Origin", origin)
+			}
 		}
 		next.ServeHTTP(w, r)
 	})
