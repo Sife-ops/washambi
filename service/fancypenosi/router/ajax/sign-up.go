@@ -4,7 +4,6 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
-	"net/mail"
 	"strings"
 
 	"golang.org/x/crypto/bcrypt"
@@ -14,7 +13,7 @@ import (
 )
 
 type signUpReq struct {
-	Email           string
+	Username        string
 	Password        string
 	RecoveryPrompt1 string
 	RecoveryPrompt2 string
@@ -31,8 +30,8 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, e := mail.ParseAddress(b.Email); e != nil {
-		http.Error(w, "invalid email", http.StatusBadRequest)
+	if len(b.Username) < 8 || len(b.Username) > 32 {
+		http.Error(w, "username length", http.StatusBadRequest)
 		return
 	}
 
@@ -53,7 +52,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if _, e := rpc.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
-		Email:           b.Email,
+		Username:        b.Username,
 		Password:        string(h),
 		RecoveryPrompt1: b.RecoveryPrompt1,
 		RecoveryPrompt2: b.RecoveryPrompt2,

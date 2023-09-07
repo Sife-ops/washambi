@@ -13,7 +13,7 @@ import (
 )
 
 type signInReq struct {
-	Email    string
+	Username string
 	Password string
 }
 
@@ -25,7 +25,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	u, e := rpc.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
-		Email: b.Email,
+		Username: b.Username,
 	})
 	if e != nil {
 		if strings.Contains(e.Error(), "NotFound") {

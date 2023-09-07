@@ -34,7 +34,7 @@ func fromDbUser(u *zm.User) *blazerxd_pb.User {
 
 	return &blazerxd_pb.User{
 		Id:              u.ID.String(),
-		Email:           u.Email,
+		Username:        u.Username,
 		Password:        u.Password,
 		RecoveryPrompt1: u.RecoveryPrompt1,
 		RecoveryPrompt2: u.RecoveryPrompt2,
@@ -51,7 +51,7 @@ func fromDbUser(u *zm.User) *blazerxd_pb.User {
 func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest) (*blazerxd_pb.CreateResponse, error) {
 	stmt := zt.User.
 		INSERT(
-			zt.User.Email,
+			zt.User.Username,
 			zt.User.Password,
 			zt.User.RecoveryPrompt1,
 			zt.User.RecoveryPrompt2,
@@ -61,7 +61,7 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 			zt.User.RecoveryAnswer3,
 		).
 		VALUES(
-			call.Email,
+			call.Username,
 			call.Password,
 			call.RecoveryPrompt1,
 			call.RecoveryPrompt2,
@@ -89,7 +89,7 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*blazerxd_pb.GetResponse, error) {
 	stmt := SELECT(zt.User.AllColumns).
 		FROM(zt.User).
-		WHERE(zt.User.Email.EQ(String(call.Email)))
+		WHERE(zt.User.Username.EQ(String(call.Username)))
 
 	u := []zm.User{}
 	e := stmt.Query(db.Connection, &u)
@@ -98,7 +98,7 @@ func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*bl
 	}
 
 	if len(u) < 1 {
-		return nil, status.Errorf(codes.NotFound, "user not found: %s", call.Email)
+		return nil, status.Errorf(codes.NotFound, "user not found: %s", call.Username)
 	}
 
 	return &blazerxd_pb.GetResponse{

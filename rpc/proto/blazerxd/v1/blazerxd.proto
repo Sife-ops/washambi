@@ -18,7 +18,7 @@ service Blazerxd {
 
 message User {
   string id = 1;
-  string email = 2;
+  string username = 2;
   string password = 3;
   string recoveryPrompt1 = 4;
   string recoveryPrompt2 = 5;
@@ -33,7 +33,7 @@ message User {
 
 // create
 message CreateRequest {
-  string email = 1;
+  string username = 1;
   string password = 2;
   string recoveryPrompt1 = 3;
   string recoveryPrompt2 = 4;
@@ -46,7 +46,7 @@ message CreateRequest {
 message CreateResponse { User user = 1; }
 
 // get
-message GetRequest { string email = 1; }
+message GetRequest { string username = 1; }
 message GetResponse { User user = 1; }
 
 // change password

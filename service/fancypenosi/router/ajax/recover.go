@@ -13,7 +13,7 @@ import (
 )
 
 type fetchUserReq struct {
-	Email string
+	Username string
 }
 
 func FetchUser(w http.ResponseWriter, r *http.Request) {
@@ -24,7 +24,7 @@ func FetchUser(w http.ResponseWriter, r *http.Request) {
 	}
 
 	u, e := rpc.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
-		Email: b.Email,
+		Username: b.Username,
 	})
 	if e != nil {
 		if strings.Contains(e.Error(), "NotFound") {
@@ -43,7 +43,7 @@ func FetchUser(w http.ResponseWriter, r *http.Request) {
 }
 
 type recoverReq struct {
-	Email           string
+	Username        string
 	RecoveryAnswer1 string
 	RecoveryAnswer2 string
 	RecoveryAnswer3 string
@@ -58,7 +58,7 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 	}
 
 	u, e := rpc.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
-		Email: b.Email,
+		Username: b.Username,
 	})
 	if e != nil {
 		if strings.Contains(e.Error(), "NotFound") {

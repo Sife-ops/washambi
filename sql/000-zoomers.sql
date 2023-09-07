@@ -4,7 +4,9 @@ CREATE SCHEMA IF NOT EXISTS "zoomers";
 CREATE TABLE "zoomers"."user" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
 
-    "email" character varying NOT NULL UNIQUE,
+    "username" character varying NOT NULL UNIQUE,
+    -- "discriminator" character varying NOT NULL,
+    -- "email" character varying NOT NULL UNIQUE,
     "password" character varying NOT NULL,
 
     "recovery_prompt_1" character varying NOT NULL,

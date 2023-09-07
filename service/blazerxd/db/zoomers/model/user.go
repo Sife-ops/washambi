@@ -14,7 +14,7 @@ import (
 
 type User struct {
 	ID              uuid.UUID `sql:"primary_key"`
-	Email           string
+	Username        string
 	Password        string
 	RecoveryPrompt1 string
 	RecoveryPrompt2 string

@@ -26,7 +26,7 @@ func TestMain(m *testing.M) {
 
 // move to package test
 var testUser = blazerxd_pb.User{
-	Email:           "blazer@xd.com",
+	Username:        "69blazer420",
 	Password:        "blazerxd",
 	RecoveryPrompt1: "favorite book",
 	RecoveryPrompt2: "favorite movie",
@@ -41,7 +41,7 @@ func createTestUser() (*zm.User, error) {
 	u := []zm.User{}
 	stmt := zt.User.
 		INSERT(
-			zt.User.Email,
+			zt.User.Username,
 			zt.User.Password,
 			zt.User.RecoveryPrompt1,
 			zt.User.RecoveryPrompt2,
@@ -51,7 +51,7 @@ func createTestUser() (*zm.User, error) {
 			zt.User.RecoveryAnswer3,
 		).
 		VALUES(
-			testUser.Email,
+			testUser.Username,
 			testUser.Password,
 			testUser.RecoveryPrompt1,
 			testUser.RecoveryPrompt2,
@@ -67,7 +67,7 @@ func createTestUser() (*zm.User, error) {
 
 // move to package test
 func deleteTestUser() {
-	stmt := zt.User.DELETE().WHERE(zt.User.Email.EQ(String(testUser.Email)))
+	stmt := zt.User.DELETE().WHERE(zt.User.Username.EQ(String(testUser.Username)))
 	stmt.Exec(db.Connection)
 }
 
@@ -84,7 +84,7 @@ func Test_Create_Success(t *testing.T) {
 	defer afterEach()
 
 	_, e := test.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
-		Email:    testUser.Email,
+		Username: testUser.Username,
 		Password: testUser.Password,
 		// RecoveryPrompt1: testUser.RecoveryPrompt1,
 		// RecoveryPrompt2: testUser.RecoveryPrompt2,
@@ -108,7 +108,7 @@ func Test_Create_DuplicateUserError(t *testing.T) {
 	defer afterEach()
 
 	_, e := test.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
-		Email:    testUser.Email,
+		Username: testUser.Username,
 		Password: testUser.Password,
 	})
 	if e != nil {
@@ -130,7 +130,7 @@ func Test_Get_Success(t *testing.T) {
 	defer afterEach()
 
 	_, ee := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
-		Email: testUser.Email,
+		Username: testUser.Username,
 	})
 	// t.Log(u)
 	if ee != nil {
@@ -144,7 +144,7 @@ func Test_Get_UserNotFoundError(t *testing.T) {
 	defer afterEach()
 
 	_, e := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
-		Email: testUser.Email,
+		Username: testUser.Username,
 	})
 	if e != nil {
 		if !strings.Contains(e.Error(), "NotFound") {
@@ -176,4 +176,3 @@ func Test_ChangePassword_Success(t *testing.T) {
 		t.Fatalf("expected %s, got %s", p, ud.User.Password)
 	}
 }
-

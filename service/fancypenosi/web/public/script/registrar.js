@@ -29,7 +29,6 @@ window.addEventListener("load", function () {
  * @param {string} id2
  */
 function validate(id1, id2) {
-
     const passwordRegex = new RegExp(
         "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
     );
@@ -99,7 +98,7 @@ window.signIn = async function (event) {
     event.preventDefault();
 
     /** @type {HTMLInputElement} */
-    const email = document.querySelector("#sign-in-email");
+    const username = document.querySelector("#sign-in-username");
     /** @type {HTMLInputElement} */
     const password = document.querySelector("#sign-in-password");
     /** @type {HTMLButtonElement} */
@@ -126,7 +125,7 @@ window.signIn = async function (event) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: email.value,
+            username: username.value,
             password: password.value,
         }),
     });
@@ -192,7 +191,7 @@ window.signUp = async function (event) {
     event.preventDefault();
 
     /** @type {HTMLInputElement} */
-    const email = document.querySelector("#sign-up-email");
+    const username = document.querySelector("#sign-up-username");
     /** @type {HTMLInputElement} */
     const password = document.querySelector("#sign-up-password");
     /** @type {HTMLSelectElement} */
@@ -231,7 +230,7 @@ window.signUp = async function (event) {
             "Content-Type": "application/json",
         },
         body: JSON.stringify({
-            email: email.value,
+            username: username.value,
             password: password.value,
             recoveryPrompt1: prompt1.value,
             recoveryPrompt2: prompt2.value,
@@ -301,11 +300,11 @@ window.recovery1 = async function (event) {
     error.style.display = "none";
 
     /** @type {HTMLInputElement} */
-    const email = document.querySelector("#recovery-email");
+    const username = document.querySelector("#recovery-username");
     const req = fetch("/fetch-user", {
         method: "POST",
         body: JSON.stringify({
-            email: email.value,
+            username: username.value,
         }),
     });
 
@@ -337,7 +336,7 @@ window.recovery1 = async function (event) {
     }
 
     const user = await res.json();
-    // recoveryEmail = user.email;
+    // recoveryUsername = user.username;
 
     /** @type {HTMLElement} */
     const prompt1 = document.querySelector("#recovery-prompt-1");
@@ -365,7 +364,7 @@ window.recovery2 = async function (event) {
     error.style.display = "none";
 
     /** @type {HTMLInputElement} */
-    const email = document.querySelector("#recovery-email");
+    const username = document.querySelector("#recovery-username");
     /** @type {HTMLInputElement} */
     const answer1 = document.querySelector("#recovery-answer-1");
     /** @type {HTMLInputElement} */
@@ -378,7 +377,7 @@ window.recovery2 = async function (event) {
     const req = fetch("/reset-password", {
         method: "POST",
         body: JSON.stringify({
-            email: email.value,
+            username: username.value,
             recoveryAnswer1: answer1.value,
             recoveryAnswer2: answer2.value,
             recoveryAnswer3: answer3.value,

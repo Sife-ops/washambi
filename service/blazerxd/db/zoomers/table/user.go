@@ -18,7 +18,7 @@ type userTable struct {
 
 	// Columns
 	ID              postgres.ColumnString
-	Email           postgres.ColumnString
+	Username        postgres.ColumnString
 	Password        postgres.ColumnString
 	RecoveryPrompt1 postgres.ColumnString
 	RecoveryPrompt2 postgres.ColumnString
@@ -70,7 +70,7 @@ func newUserTable(schemaName, tableName, alias string) *UserTable {
 func newUserTableImpl(schemaName, tableName, alias string) userTable {
 	var (
 		IDColumn              = postgres.StringColumn("id")
-		EmailColumn           = postgres.StringColumn("email")
+		UsernameColumn        = postgres.StringColumn("username")
 		PasswordColumn        = postgres.StringColumn("password")
 		RecoveryPrompt1Column = postgres.StringColumn("recovery_prompt_1")
 		RecoveryPrompt2Column = postgres.StringColumn("recovery_prompt_2")
@@ -81,8 +81,8 @@ func newUserTableImpl(schemaName, tableName, alias string) userTable {
 		CreatedAtColumn       = postgres.TimestampColumn("created_at")
 		UpdatedAtColumn       = postgres.TimestampColumn("updated_at")
 		DeletedAtColumn       = postgres.TimestampColumn("deleted_at")
-		allColumns            = postgres.ColumnList{IDColumn, EmailColumn, PasswordColumn, RecoveryPrompt1Column, RecoveryPrompt2Column, RecoveryPrompt3Column, RecoveryAnswer1Column, RecoveryAnswer2Column, RecoveryAnswer3Column, CreatedAtColumn, UpdatedAtColumn, DeletedAtColumn}
-		mutableColumns        = postgres.ColumnList{EmailColumn, PasswordColumn, RecoveryPrompt1Column, RecoveryPrompt2Column, RecoveryPrompt3Column, RecoveryAnswer1Column, RecoveryAnswer2Column, RecoveryAnswer3Column, CreatedAtColumn, UpdatedAtColumn, DeletedAtColumn}
+		allColumns            = postgres.ColumnList{IDColumn, UsernameColumn, PasswordColumn, RecoveryPrompt1Column, RecoveryPrompt2Column, RecoveryPrompt3Column, RecoveryAnswer1Column, RecoveryAnswer2Column, RecoveryAnswer3Column, CreatedAtColumn, UpdatedAtColumn, DeletedAtColumn}
+		mutableColumns        = postgres.ColumnList{UsernameColumn, PasswordColumn, RecoveryPrompt1Column, RecoveryPrompt2Column, RecoveryPrompt3Column, RecoveryAnswer1Column, RecoveryAnswer2Column, RecoveryAnswer3Column, CreatedAtColumn, UpdatedAtColumn, DeletedAtColumn}
 	)
 
 	return userTable{
@@ -90,7 +90,7 @@ func newUserTableImpl(schemaName, tableName, alias string) userTable {
 
 		//Columns
 		ID:              IDColumn,
-		Email:           EmailColumn,
+		Username:        UsernameColumn,
 		Password:        PasswordColumn,
 		RecoveryPrompt1: RecoveryPrompt1Column,
 		RecoveryPrompt2: RecoveryPrompt2Column,
