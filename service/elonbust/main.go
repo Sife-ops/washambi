@@ -1,10 +1,14 @@
 package main
 
 import (
+	"elonbust/router"
 	"log"
-	"washambi-env"
+    "washambi-env"
 )
 
 func main() {
-    log.Println(env.FancypenosiUrl)
+    log.Printf("elonbust %s",env.ElonbustUrl)
+	if e := router.Serve(); e != nil {
+		log.Printf("serve error: %v", e)
+	}
 }
