@@ -15,9 +15,12 @@ func main() {
 			switch originHeader[0] { // todo: if len > 1?
 			case env.ElonbustUrl:
 				origin = env.ElonbustUrl
+			case env.FancypenosiUrl:
+				origin = env.FancypenosiUrl
 			}
 			if origin != "" {
 				w.Header().Add("Access-Control-Allow-Origin", origin)
+				w.Header().Add("Access-Control-Allow-Credentials", "true")
 			}
 		}
 		http.FileServer(http.Dir("./web")).ServeHTTP(w, r)

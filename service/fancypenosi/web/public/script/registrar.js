@@ -3,21 +3,29 @@
 
 /** @type {HTMLElement} */
 const fader = document.querySelector("#fader");
-
 /** @type {HTMLElement} */
 const carousel = document.querySelector("#carousel");
 
-window.addEventListener("load", function () {
-    // setTimeout(() => {
+function slideIn() {
     fader.classList.remove("fader-below");
+    fader.classList.remove("fader-above");
+
     if (carousel.classList.contains("carousel-sign-in-below")) {
         carousel.classList.replace("carousel-sign-in-below", "carousel-sign-in");
     }
     if (carousel.classList.contains("carousel-sign-up-below")) {
         carousel.classList.replace("carousel-sign-up-below", "carousel-sign-up");
     }
-    // }, 500);
-});
+    if (carousel.classList.contains("carousel-sign-in-above")) {
+        carousel.classList.replace("carousel-sign-in-above", "carousel-sign-in");
+    }
+    if (carousel.classList.contains("carousel-sign-up-above")) {
+        carousel.classList.replace("carousel-sign-up-above", "carousel-sign-up");
+    }
+}
+
+window.addEventListener("load", slideIn);
+window.addEventListener("pageshow", slideIn);
 
 ////////////////////////////////////////////////////////////////////////////////
 // validation
