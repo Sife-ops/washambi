@@ -4,9 +4,8 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-
+	"washambi-env"
 	"wokejak/web"
-    "washambi-env"
 )
 
 func Root(w http.ResponseWriter, r *http.Request) {
@@ -15,8 +14,10 @@ func Root(w http.ResponseWriter, r *http.Request) {
 		variant = "mobile"
 	}
 
-	web.Parse(fmt.Sprintf("page/%s.html", variant)).Execute(w, map[string]interface{}{
-		"cornpopUrl": env.CornpopUrl,
-		"styles":     []string{variant},
-	})
+	web.
+		Parser.
+		ParsePage(fmt.Sprintf("page/%s.html", variant)).
+		Execute(w, env.WithEnv(map[string]interface{}{
+			"styles": []string{variant},
+		}))
 }

@@ -20,12 +20,12 @@ func Registrar(ra RegistrarAction) http.HandlerFunc {
 		bgs := []string{"forest", "city", "scope"} // todo: cornpop grpc
 
 		web.
+			Parser.
 			ParsePage("page/registrar.html").
-			Execute(w, map[string]interface{}{
+			Execute(w, env.WithEnv(map[string]interface{}{
 				"registrarAction": ra,
 				"styles":          []string{"/public/style/registrar.css"},
-				"cornpopUrl":      env.CornpopUrl,
 				"bg":              bgs[rand.Intn(len(bgs))],
-			})
+			}))
 	}
 }

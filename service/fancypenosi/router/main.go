@@ -87,7 +87,7 @@ func Serve() error {
 	m.With(cors, auth).Get("/partial/navigator", partial.Navigator)
 	m.With(auth, redirect).Get("/account", page.Account)
 
-	sub, e := fs.Sub(web.Embeds, "public")
+	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {
 		return e
 	}

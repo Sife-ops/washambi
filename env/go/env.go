@@ -30,8 +30,24 @@ var (
 	FancypenosiUrl  = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_URL")
 
 	WokejakPort = LookupEnvOrPanic("WASHAMBI_WOKEJAK_PORT")
-	WokejakUrl = LookupEnvOrPanic("WASHAMBI_WOKEJAK_URL")
+	WokejakUrl  = LookupEnvOrPanic("WASHAMBI_WOKEJAK_URL")
 
 	ElonbustPort = LookupEnvOrPanic("WASHAMBI_ELONBUST_PORT")
-	ElonbustUrl = LookupEnvOrPanic("WASHAMBI_ELONBUST_URL")
+	ElonbustUrl  = LookupEnvOrPanic("WASHAMBI_ELONBUST_URL")
 )
+
+func WithEnv(m map[string]interface{}) map[string]interface{} {
+	urlMap := map[string]interface{}{
+		"blazerxdUrl":    BlazerxdUrl,
+		"cornpopUrl":     CornpopUrl,
+		"fancypenosiUrl": FancypenosiUrl,
+		"wokejakUrl":     WokejakUrl,
+		"elonbustUrl":    ElonbustUrl,
+	}
+	if m != nil {
+		for k, v := range m {
+			urlMap[k] = v
+		}
+	}
+	return urlMap
+}
