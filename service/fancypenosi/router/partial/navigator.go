@@ -1,9 +1,8 @@
 package partial
 
 import (
-	"net/http"
-
 	"fancypenosi/web"
+	"net/http"
 )
 
 func Navigator(w http.ResponseWriter, r *http.Request) {

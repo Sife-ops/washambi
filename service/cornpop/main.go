@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-
-	env "washambi-env"
+	"washambi-env"
 )
 
 func main() {
-
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		var originHeader = r.Header["Origin"]
 		if len(originHeader) > 0 {

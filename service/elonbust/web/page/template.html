@@ -29,13 +29,10 @@
     <script>
         const fancypenosiUrl = "{{ .fancypenosiUrl }}";
         const transitionDuration = {{ $transitionDuration }};
-
-        window.addEventListener("load", function () {
-            document.querySelector("body").style.opacity = "1";
-        });
     </script>
 
     <script type="module" src="{{ .fancypenosiUrl }}/public/script/navigator.js"></script>
+    <script type="module" src="{{ .cornpopUrl }}/script/window.js"></script>
 </body>
 
 </html>

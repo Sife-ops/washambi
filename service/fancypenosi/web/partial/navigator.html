@@ -16,9 +16,9 @@
         {{ if .authorized }}
         <button class="account-action" id="sign-out">sign out</button>
         {{ else }}
-        <button class="account-action" onclick='fadeTo("/sign-in")'>sign in</button>
+        <button class="account-action" onclick='fadeTo(`${fancypenosiUrl}/sign-in`)'>sign in</button>
         <span>/</span>
-        <button class="account-action" onclick='fadeTo("/sign-up")'>sign up</button>
+        <button class="account-action" onclick='fadeTo(`${fancypenosiUrl}/sign-up`)'>sign up</button>
         {{ end }}
     </div>
 </div>

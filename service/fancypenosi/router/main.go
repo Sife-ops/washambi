@@ -63,6 +63,7 @@ func cors(next http.Handler) http.Handler {
 			}
 			if origin != "" {
 				w.Header().Add("Access-Control-Allow-Origin", origin)
+                w.Header().Add("Access-Control-Allow-Credentials", "true")
 			}
 		}
 		next.ServeHTTP(w, r)
