@@ -12,13 +12,13 @@
         <a onclick='fadeTo("#")'>Kanban</a>
         <a>Bookmarks</a>
     </div>
-    <div id="account-actions">
-        {{ if .authorized }}
-        <button class="account-action" id="sign-out">sign out</button>
-        {{ else }}
+    <div class="account-actions" {{if .authorized}} {{else}} style="display: none;" {{end}}>
+        <button class="account-action" id="sign-out">
+            sign out
+        </button>
+    </div>
+    <div class="account-actions" {{if .authorized}} style="display: none;" {{end}}>
         <button class="account-action" onclick='fadeTo(`${fancypenosiUrl}/sign-in`)'>sign in</button>
-        <span>/</span>
         <button class="account-action" onclick='fadeTo(`${fancypenosiUrl}/sign-up`)'>sign up</button>
-        {{ end }}
     </div>
 </div>

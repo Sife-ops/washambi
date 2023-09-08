@@ -9,20 +9,20 @@ import (
 
 func main() {
 	http.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var originHeader = r.Header["Origin"]
-		if len(originHeader) > 0 {
-			var origin string
-			switch originHeader[0] { // todo: if len > 1?
-			case env.ElonbustUrl:
-				origin = env.ElonbustUrl
-			case env.FancypenosiUrl:
-				origin = env.FancypenosiUrl
-			}
-			if origin != "" {
-				w.Header().Add("Access-Control-Allow-Origin", origin)
-				w.Header().Add("Access-Control-Allow-Credentials", "true")
+        originHeader := r.Header.Get("Origin")
+		var origin string
+
+		for _, v := range env.Urls {
+			if v == originHeader {
+				origin = v.(string)
 			}
 		}
+
+		if origin != "" {
+			w.Header().Add("Access-Control-Allow-Origin", origin)
+			w.Header().Add("Access-Control-Allow-Credentials", "true")
+		}
+
 		http.FileServer(http.Dir("./web")).ServeHTTP(w, r)
 	}))
 

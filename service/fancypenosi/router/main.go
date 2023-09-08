@@ -40,7 +40,7 @@ func redirect(next http.Handler) http.Handler {
 			// todo: client redirect
 			http.SetCookie(w, &http.Cookie{
 				Name:     "redirect",
-				Value:    r.URL.String(),
+				Value:    r.Header.Get("Referer"),
 				Secure:   true,
 				HttpOnly: false,
 				SameSite: http.SameSiteStrictMode,
@@ -54,18 +54,20 @@ func redirect(next http.Handler) http.Handler {
 
 func cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		var originHeader = r.Header["Origin"]
-		if len(originHeader) > 0 {
-			var origin string
-			switch originHeader[0] { // todo: if len > 1?
-			case env.ElonbustUrl:
-				origin = env.ElonbustUrl
-			}
-			if origin != "" {
-				w.Header().Add("Access-Control-Allow-Origin", origin)
-                w.Header().Add("Access-Control-Allow-Credentials", "true")
+        originHeader := r.Header.Get("Origin")
+		var origin string
+
+		for _, v := range env.Urls {
+			if v == originHeader {
+				origin = v.(string)
 			}
 		}
+
+		if origin != "" {
+			w.Header().Add("Access-Control-Allow-Origin", origin)
+			w.Header().Add("Access-Control-Allow-Credentials", "true")
+		}
+
 		next.ServeHTTP(w, r)
 	})
 }

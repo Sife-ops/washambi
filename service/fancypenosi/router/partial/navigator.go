@@ -10,7 +10,7 @@ func Navigator(w http.ResponseWriter, r *http.Request) {
 	web.
 		Parser.
 		ParsePartial("navigator").
-		Execute(w, env.WithEnv(map[string]interface{}{
+		Execute(w, env.WithUrls(map[string]interface{}{
 			"authorized": r.Context().Value("authorized"),
 		}))
 }

@@ -34,20 +34,25 @@ var (
 
 	ElonbustPort = LookupEnvOrPanic("WASHAMBI_ELONBUST_PORT")
 	ElonbustUrl  = LookupEnvOrPanic("WASHAMBI_ELONBUST_URL")
-)
 
-func WithEnv(m map[string]interface{}) map[string]interface{} {
-	urlMap := map[string]interface{}{
+	Urls = map[string]interface{}{
 		"blazerxdUrl":    BlazerxdUrl,
 		"cornpopUrl":     CornpopUrl,
 		"fancypenosiUrl": FancypenosiUrl,
 		"wokejakUrl":     WokejakUrl,
 		"elonbustUrl":    ElonbustUrl,
 	}
+)
+
+func WithUrls(m map[string]interface{}) map[string]interface{} {
+	u := map[string]interface{}{}
+	for k, v := range Urls {
+		u[k] = v
+	}
 	if m != nil {
 		for k, v := range m {
-			urlMap[k] = v
+			u[k] = v
 		}
 	}
-	return urlMap
+	return u
 }

@@ -1,29 +1,29 @@
 {{ $transitionDuration := 500 }}
 
 <!DOCTYPE html>
-<html lang="en" class="h-full">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8" />
     <title>Washambi</title>
 
     <style>
+        html, body {
+            height: 100%;
+        }
         body {
             opacity: 0;
             transition-property: opacity;
-            /* transition-timing-function: ease-in-out; */
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-timing-function: ease-in-out;
             transition-duration: {{ $transitionDuration }}ms;
+            background-color: rgb(30 41 59);
+            color: rgb(255 255 255);
         }
-
-        {{ with .registrarAction }}
-        #navigator {
-            display: none;
-        }
-        {{ end }}
     </style>
 
+    {{ if .isRegistrar }} {{ else }}
     <link rel="stylesheet" href="{{ .fancypenosiUrl }}/public/style/navigator.css" type="text/css" />
+    {{ end }}
 
     <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
 
@@ -32,20 +32,22 @@
     {{ end }}
 </head>
 
-<body class="h-full bg-slate-800 text-white">
+<body>
+    {{ if .isRegistrar }} {{ else }}
     <div id="navigator"></div>
+    {{ end }}
 
     {{ block "content" . }} {{ end }}
 
     <script>
         const fancypenosiUrl = "{{ .fancypenosiUrl }}";
         const transitionDuration = {{ $transitionDuration }};
-        {{ with .registrarAction }}
-        let registrarAction = "{{ . }}";
-        {{ end }}
+        let registrarAction = "{{ .registrarAction }}";
     </script>
 
+    {{ if .isRegistrar }} {{ else }}
     <script type="module" src="{{ .fancypenosiUrl }}/public/script/navigator.js"></script>
+    {{ end }}
 
     <script type="module" src="{{ .cornpopUrl }}/script/window.js"></script>
 </body>

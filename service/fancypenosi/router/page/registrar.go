@@ -1,11 +1,10 @@
 package page
 
 import (
+	"fancypenosi/web"
 	"math/rand"
 	"net/http"
-
-	"fancypenosi/web"
-	env "washambi-env"
+	"washambi-env"
 )
 
 type RegistrarAction string
@@ -22,7 +21,8 @@ func Registrar(ra RegistrarAction) http.HandlerFunc {
 		web.
 			Parser.
 			ParsePage("page/registrar.html").
-			Execute(w, env.WithEnv(map[string]interface{}{
+			Execute(w, env.WithUrls(map[string]interface{}{
+				"isRegistrar":     true,
 				"registrarAction": ra,
 				"styles":          []string{"/public/style/registrar.css"},
 				"bg":              bgs[rand.Intn(len(bgs))],

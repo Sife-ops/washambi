@@ -3,12 +3,12 @@ package page
 import (
 	"fancypenosi/web"
 	"net/http"
-	"washambi-env"
+    "washambi-env"
 )
 
 func Account(w http.ResponseWriter, r *http.Request) {
 	web.
 		Parser.
 		ParsePage("page/account.html").
-		Execute(w, env.WithEnv(nil))
+		Execute(w, env.WithUrls(nil))
 }

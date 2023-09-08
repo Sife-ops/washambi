@@ -25,6 +25,7 @@
 #drawer {
     display: none;
     justify-content: space-between;
+    padding-top: 0.5rem;
 }
 
 #services {
@@ -40,8 +41,9 @@
     cursor: pointer;
 }
 
-#account-actions {
+.account-actions {
     display: flex;
+    flex-direction: column;
     gap: 0.5rem;
 }
 

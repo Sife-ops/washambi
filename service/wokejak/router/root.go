@@ -2,9 +2,9 @@ package router
 
 import (
 	"fmt"
+	"html/template"
 	"net/http"
 	"strings"
-	"washambi-env"
 	"wokejak/web"
 )
 
@@ -14,10 +14,15 @@ func Root(w http.ResponseWriter, r *http.Request) {
 		variant = "mobile"
 	}
 
-	web.
-		Parser.
-		ParsePage(fmt.Sprintf("page/%s.html", variant)).
-		Execute(w, env.WithEnv(map[string]interface{}{
+	template.Must(
+		template.
+			New("template.html").
+			ParseFS(
+				web.Fs,
+				"page/template.html",
+				fmt.Sprintf("page/%s.html", variant),
+			)).
+		Execute(w, env.WithUrls(map[string]interface{}{
 			"styles": []string{variant},
 		}))
 }
