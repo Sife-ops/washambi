@@ -18,4 +18,5 @@ interface Window {
   selectPrompt: (event: Event) => void;
   recovery1: (event: Event) => Promise<void>;
   recovery2: (event: Event) => Promise<void>;
+  toggleNavDrawer: () => void;
 }

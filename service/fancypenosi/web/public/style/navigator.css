@@ -14,19 +14,22 @@
 
 #menu-btn {
     --ggs: 1.5;
-    height: 30px;
     /* todo: use rem? */
+    height: 30px;
     width: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    transition: transform 500ms;
+}
+
+#menu-btn.collapsed {
+    transform: rotate(180deg);
 }
 
 #drawer {
-    transition-property: height;
-    transition-duration: 500ms;
-    /* height: auto; */
+    transition: height 500ms;
     height: 0px;
     overflow: hidden;
 }
@@ -43,6 +46,7 @@
 
 #services h1 {
     font-weight: 700;
+    font-size: 1.25rem;
 }
 
 #services a {
@@ -118,4 +122,29 @@
 
 .gg-menu::after {
     top: 6px
+}
+
+.gg-chevron-up-r {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 22px;
+    height: 22px;
+    border: 2px solid;
+    border-radius: 4px
+}
+
+.gg-chevron-up-r::after {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-top: 2px solid;
+    border-right: 2px solid;
+    transform: rotate(-45deg);
+    left: 6px;
+    bottom: 5px
 }

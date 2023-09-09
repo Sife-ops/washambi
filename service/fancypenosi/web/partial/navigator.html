@@ -1,16 +1,17 @@
 <div id="toolbar">
     <div></div>
 
-    <div id="menu-btn" onclick="toggleNavDrawer(event)">
-        <i class="gg-menu"></i>
+    <div id="menu-btn" class="collapsed" onclick="toggleNavDrawer(event)">
+        <i class="gg-chevron-up-r"></i>
     </div>
 </div>
 
 <div id="drawer" data-collapsed="true">
-    <div style="padding-top: 0.5rem;"></div>
+    <div style="padding-top: 1rem;"></div>
     <div id="drawer-content">
         <div id="services">
             <h1>Services</h1>
+            <a onclick="fadeTo(`${fancypenosiUrl}/account`)">👤 <span>Account</span></a>
             <a onclick="fadeTo(elonbustUrl)">📋 <span>Kanban</span></a>
             <a onclick="fadeTo('#')">🔖 <span>Bookmarks</span></a>
         </div>
