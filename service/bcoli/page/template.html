@@ -40,6 +40,7 @@
     {{ block "content" . }} {{ end }}
 
     <script>
+        const elonbustUrl = "{{ .elonbustUrl }}";
         const fancypenosiUrl = "{{ .fancypenosiUrl }}";
         const transitionDuration = {{ $transitionDuration }};
         let registrarAction = "{{ .registrarAction }}";

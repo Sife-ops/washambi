@@ -54,7 +54,7 @@ func redirect(next http.Handler) http.Handler {
 
 func cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-        originHeader := r.Header.Get("Origin")
+		originHeader := r.Header.Get("Origin")
 		var origin string
 
 		for _, v := range env.Urls {

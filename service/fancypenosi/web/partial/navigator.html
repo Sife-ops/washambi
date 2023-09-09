@@ -1,24 +1,25 @@
 <div id="toolbar">
     <div></div>
 
-    <div id="menu-btn">
+    <div id="menu-btn" onclick="toggleNavDrawer(event)">
         <i class="gg-menu"></i>
     </div>
 </div>
 
-<div id="drawer">
-    <div id="services">
-        <h1>Services</h1>
-        <a onclick='fadeTo("#")'>Kanban</a>
-        <a>Bookmarks</a>
-    </div>
-    <div class="account-actions" {{if .authorized}} {{else}} style="display: none;" {{end}}>
-        <button class="account-action" id="sign-out">
-            sign out
-        </button>
-    </div>
-    <div class="account-actions" {{if .authorized}} style="display: none;" {{end}}>
-        <button class="account-action" onclick='fadeTo(`${fancypenosiUrl}/sign-in`)'>sign in</button>
-        <button class="account-action" onclick='fadeTo(`${fancypenosiUrl}/sign-up`)'>sign up</button>
+<div id="drawer" data-collapsed="true">
+    <div style="padding-top: 0.5rem;"></div>
+    <div id="drawer-content">
+        <div id="services">
+            <h1>Services</h1>
+            <a onclick="fadeTo(elonbustUrl)">📋 <span>Kanban</span></a>
+            <a onclick="fadeTo('#')">🔖 <span>Bookmarks</span></a>
+        </div>
+        <div class="account-actions" {{if .authorized}} {{else}} style="display: none;" {{end}}>
+            <button id="sign-out-btn" onclick="signOut()"> sign out </button>
+        </div>
+        <div class="account-actions" {{if .authorized}} style="display: none;" {{end}}>
+            <button id="sign-in-btn" onclick='fadeTo(`${fancypenosiUrl}/sign-in`)'>sign in</button>
+            <button id="sign-up-btn" onclick='fadeTo(`${fancypenosiUrl}/sign-up`)'>sign up</button>
+        </div>
     </div>
 </div>
