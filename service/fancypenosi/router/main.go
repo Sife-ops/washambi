@@ -52,26 +52,6 @@ func redirect(next http.Handler) http.Handler {
 	})
 }
 
-func cors(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		originHeader := r.Header.Get("Origin")
-		var origin string
-
-		for _, v := range env.Urls {
-			if v == originHeader {
-				origin = v.(string)
-			}
-		}
-
-		if origin != "" {
-			w.Header().Add("Access-Control-Allow-Origin", origin)
-			w.Header().Add("Access-Control-Allow-Credentials", "true")
-		}
-
-		next.ServeHTTP(w, r)
-	})
-}
-
 func Serve() error {
 	m := chi.NewMux()
 
@@ -86,14 +66,14 @@ func Serve() error {
 	m.Post("/fetch-user", ajax.FetchUser)
 	m.Post("/reset-password", ajax.ResetPassword)
 
-	m.With(cors, auth).Get("/partial/navigator", partial.Navigator)
+	m.With(env.Cors, auth).Get("/partial/navigator", partial.Navigator)
 	m.With(auth, redirect).Get("/account", page.Account)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {
 		return e
 	}
-	m.With(cors).Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(sub))))
+	m.With(env.Cors).Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(sub))))
 
 	s := http.Server{
 		Addr:    fmt.Sprintf(":%s", env.FancypenosiPort),

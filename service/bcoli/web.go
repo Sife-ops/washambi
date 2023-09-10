@@ -26,25 +26,25 @@ var funcs = template.FuncMap{
 	},
 }
 
-func (l *Parser) Parse(fs embed.FS, tmpl string, file string, files ...string) *template.Template {
+func (p *Parser) Parse(fs embed.FS, tmpl string, file string, files ...string) *template.Template {
 	t := template.Must(
 		template.New(tmpl).
 			Funcs(funcs).
 			ParseFS(fs, file),
 	)
 	for _, f := range files {
-		t = template.Must(t.ParseFS(l.FS, f))
+		t = template.Must(t.ParseFS(p.FS, f))
 	}
 	return t
 }
 
-func (l *Parser) ParsePage(files ...string) *template.Template {
-	return l.Parse(fs, "template.html", "page/template.html", files...)
+func (p *Parser) ParsePage(files ...string) *template.Template {
+	return p.Parse(fs, "template.html", "page/template.html", files...)
 }
 
-func (l *Parser) ParsePartial(tmpl string, files ...string) *template.Template {
-	return l.Parse(
-		l.FS,
+func (p *Parser) ParsePartial(tmpl string, files ...string) *template.Template {
+	return p.Parse(
+		p.FS,
 		fmt.Sprintf("%s.html", tmpl),
 		fmt.Sprintf("partial/%s.html", tmpl),
 		files...,
