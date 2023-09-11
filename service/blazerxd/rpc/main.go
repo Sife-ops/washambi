@@ -7,8 +7,8 @@ import (
 
 	"google.golang.org/grpc"
 
-	env "washambi-env"
-	blazerxd_pb "washambi-rpc/blazerxd/v1"
+	"washambi-lib/env"
+	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 )
 
 type ServerImpl struct {

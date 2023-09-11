@@ -6,10 +6,10 @@ import (
 	"strings"
 	"testing"
 
-	"blazerxd/db"
 	zm "blazerxd/db/zoomers/model"
 	zt "blazerxd/db/zoomers/table"
 	"blazerxd/test"
+	"washambi-lib/db"
 	blazerxd_pb "washambi-rpc/blazerxd/v1"
 
 	. "github.com/go-jet/jet/v2/postgres"

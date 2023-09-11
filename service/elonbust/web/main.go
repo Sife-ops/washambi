@@ -1,7 +1,7 @@
 package web
 
 import (
-	"bcoli/web"
+	"washambi-lib/web"
 	"embed"
 )
 

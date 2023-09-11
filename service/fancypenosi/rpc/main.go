@@ -6,8 +6,8 @@ import (
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
-	"washambi-env"
-	blazerxd_pb "washambi-rpc/blazerxd/v1"
+	"washambi-lib/env"
+	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 )
 
 func CreateBlazerxdClient() blazerxd_pb.BlazerxdClient {

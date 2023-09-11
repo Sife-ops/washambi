@@ -7,12 +7,12 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"bcoli/auth"
 	"fancypenosi/router/ajax"
 	"fancypenosi/router/page"
 	"fancypenosi/router/partial"
 	"fancypenosi/web"
-	env "washambi-env"
+	"washambi-lib/auth"
+	"washambi-lib/env"
 )
 
 func Serve() error {

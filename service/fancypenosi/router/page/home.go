@@ -3,7 +3,7 @@ package page
 import (
 	"fancypenosi/web"
 	"net/http"
-	"washambi-env"
+	"washambi-lib/env"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {

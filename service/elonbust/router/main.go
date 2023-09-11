@@ -1,14 +1,14 @@
 package router
 
 import (
-	"bcoli/auth"
 	"elonbust/router/page"
 	"elonbust/web"
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"io/fs"
 	"net/http"
-	env "washambi-env"
+	"washambi-lib/auth"
+	"washambi-lib/env"
 )
 
 func Serve() error {

@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"fancypenosi/rpc"
-	blazerxd_pb "washambi-rpc/blazerxd/v1"
+	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 
 	"golang.org/x/crypto/bcrypt"
 )

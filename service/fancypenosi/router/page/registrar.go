@@ -4,7 +4,7 @@ import (
 	"fancypenosi/web"
 	"math/rand"
 	"net/http"
-	"washambi-env"
+	"washambi-lib/env"
 )
 
 type RegistrarAction string

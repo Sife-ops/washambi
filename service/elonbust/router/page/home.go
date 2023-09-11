@@ -1,10 +1,10 @@
 package page
 
 import (
-	"bcoli/auth"
 	"elonbust/web"
 	"net/http"
-	env "washambi-env"
+	"washambi-lib/auth"
+	"washambi-lib/env"
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {

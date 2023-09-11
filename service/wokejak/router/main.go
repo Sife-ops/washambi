@@ -8,7 +8,7 @@ import (
 	"io/fs"
 	"log"
 	"net/http"
-	"washambi-env"
+	"washambi-lib/env"
 	"wokejak/web"
 )
 

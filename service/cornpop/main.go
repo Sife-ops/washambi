@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"washambi-env"
+	"washambi-lib/env"
 )
 
 func main() {

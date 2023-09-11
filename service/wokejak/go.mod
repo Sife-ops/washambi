@@ -1,10 +1,11 @@
 module wokejak
 
-go 1.21.0
+go 1.21.1
 
 require (
-	github.com/go-chi/chi/v5 v5.0.10
-	washambi-env v0.0.0
+    github.com/go-chi/chi/v5 v5.0.10
+    washambi-lib v0.0.0
 )
 
-replace washambi-env v0.0.0 => ../../env/go
+
+replace washambi-lib v0.0.0 => ../../lib/go

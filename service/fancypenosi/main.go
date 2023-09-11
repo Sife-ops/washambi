@@ -4,7 +4,7 @@ import (
 	"fancypenosi/router"
 	"log"
 	"net/http"
-	"washambi-env"
+	"washambi-lib/env"
 )
 
 func main() {

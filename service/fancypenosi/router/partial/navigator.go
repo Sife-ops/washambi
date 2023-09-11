@@ -3,8 +3,8 @@ package partial
 import (
 	"fancypenosi/web"
 	"net/http"
-	"washambi-env"
-    "bcoli/auth"
+	"washambi-lib/auth"
+	"washambi-lib/env"
 )
 
 func Navigator(w http.ResponseWriter, r *http.Request) {

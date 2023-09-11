@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"strings"
 	"wokejak/web"
-    "washambi-env"
+    "washambi-lib/env"
 )
 
 func Root(w http.ResponseWriter, r *http.Request) {

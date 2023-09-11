@@ -5,7 +5,7 @@ package main
 import (
 	"blazerxd/rpc"
 	"log"
-	"washambi-env"
+	"washambi-lib/env"
 )
 
 func main() {
