@@ -8,14 +8,14 @@
     <title>Washambi</title>
 
     <style>
-        html, body {
+        html, body, #content {
             height: 100%;
         }
-        body {
+        body, #navigator {
             opacity: 0;
-            transition-property: opacity;
-            transition-timing-function: ease-in-out;
-            transition-duration: {{ $transitionDuration }}ms;
+            transition: opacity {{ $transitionDuration }}ms ease-in-out;
+        }
+        body {
             background-color: rgb(30 41 59);
             color: rgb(255 255 255);
         }
@@ -33,11 +33,14 @@
 </head>
 
 <body>
-    {{ if .isRegistrar }} {{ else }}
+    {{ if .isRegistrar }} 
+        {{ block "content" . }} {{ end }}
+    {{ else }}
     <div id="navigator"></div>
+    <div id="content">
+        {{ block "content" . }} {{ end }}
+    </div>
     {{ end }}
-
-    {{ block "content" . }} {{ end }}
 
     <script>
         const elonbustUrl = "{{ .elonbustUrl }}";

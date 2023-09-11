@@ -1,19 +1,21 @@
 package router
 
 import (
+	"bcoli/auth"
 	"elonbust/router/page"
 	"elonbust/web"
 	"fmt"
 	"github.com/go-chi/chi/v5"
 	"io/fs"
 	"net/http"
-	"washambi-env"
+	env "washambi-env"
 )
 
 func Serve() error {
 	m := chi.NewMux()
 
-	m.Get("/", page.Home)
+	m.With(auth.Create).Get("/", page.Home)
+	m.Post("/sign-out", auth.SignOut)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {

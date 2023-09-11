@@ -4,7 +4,14 @@ fetch(`${fancypenosiUrl}/partial/navigator`, {
 })
     .then((x) => x.text())
     .then((x) => {
-        document.querySelector("#navigator").innerHTML = x;
+        /** @type {HTMLElement} */
+        const nav = document.querySelector("#navigator");
+        nav.innerHTML = x;
+        nav.style.opacity = "1";
+
+        /** @type {HTMLElement} */
+        const content = document.querySelector("#content");
+        content.style.paddingTop = nav.clientHeight + "px";
     });
 
 // source: https://css-tricks.com/using-css-transitions-auto-dimensions/

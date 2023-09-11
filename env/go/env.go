@@ -60,18 +60,14 @@ func WithUrls(m map[string]interface{}) map[string]interface{} {
 
 func Cors(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		originHeader := r.Header.Get("Origin")
-		var origin string
+		origin := r.Header.Get("Origin")
 
 		for _, v := range Urls {
-			if v == originHeader {
-				origin = v.(string)
+			if v == origin {
+				w.Header().Add("Access-Control-Allow-Origin", origin)
+				w.Header().Add("Access-Control-Allow-Credentials", "true")
+				break
 			}
-		}
-
-		if origin != "" {
-			w.Header().Add("Access-Control-Allow-Origin", origin)
-			w.Header().Add("Access-Control-Allow-Credentials", "true")
 		}
 
 		next.ServeHTTP(w, r)

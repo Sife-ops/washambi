@@ -15,8 +15,9 @@ window.fadeTo = function (url) {
 };
 
 window.signOut = function () {
-    fetch(`${fancypenosiUrl}/sign-out`, {
+    fetch("/sign-out", {
         method: "POST",
+        credentials: "include",
     }).then(res => {
         if (res.ok) {
             window.fadeTo(`${fancypenosiUrl}/sign-in`);

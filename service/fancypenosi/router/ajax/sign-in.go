@@ -42,9 +42,8 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 	}
 
 	http.SetCookie(w, &http.Cookie{
-		Name:  "id",
-		Value: u.User.Id,
-
+		Name:     "id",
+		Value:    u.User.Id,
 		Secure:   true,
 		HttpOnly: true,
 		MaxAge:   300,

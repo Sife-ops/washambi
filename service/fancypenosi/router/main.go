@@ -1,19 +1,18 @@
 package router
 
 import (
-	// "context"
 	"fmt"
 	"io/fs"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
 
+	"bcoli/auth"
 	"fancypenosi/router/ajax"
 	"fancypenosi/router/page"
 	"fancypenosi/router/partial"
 	"fancypenosi/web"
 	env "washambi-env"
-    "bcoli/auth"
 )
 
 func Serve() error {
@@ -26,7 +25,7 @@ func Serve() error {
 
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
-	m.Post("/sign-out", ajax.SignOut)
+	m.Post("/sign-out", auth.SignOut)
 	m.Post("/fetch-user", ajax.FetchUser)
 	m.Post("/reset-password", ajax.ResetPassword)
 
@@ -46,4 +45,3 @@ func Serve() error {
 
 	return s.ListenAndServe()
 }
-
