@@ -8,9 +8,9 @@ import (
 
 	zm "blazerxd/db/zoomers/model"
 	zt "blazerxd/db/zoomers/table"
-	"blazerxd/test"
+    "washambi-lib/rpc/client"
 	"washambi-lib/db"
-	blazerxd_pb "washambi-rpc/blazerxd/v1"
+	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 
 	. "github.com/go-jet/jet/v2/postgres"
 )
@@ -83,7 +83,7 @@ func Test_Create_Success(t *testing.T) {
 	beforeEach()
 	defer afterEach()
 
-	_, e := test.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+	_, e := client.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Username: testUser.Username,
 		Password: testUser.Password,
 		// RecoveryPrompt1: testUser.RecoveryPrompt1,
@@ -107,7 +107,7 @@ func Test_Create_DuplicateUserError(t *testing.T) {
 	}
 	defer afterEach()
 
-	_, e := test.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+	_, e := client.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Username: testUser.Username,
 		Password: testUser.Password,
 	})
@@ -129,7 +129,7 @@ func Test_Get_Success(t *testing.T) {
 	// t.Log(tu)
 	defer afterEach()
 
-	_, ee := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
+	_, ee := client.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
 		Username: testUser.Username,
 	})
 	// t.Log(u)
@@ -143,7 +143,7 @@ func Test_Get_UserNotFoundError(t *testing.T) {
 	beforeEach()
 	defer afterEach()
 
-	_, e := test.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
+	_, e := client.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
 		Username: testUser.Username,
 	})
 	if e != nil {
@@ -165,7 +165,7 @@ func Test_ChangePassword_Success(t *testing.T) {
 	defer afterEach()
 
 	p := "lol"
-	ud, ee := test.BlazerxdClient.ChangePassword(context.TODO(), &blazerxd_pb.ChangePasswordRequest{
+	ud, ee := client.BlazerxdClient.ChangePassword(context.TODO(), &blazerxd_pb.ChangePasswordRequest{
 		Id:       u.ID.String(),
 		Password: p,
 	})

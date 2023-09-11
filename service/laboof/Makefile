@@ -7,12 +7,12 @@ build:
 sql:
 	jet \
 		-dsn="postgresql://washambi_local:washambi@localhost:5432/washambi_local?sslmode=disable" \
-		-schema=zoomers \
+		-schema=tomlinson \
 		-path=${DB} \
 	&& \
-	rm -rf ${DB}/zoomers \
+	rm -rf ${DB}/tomlinson \
 	&& \
-	mv ${DB}/washambi_local/zoomers ${DB} \
+	mv ${DB}/washambi_local/tomlinson ${DB} \
 	&& \
 	rm -rf ${DB}/washambi_local
 

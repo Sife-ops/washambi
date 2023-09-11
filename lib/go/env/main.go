@@ -23,6 +23,9 @@ var (
 	BlazerxdPort = LookupEnvOrPanic("WASHAMBI_BLAZERXD_PORT")
 	BlazerxdUrl  = LookupEnvOrPanic("WASHAMBI_BLAZERXD_URL")
 
+	LaboofPort = LookupEnvOrPanic("WASHAMBI_LABOOF_PORT")
+	LaboofUrl  = LookupEnvOrPanic("WASHAMBI_LABOOF_URL")
+
 	CornpopPort = LookupEnvOrPanic("WASHAMBI_CORNPOP_PORT")
 	CornpopUrl  = LookupEnvOrPanic("WASHAMBI_CORNPOP_URL")
 
