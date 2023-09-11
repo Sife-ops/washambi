@@ -1,7 +1,7 @@
 package router
 
 import (
-	"context"
+	// "context"
 	"fmt"
 	"io/fs"
 	"net/http"
@@ -13,44 +13,8 @@ import (
 	"fancypenosi/router/partial"
 	"fancypenosi/web"
 	env "washambi-env"
+    "bcoli/auth"
 )
-
-// todo: refresh cookie
-// todo: context https://stackoverflow.com/a/40380147
-func auth(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		c, e := r.Cookie("id")
-		var ctx context.Context
-		if e != nil || c.Value == "" {
-			// todo: fetch user
-			ctx = context.WithValue(r.Context(), "authorized", false)
-		} else {
-			ctx = context.WithValue(r.Context(), "authorized", true)
-			ctx = context.WithValue(ctx, "user_id", c.Value)
-		}
-
-		r = r.WithContext(ctx)
-		next.ServeHTTP(w, r)
-	})
-}
-
-func redirect(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if v := r.Context().Value("authorized"); v != true {
-			// todo: client redirect
-			http.SetCookie(w, &http.Cookie{
-				Name:     "redirect",
-				Value:    r.Header.Get("Referer"),
-				Secure:   true,
-				HttpOnly: false,
-				SameSite: http.SameSiteStrictMode,
-			})
-			http.Redirect(w, r, "/sign-in", http.StatusSeeOther)
-			return
-		}
-		next.ServeHTTP(w, r)
-	})
-}
 
 func Serve() error {
 	m := chi.NewMux()
@@ -66,8 +30,8 @@ func Serve() error {
 	m.Post("/fetch-user", ajax.FetchUser)
 	m.Post("/reset-password", ajax.ResetPassword)
 
-	m.With(env.Cors, auth).Get("/partial/navigator", partial.Navigator)
-	m.With(auth, redirect).Get("/account", page.Account)
+	m.With(env.Cors, auth.Create).Get("/partial/navigator", partial.Navigator)
+	m.With(auth.Create, auth.Redirect).Get("/account", page.Account)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {
@@ -83,8 +47,3 @@ func Serve() error {
 	return s.ListenAndServe()
 }
 
-// authorized
-// m.Route("/", func(r chi.Router) {
-//  r.Use(Auth)
-// 	r.Get("/account", page.Account)
-// })

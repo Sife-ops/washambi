@@ -1,7 +1,7 @@
 package web
 
 import (
-	"bcoli"
+	"bcoli/web"
 	"embed"
 )
 
