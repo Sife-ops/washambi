@@ -1,4 +1,4 @@
-package auth
+package mid
 
 import (
 	"context"
@@ -6,15 +6,15 @@ import (
 )
 
 // source: context struct map https://stackoverflow.com/a/40380147
-type Ctx struct {
+type AuthCtx struct {
 	Authorized bool
 	Id         string
 }
 
 // todo: refresh cookie
-func Create(next http.Handler) http.Handler {
+func AuthCreate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		ctx := Ctx{
+		ctx := AuthCtx{
 			Authorized: false,
 		}
 
@@ -29,9 +29,9 @@ func Create(next http.Handler) http.Handler {
 	})
 }
 
-func Redirect(next http.Handler) http.Handler {
+func AuthRedirect(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !r.Context().Value("auth").(Ctx).Authorized {
+		if !r.Context().Value("auth").(AuthCtx).Authorized {
 			// todo: client redirect
 			http.SetCookie(w, &http.Cookie{
 				Name:     "redirect",
@@ -46,15 +46,5 @@ func Redirect(next http.Handler) http.Handler {
 		}
 
 		next.ServeHTTP(w, r)
-	})
-}
-
-func SignOut(w http.ResponseWriter, r *http.Request) {
-	http.SetCookie(w, &http.Cookie{
-		Name:     "id",
-		Value:    "",
-		Secure:   true,
-		HttpOnly: true,
-		SameSite: http.SameSiteStrictMode,
 	})
 }

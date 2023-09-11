@@ -7,15 +7,16 @@ import (
 	"github.com/go-chi/chi/v5"
 	"io/fs"
 	"net/http"
-	"washambi-lib/auth"
+	"washambi-lib/ajax"
 	"washambi-lib/env"
+    "washambi-lib/mid"
 )
 
 func Serve() error {
 	m := chi.NewMux()
 
-	m.With(auth.Create).Get("/", page.Home)
-	m.Post("/sign-out", auth.SignOut)
+	m.With(mid.AuthCreate).Get("/", page.Home)
+	m.Post("/sign-out", ajax.SignOut)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {

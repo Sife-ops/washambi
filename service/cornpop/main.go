@@ -5,10 +5,11 @@ import (
 	"log"
 	"net/http"
 	"washambi-lib/env"
+    "washambi-lib/mid"
 )
 
 func main() {
-	http.Handle("/", env.Cors(http.FileServer(http.Dir("./web"))))
+	http.Handle("/", mid.Cors(http.FileServer(http.Dir("./web"))))
 
 	log.Printf("cornpop %s", env.CornpopUrl)
 	if e := http.ListenAndServe(fmt.Sprintf(":%s", env.CornpopPort), nil); e != nil {

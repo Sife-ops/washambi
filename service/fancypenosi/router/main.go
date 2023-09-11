@@ -11,8 +11,9 @@ import (
 	"fancypenosi/router/page"
 	"fancypenosi/router/partial"
 	"fancypenosi/web"
-	"washambi-lib/auth"
+	washambiAjax "washambi-lib/ajax"
 	"washambi-lib/env"
+	"washambi-lib/mid"
 )
 
 func Serve() error {
@@ -25,18 +26,18 @@ func Serve() error {
 
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
-	m.Post("/sign-out", auth.SignOut)
+	m.Post("/sign-out", washambiAjax.SignOut)
 	m.Post("/fetch-user", ajax.FetchUser)
 	m.Post("/reset-password", ajax.ResetPassword)
 
-	m.With(env.Cors, auth.Create).Get("/partial/navigator", partial.Navigator)
-	m.With(auth.Create, auth.Redirect).Get("/account", page.Account)
+	m.With(mid.Cors, mid.AuthCreate).Get("/partial/navigator", partial.Navigator)
+	m.With(mid.AuthCreate, mid.AuthRedirect).Get("/account", page.Account)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {
 		return e
 	}
-	m.With(env.Cors).Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(sub))))
+	m.With(mid.Cors).Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(sub))))
 
 	s := http.Server{
 		Addr:    fmt.Sprintf(":%s", env.FancypenosiPort),

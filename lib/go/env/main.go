@@ -2,7 +2,6 @@ package env
 
 import (
 	"log"
-	"net/http"
 	"os"
 )
 
@@ -56,20 +55,4 @@ func WithUrls(m map[string]interface{}) map[string]interface{} {
 		}
 	}
 	return u
-}
-
-func Cors(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		origin := r.Header.Get("Origin")
-
-		for _, v := range Urls {
-			if v == origin {
-				w.Header().Add("Access-Control-Allow-Origin", origin)
-				w.Header().Add("Access-Control-Allow-Credentials", "true")
-				break
-			}
-		}
-
-		next.ServeHTTP(w, r)
-	})
 }
