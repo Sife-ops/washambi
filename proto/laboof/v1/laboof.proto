@@ -9,14 +9,26 @@ import "google/protobuf/timestamp.proto";
 
 service Laboof {
   rpc KanbanCreate(KanbanCreateRequest) returns (KanbanCreateResponse);
+  rpc KanbanList(KanbanListRequest) returns (KanbanListResponse);
+}
+
+message UsersKanbans {
+    string id = 1;
+    string user_id = 2;
+    string kanban_id = 3;
+    string role = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
 }
 
 message Kanban {
     string id = 1;
     string name = 2;
-    google.protobuf.Timestamp created_at = 3;
-    google.protobuf.Timestamp updated_at = 4;
-    google.protobuf.Timestamp deleted_at = 5;
+    UsersKanbans usersKanbans = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp updated_at = 5;
+    google.protobuf.Timestamp deleted_at = 6;
 }
 
 message KanbanCreateRequest {
@@ -26,4 +38,12 @@ message KanbanCreateRequest {
 
 message KanbanCreateResponse {
     Kanban kanban = 1;
+}
+
+message KanbanListRequest {
+    string user_id = 1;
+}
+
+message KanbanListResponse {
+    repeated Kanban kanban = 1;
 }

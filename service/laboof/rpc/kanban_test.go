@@ -75,3 +75,16 @@ func Test_KanbanCreate_DuplicateKanbanError(t *testing.T) {
 		t.FailNow()
 	}
 }
+
+func Test_KanbanList_Success(t *testing.T) {
+	beforeEach(t)
+	test.CreateKanban(testUser)
+	defer afterEach(t)
+
+	_, e := client.LaboofClient.KanbanList(context.TODO(), &laboof_pb.KanbanListRequest{
+		UserId: testUser.ID.String(),
+	})
+	if e != nil {
+		t.Log(e)
+	}
+}

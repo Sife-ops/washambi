@@ -3,7 +3,9 @@ package rpc
 import (
 	"context"
 	"fmt"
+	"time"
 
+	// "github.com/davecgh/go-spew/spew"
 	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
 	codes "google.golang.org/grpc/codes"
@@ -16,55 +18,66 @@ import (
 	laboof_pb "washambi-lib/rpc/laboof/v1"
 )
 
-func fromDbKanban(k *tm.Kanban) *laboof_pb.Kanban {
-	var ua *timestamppb.Timestamp
-	if k.UpdatedAt == nil {
-		ua = nil
+type DbKanbanList []struct {
+	tm.Kanban
+	UsersKanbans []tm.UsersKanbans
+}
+
+func fromTime(t *time.Time) *timestamppb.Timestamp {
+	var ts *timestamppb.Timestamp
+	if t == nil {
+		ts = nil
 	} else {
-		ua = timestamppb.New(*k.UpdatedAt)
+		ts = timestamppb.New(*t)
+	}
+	return ts
+}
+
+func fromDbKanbanList(ks DbKanbanList) []*laboof_pb.Kanban {
+	var kanbans []*laboof_pb.Kanban
+
+	for _, v := range ks {
+		var usersKanbans *laboof_pb.UsersKanbans
+		for _, w := range v.UsersKanbans {
+			usersKanbans = &laboof_pb.UsersKanbans{
+				Id:        w.ID.String(),
+				UserId:    w.UserID.String(),
+				KanbanId:  w.KanbanID.String(),
+				Role:      w.Role,
+				CreatedAt: timestamppb.New(w.CreatedAt),
+				UpdatedAt: fromTime(w.UpdatedAt),
+				DeletedAt: fromTime(w.DeletedAt),
+			}
+		}
+
+		kanbans = append(kanbans, &laboof_pb.Kanban{
+			Id:           v.ID.String(),
+			Name:         v.Name,
+			UsersKanbans: usersKanbans,
+			CreatedAt:    timestamppb.New(v.CreatedAt),
+			UpdatedAt:    fromTime(v.UpdatedAt),
+			DeletedAt:    fromTime(v.DeletedAt),
+		})
 	}
 
-	var da *timestamppb.Timestamp
-	if k.DeletedAt == nil {
-		da = nil
-	} else {
-		da = timestamppb.New(*k.DeletedAt)
-	}
-
-	return &laboof_pb.Kanban{
-		Id:        k.ID.String(),
-		Name:      k.Name,
-		CreatedAt: timestamppb.New(k.CreatedAt),
-		UpdatedAt: ua,
-		DeletedAt: da,
-	}
+	return kanbans
 }
 
 func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCreateRequest) (*laboof_pb.KanbanCreateResponse, error) {
-	var found []struct {
-		tm.UsersKanbans
-		Kanbans []tm.Kanban
-	}
+	var found DbKanbanList
 	if e := SELECT(
-		tt.UsersKanbans.AllColumns,
 		tt.Kanban.AllColumns,
+		tt.UsersKanbans.AllColumns,
 	).
 		FROM(
-            // tt.Kanban,
-			tt.UsersKanbans.INNER_JOIN(
-				tt.Kanban,
-				tt.Kanban.ID.EQ(tt.UsersKanbans.KanbanID),
+			tt.Kanban.INNER_JOIN(
+				tt.UsersKanbans,
+				tt.UsersKanbans.KanbanID.EQ(tt.Kanban.ID),
 			),
 		).
-		WHERE(
-			tt.UsersKanbans.UserID.EQ(UUID(uuid.MustParse(call.UserId))),
-		).
-		WHERE(
-			tt.UsersKanbans.Role.EQ(String("owner")),
-		).
-		WHERE(
-			tt.Kanban.Name.EQ(String(call.Name)),
-		).
+		WHERE(tt.UsersKanbans.UserID.EQ(UUID(uuid.MustParse(call.UserId)))).
+		WHERE(tt.UsersKanbans.Role.EQ(String("owner"))).
+		WHERE(tt.Kanban.Name.EQ(String(call.Name))).
 		Query(db.Connection, &found); e != nil {
 		return nil, status.Error(codes.Internal, e.Error())
 	}
@@ -87,7 +100,7 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 		VALUES(call.Name).
 		RETURNING(tt.Kanban.AllColumns)
 
-	var k []tm.Kanban
+	var k DbKanbanList
 	if e := ks.Query(tx, &k); e != nil {
 		return nil, status.Error(codes.Aborted, e.Error())
 	}
@@ -126,6 +139,28 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 	}
 
 	return &laboof_pb.KanbanCreateResponse{
-		Kanban: fromDbKanban(&k[0]),
+		Kanban: fromDbKanbanList(k)[0],
+	}, nil
+}
+
+func (s *ServerImpl) KanbanList(ctx context.Context, call *laboof_pb.KanbanListRequest) (*laboof_pb.KanbanListResponse, error) {
+	var k DbKanbanList
+	if e := SELECT(
+		tt.Kanban.AllColumns,
+		tt.UsersKanbans.AllColumns,
+	).
+		FROM(
+			tt.Kanban.INNER_JOIN(
+				tt.UsersKanbans,
+				tt.UsersKanbans.KanbanID.EQ(tt.Kanban.ID),
+			),
+		).
+		WHERE(tt.UsersKanbans.UserID.EQ(UUID(uuid.MustParse(call.UserId)))).
+		Query(db.Connection, &k); e != nil {
+		return nil, status.Error(codes.Internal, e.Error())
+	}
+
+	return &laboof_pb.KanbanListResponse{
+		Kanban: fromDbKanbanList(k),
 	}, nil
 }
