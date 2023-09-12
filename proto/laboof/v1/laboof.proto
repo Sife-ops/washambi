@@ -45,5 +45,5 @@ message KanbanListRequest {
 }
 
 message KanbanListResponse {
-    repeated Kanban kanban = 1;
+    repeated Kanban kanbans = 1;
 }

@@ -100,12 +100,13 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 		VALUES(call.Name).
 		RETURNING(tt.Kanban.AllColumns)
 
-	var k DbKanbanList
-	if e := ks.Query(tx, &k); e != nil {
+	var kl DbKanbanList
+	if e := ks.Query(tx, &kl); e != nil {
 		return nil, status.Error(codes.Aborted, e.Error())
 	}
 
-	if _, e := tt.UsersKanbans.
+	var uk []tm.UsersKanbans
+	if e := tt.UsersKanbans.
 		INSERT(
 			tt.UsersKanbans.UserID,
 			tt.UsersKanbans.KanbanID,
@@ -113,12 +114,15 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 		).
 		VALUES(
 			uuid.MustParse(call.UserId),
-			k[0].ID,
+			kl[0].ID,
 			"owner",
 		).
-		Exec(tx); e != nil {
+		RETURNING(tt.UsersKanbans.AllColumns).
+		Query(tx, &uk); e != nil {
 		return nil, status.Error(codes.Aborted, e.Error())
 	}
+
+    kl[0].UsersKanbans = uk
 
 	ls := []string{"Todo", "In Progress", "Done"}
 	for i, l := range ls {
@@ -128,7 +132,7 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 				tt.Swimlane.Name,
 				tt.Swimlane.Index,
 			).
-			VALUES(k[0].ID, l, i).
+			VALUES(kl[0].ID, l, i).
 			Exec(tx); e != nil {
 			return nil, status.Error(codes.Aborted, e.Error())
 		}
@@ -139,7 +143,7 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 	}
 
 	return &laboof_pb.KanbanCreateResponse{
-		Kanban: fromDbKanbanList(k)[0],
+		Kanban: fromDbKanbanList(kl)[0],
 	}, nil
 }
 
@@ -161,6 +165,6 @@ func (s *ServerImpl) KanbanList(ctx context.Context, call *laboof_pb.KanbanListR
 	}
 
 	return &laboof_pb.KanbanListResponse{
-		Kanban: fromDbKanbanList(k),
+		Kanbans: fromDbKanbanList(k),
 	}, nil
 }

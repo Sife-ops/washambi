@@ -1,22 +1,26 @@
 package router
 
 import (
-	"elonbust/router/page"
-	"elonbust/web"
 	"fmt"
-	"github.com/go-chi/chi/v5"
 	"io/fs"
 	"net/http"
-	"washambi-lib/ajax"
+
+	"github.com/go-chi/chi/v5"
+
+	"elonbust/router/ajax"
+	"elonbust/router/page"
+	"elonbust/web"
+	washambiAjax "washambi-lib/ajax"
 	"washambi-lib/env"
-    "washambi-lib/mid"
+	"washambi-lib/mid"
 )
 
 func Serve() error {
 	m := chi.NewMux()
 
 	m.With(mid.AuthCreate).Get("/", page.Home)
-	m.Post("/sign-out", ajax.SignOut)
+	m.With(mid.AuthCreate).Post("/kanban-create", ajax.KanbanCreate)
+	m.Post("/sign-out", washambiAjax.SignOut)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {

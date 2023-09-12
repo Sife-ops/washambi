@@ -1,0 +1,12 @@
+{{ define "kanban" }}
+
+<button id="{{ .Id }}" class="flex justify-between p-2 bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500">
+    <span class="font-bold">
+        {{ .Name | asdf }}
+    </span>
+    <span class="italic">
+        Created: {{ .CreatedAt }}
+    </span>
+</button>
+
+{{ end }}

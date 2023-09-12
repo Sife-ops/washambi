@@ -24,6 +24,10 @@ var funcs = template.FuncMap{
 	"uppercase": func(s string) string {
 		return strings.ToUpper(s)
 	},
+	"asdf": func(t string) string {
+		// return t.AsTime().Format(time.RFC822)
+		return t
+	},
 }
 
 func (p *Parser) Parse(fs embed.FS, tmpl string, file string, files ...string) *template.Template {
@@ -45,7 +49,7 @@ func (p *Parser) ParsePage(files ...string) *template.Template {
 func (p *Parser) ParsePartial(tmpl string, files ...string) *template.Template {
 	return p.Parse(
 		p.FS,
-		fmt.Sprintf("%s.html", tmpl),
+		fmt.Sprintf("%s", tmpl),
 		fmt.Sprintf("partial/%s.html", tmpl),
 		files...,
 	)

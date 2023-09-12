@@ -1,38 +1,30 @@
 {{ define "content" }}
 {{ if .authorized }}
-<div class="flex flex-col mt-4 mx-4">
-    <button class="p-2 bg-green-800 hover:bg-green-900 font-bold outline outline-1 outline-green-500">New</button>
+<div id="kanbans">
+    <div class="flex flex-col mt-4 mx-4">
+        <button class="p-2 bg-green-800 hover:bg-green-900 font-bold outline outline-1 outline-green-500"
+            onclick='kanbanFocusView("new-kanban")'>New</button>
+    </div>
+    <div id="kanban-list" class="flex flex-col m-4 gap-4">
+        {{ range .kanbans }}
+        {{ block "kanban" . }} {{ end }}
+        {{ end }}
+    </div>
 </div>
 
-<div class="flex flex-col m-4 gap-4">
-    <button class="flex justify-between p-2 bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500">
-        <span class="font-bold">
-            Foo
-        </span>
-        <span class="italic">
-            Created: 9/11/2023
-        </span>
-    </button>
-
-    <button class="flex justify-between p-2 bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500">
-        <span class="font-bold">
-            Bar
-        </span>
-        <span class="italic">
-            Created: 9/11/2023
-        </span>
-    </button>
-
-    <button class="flex justify-between p-2 bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500">
-        <span class="font-bold">
-            Bas
-        </span>
-        <span class="italic">
-            Created: 9/11/2023
-        </span>
-    </button>
+<div id="new-kanban" style="display: none;">
+    <form onsubmit='kanbanCreate(event)'>
+        <label for="kanban-name">name:</label>
+        <br>
+        <input id="kanban-name">
+        <br>
+        <button type="submit">submit</button>
+        <br>
+        <button type="button" onclick='kanbanFocusView("kanbans")'>cancel</button>
+    </form>
 </div>
 {{ else }}
 <h1 class="h-full flex justify-center items-center">🚧 CONSTRUCTION 🚧</h1>
 {{ end }}
+<script type="module" src="/public/script/home.js"></script>
 {{ end }}

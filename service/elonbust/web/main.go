@@ -1,11 +1,11 @@
 package web
 
 import (
-	"washambi-lib/web"
 	"embed"
+	"washambi-lib/web"
 )
 
-//go:embed page public
+//go:embed page public partial
 var Fs embed.FS
 
 var Parser = &web.Parser{
