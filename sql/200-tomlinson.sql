@@ -22,7 +22,7 @@ CREATE TABLE "tomlinson"."users_kanbans" (
     "created_at" timestamp NOT NULL DEFAULT NOW(),
     "updated_at" timestamp DEFAULT NULL,
     "deleted_at" timestamp DEFAULT NULL,
-
+    
     PRIMARY KEY ("id"),
     FOREIGN KEY ("user_id")
         REFERENCES "zoomers"."user" ("id")

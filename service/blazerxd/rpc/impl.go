@@ -4,16 +4,16 @@ import (
 	"context"
 	"strings"
 
-	zm "blazerxd/db/zoomers/model"
-	zt "blazerxd/db/zoomers/table"
-	"washambi-lib/db"
-	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
-
 	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
+
+	"washambi-lib/db"
+	zm "washambi-lib/db/zoomers/model"
+	zt "washambi-lib/db/zoomers/table"
+	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 )
 
 func fromDbUser(u *zm.User) *blazerxd_pb.User {
