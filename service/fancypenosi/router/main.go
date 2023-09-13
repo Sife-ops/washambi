@@ -20,7 +20,6 @@ func Serve() error {
 	m := chi.NewMux()
 
 	m.Get("/", page.Home)
-	m.Get("/account", page.Account)
 	m.Get("/sign-up", page.Registrar(page.SignUp))
 	m.Get("/sign-in", page.Registrar(page.SignIn))
 

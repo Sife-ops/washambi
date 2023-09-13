@@ -26,6 +26,7 @@ func Registrar(ra RegistrarAction) http.HandlerFunc {
 				"registrarAction": ra,
 				"styles":          []string{"/public/style/registrar.css"},
 				"bg":              bgs[rand.Intn(len(bgs))],
+				"referer":         r.Header.Get("Referer"),
 			}))
 	}
 }

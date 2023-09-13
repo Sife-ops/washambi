@@ -32,7 +32,7 @@ func KanbanCreate(w http.ResponseWriter, r *http.Request) {
 		fmt.Println(e)
 	}
 
-	// a.Kanban.CreatedAt.AsTime().fo
+	// a.Kanban.CreatedAt.AsTime()
 
 	web.
 		Parser.

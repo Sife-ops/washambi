@@ -1,4 +1,5 @@
 declare const fancypenosiUrl: string;
+declare const referer: string;
 declare const transitionDuration: number;
 
 type RegistrarAction = "sign-in" | "sign-up" | "recovery";

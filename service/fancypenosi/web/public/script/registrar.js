@@ -166,21 +166,12 @@ window.signIn = async function (event) {
                     "carousel-sign-in",
                     "carousel-sign-in-above"
                 );
-                document.querySelector("body").style.opacity = "0";
 
-                setTimeout(() => {
-                    let redirect = "/";
-
-                    // todo: remove cookie
-                    document.cookie.split(";").map((x) => {
-                        const y = x.split("=");
-                        if (y[0] === "redirect") {
-                            redirect = y[1];
-                        }
-                    });
-
-                    location.href = redirect;
-                }, transitionDuration);
+                if (referer) {
+                    window.fadeTo(referer);
+                    return;
+                }
+                window.fadeTo("/");
             }, 500);
 
             return;

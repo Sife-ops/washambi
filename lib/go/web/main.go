@@ -11,6 +11,9 @@ import (
 	"fmt"
 	"html/template"
 	"strings"
+	"time"
+
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 //go:embed page
@@ -24,9 +27,11 @@ var funcs = template.FuncMap{
 	"uppercase": func(s string) string {
 		return strings.ToUpper(s)
 	},
-	"asdf": func(t string) string {
-		// return t.AsTime().Format(time.RFC822)
-		return t
+	"asTime": func(t *timestamppb.Timestamp) time.Time {
+		return t.AsTime()
+	},
+	"asRfc822": func(t time.Time) string {
+		return t.Format(time.RFC822)
 	},
 }
 
