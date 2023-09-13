@@ -25,9 +25,11 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		k = kr.Kanbans
 	}
 
-	// todo: rename you
-	// fmt.Println(k[0])
-	// k[0].UsersKanbans.
+	for i, v := range k {
+		if v.UsersKanbans.UserId == ctx.Id {
+			k[i].UsersKanbans.User.Username = "You"
+		}
+	}
 
 	web.
 		Parser.

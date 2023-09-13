@@ -1,5 +1,5 @@
 {{ define "kanban" }}
-<tr class="bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500">
+<tr class="bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500" onclick='fadeTo("/kanban/{{ .Id }}")'>
     <td class="p-2">{{ .Name }}</td>
     <td class="p-2">{{ .UsersKanbans.User.Username }}</td>
     <td class="p-2">{{ .CreatedAt | asTime | asRfc822 }}</td>
