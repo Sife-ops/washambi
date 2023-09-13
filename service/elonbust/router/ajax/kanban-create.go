@@ -2,8 +2,6 @@ package ajax
 
 import (
 	"context"
-	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"elonbust/web"
@@ -12,30 +10,32 @@ import (
 	laboof_pb "washambi-lib/rpc/laboof/v1"
 )
 
-type kanbanCreateReq struct {
-	Name string
-}
-
 func KanbanCreate(w http.ResponseWriter, r *http.Request) {
 	authCtx := r.Context().Value("auth").(mid.AuthCtx)
 
-	var b kanbanCreateReq
-	if e := json.NewDecoder(r.Body).Decode(&b); e != nil {
-		//
+	r.ParseForm()
+	name := r.Form.Get("name")
+	if len(name) < 1 {
+		http.Error(w, "name length", http.StatusBadRequest)
+		return
 	}
 
-	a, e := client.LaboofClient.KanbanCreate(context.TODO(), &laboof_pb.KanbanCreateRequest{
-		Name:   b.Name,
+	k, e := client.LaboofClient.KanbanCreate(context.TODO(), &laboof_pb.KanbanCreateRequest{
+		Name:   name,
 		UserId: authCtx.Id,
 	})
 	if e != nil {
-		fmt.Println(e)
+		http.Error(w, "rpc", http.StatusInternalServerError)
+		return
 	}
 
-	// a.Kanban.CreatedAt.AsTime()
+	// fmt.Println(k.Kanban)
+	// if k.Kanban.UsersKanbans.UserId == authCtx.Id {
+	// 	k.Kanban.UsersKanbans.User.Username = "You"
+	// }
 
 	web.
 		Parser.
 		ParsePartial("kanban").
-		Execute(w, a.Kanban)
+		Execute(w, k.Kanban)
 }

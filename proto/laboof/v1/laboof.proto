@@ -1,11 +1,12 @@
 syntax = "proto3";
 
-option go_package = "washambi-rpc/laboof";
+option go_package = "washambi-lib/rpc/laboof/v1";
 
 package laboof.v1;
 
 import "google/protobuf/timestamp.proto";
 // import "google/protobuf/empty.proto";
+import "blazerxd/v1/blazerxd.proto";
 
 service Laboof {
   rpc KanbanCreate(KanbanCreateRequest) returns (KanbanCreateResponse);
@@ -17,9 +18,10 @@ message UsersKanbans {
     string user_id = 2;
     string kanban_id = 3;
     string role = 4;
-    google.protobuf.Timestamp created_at = 5;
-    google.protobuf.Timestamp updated_at = 6;
-    google.protobuf.Timestamp deleted_at = 7;
+    blazerxd.v1.User user = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp updated_at = 7;
+    google.protobuf.Timestamp deleted_at = 8;
 }
 
 message Kanban {

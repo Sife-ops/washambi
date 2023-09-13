@@ -4,7 +4,7 @@
 // - protoc             v4.24.2
 // source: blazerxd/v1/blazerxd.proto
 
-package blazerxd
+package v1
 
 import (
 	context "context"

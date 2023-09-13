@@ -1,10 +1,7 @@
 {{ define "kanban" }}
-<button id="{{ .Id }}" class="flex justify-between p-2 bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500">
-    <span class="font-bold">
-        {{ .Name }}
-    </span>
-    <span class="italic">
-        Created: {{ .CreatedAt | asTime | asRfc822 }}
-    </span>
-</button>
+<tr class="bg-slate-700 hover:bg-slate-800 outline outline-1 outline-slate-500">
+    <td class="p-2">{{ .Name }}</td>
+    <td class="p-2">{{ .UsersKanbans.User.Username }}</td>
+    <td class="p-2">{{ .CreatedAt | asTime | asRfc822 }}</td>
+</tr>
 {{ end }}

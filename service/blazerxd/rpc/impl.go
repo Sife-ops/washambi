@@ -8,44 +8,13 @@ import (
 	"github.com/google/uuid"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 
 	"washambi-lib/db"
 	zm "washambi-lib/db/zoomers/model"
 	zt "washambi-lib/db/zoomers/table"
 	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
+	"washambi-lib/rpc/from"
 )
-
-func fromDbUser(u *zm.User) *blazerxd_pb.User {
-	var ua *timestamppb.Timestamp
-	if u.UpdatedAt == nil {
-		ua = nil
-	} else {
-		ua = timestamppb.New(*u.UpdatedAt)
-	}
-
-	var da *timestamppb.Timestamp
-	if u.DeletedAt == nil {
-		da = nil
-	} else {
-		da = timestamppb.New(*u.DeletedAt)
-	}
-
-	return &blazerxd_pb.User{
-		Id:              u.ID.String(),
-		Username:        u.Username,
-		Password:        u.Password,
-		RecoveryPrompt1: u.RecoveryPrompt1,
-		RecoveryPrompt2: u.RecoveryPrompt2,
-		RecoveryPrompt3: u.RecoveryPrompt3,
-		RecoveryAnswer1: u.RecoveryAnswer1,
-		RecoveryAnswer2: u.RecoveryAnswer2,
-		RecoveryAnswer3: u.RecoveryAnswer3,
-		CreatedAt:       timestamppb.New(u.CreatedAt),
-		UpdatedAt:       ua,
-		DeletedAt:       da,
-	}
-}
 
 func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest) (*blazerxd_pb.CreateResponse, error) {
 	stmt := zt.User.
@@ -81,7 +50,7 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 	}
 
 	return &blazerxd_pb.CreateResponse{
-		User: fromDbUser(&u[0]),
+		User: from.DbUser(u[0]),
 	}, nil
 }
 
@@ -101,7 +70,7 @@ func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*bl
 	}
 
 	return &blazerxd_pb.GetResponse{
-		User: fromDbUser(&u[0]),
+		User: from.DbUser(u[0]),
 	}, nil
 }
 
@@ -122,6 +91,6 @@ func (s *ServerImpl) ChangePassword(ctx context.Context, call *blazerxd_pb.Chang
 	}
 
 	return &blazerxd_pb.ChangePasswordResponse{
-		User: fromDbUser(&u[0]),
+		User: from.DbUser(u[0]),
 	}, nil
 }

@@ -4,7 +4,7 @@
 // - protoc             v4.24.2
 // source: laboof/v1/laboof.proto
 
-package laboof
+package v1
 
 import (
 	context "context"

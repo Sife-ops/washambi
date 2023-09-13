@@ -18,7 +18,7 @@ import (
 func Serve() error {
 	m := chi.NewMux()
 
-	m.With(mid.AuthCreate, mid.Track).Get("/", page.Home)
+	m.With(mid.AuthCreate).Get("/", page.Home)
 
 	m.With(mid.AuthCreate).Post("/kanban-create", ajax.KanbanCreate)
 	m.Post("/sign-out", washambiAjax.SignOut)

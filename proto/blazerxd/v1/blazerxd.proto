@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-option go_package = "washambi-rpc/blazerxd";
+option go_package = "washambi-lib/rpc/blazerxd/v1";
 
 package blazerxd.v1;
 

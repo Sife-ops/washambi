@@ -25,11 +25,15 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		k = kr.Kanbans
 	}
 
+	// todo: rename you
+	// fmt.Println(k[0])
+	// k[0].UsersKanbans.
+
 	web.
 		Parser.
 		ParsePage("page/home.html", "partial/kanban.html").
 		Execute(w, env.WithUrls(map[string]interface{}{
-			"authorized": r.Context().Value("auth").(mid.AuthCtx).Authorized,
-			"kanbans":    k,
+			"ctx":     ctx,
+			"kanbans": k,
 		}))
 }

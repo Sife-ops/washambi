@@ -1,30 +1,51 @@
 {{ define "content" }}
-{{ if .authorized }}
+{{ if .ctx.Authorized }}
 <div id="kanbans">
     <div class="flex flex-col mt-4 mx-4">
         <button class="p-2 bg-green-800 hover:bg-green-900 font-bold outline outline-1 outline-green-500"
             onclick='kanbanFocusView("new-kanban")'>New</button>
     </div>
-    <div id="kanban-list" class="flex flex-col m-4 gap-4">
-        {{ range .kanbans }}
-        {{ block "kanban" . }} {{ end }}
-        {{ end }}
+
+    <div class="flex">
+        <table class="sortable m-4 w-full table-auto border-separate border-spacing-y-2">
+            <!-- todo: sort arrow -->
+            <thead>
+                <tr class="text-left">
+                    <th class="pl-2">Name</th>
+                    <th class="pl-2">Owner</th>
+                    <th class="pl-2">Created</th>
+                </tr>
+            </thead>
+            <tbody id="kanban-list">
+                {{ range .kanbans }}
+                {{ block "kanban" . }} {{ end }}
+                {{ end }}
+            </tbody>
+        </table>
     </div>
 </div>
 
 <div id="new-kanban" style="display: none;">
-    <form onsubmit='kanbanCreate(event)'>
+    <!-- <form onsubmit='kanbanCreate(event)'> -->
+    <form hx-post="/kanban-create" hx-target="#kanban-list" hx-swap="afterbegin">
         <label for="kanban-name">name:</label>
         <br>
-        <input id="kanban-name">
+        <input id="kanban-name" name="name" class="text-black">
         <br>
         <button type="submit">submit</button>
         <br>
         <button type="button" onclick='kanbanFocusView("kanbans")'>cancel</button>
     </form>
 </div>
+
+<script type="module" src="/public/script/home.js"></script>
+
+<!-- <link href="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.css" rel="stylesheet" /> -->
+<script src="https://cdn.jsdelivr.net/gh/tofsjonas/sortable@latest/sortable.min.js"></script>
+<script src="https://unpkg.com/htmx.org@1.9.5"
+    integrity="sha384-xcuj3WpfgjlKF+FXhSQFQ0ZNr39ln+hwjN3npfM9VBnUskLolQAcN80McRIVOPuO"
+    crossorigin="anonymous"></script>
 {{ else }}
 <h1 class="h-full flex justify-center items-center">🚧 CONSTRUCTION 🚧</h1>
 {{ end }}
-<script type="module" src="/public/script/home.js"></script>
 {{ end }}
