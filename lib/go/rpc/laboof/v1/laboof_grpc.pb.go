@@ -21,6 +21,7 @@ const _ = grpc.SupportPackageIsVersion7
 const (
 	Laboof_KanbanCreate_FullMethodName = "/laboof.v1.Laboof/KanbanCreate"
 	Laboof_KanbanList_FullMethodName   = "/laboof.v1.Laboof/KanbanList"
+	Laboof_KanbanGet_FullMethodName    = "/laboof.v1.Laboof/KanbanGet"
 )
 
 // LaboofClient is the client API for Laboof service.
@@ -29,6 +30,7 @@ const (
 type LaboofClient interface {
 	KanbanCreate(ctx context.Context, in *KanbanCreateRequest, opts ...grpc.CallOption) (*KanbanCreateResponse, error)
 	KanbanList(ctx context.Context, in *KanbanListRequest, opts ...grpc.CallOption) (*KanbanListResponse, error)
+	KanbanGet(ctx context.Context, in *KanbanGetRequest, opts ...grpc.CallOption) (*KanbanGetResponse, error)
 }
 
 type laboofClient struct {
@@ -57,12 +59,22 @@ func (c *laboofClient) KanbanList(ctx context.Context, in *KanbanListRequest, op
 	return out, nil
 }
 
+func (c *laboofClient) KanbanGet(ctx context.Context, in *KanbanGetRequest, opts ...grpc.CallOption) (*KanbanGetResponse, error) {
+	out := new(KanbanGetResponse)
+	err := c.cc.Invoke(ctx, Laboof_KanbanGet_FullMethodName, in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // LaboofServer is the server API for Laboof service.
 // All implementations must embed UnimplementedLaboofServer
 // for forward compatibility
 type LaboofServer interface {
 	KanbanCreate(context.Context, *KanbanCreateRequest) (*KanbanCreateResponse, error)
 	KanbanList(context.Context, *KanbanListRequest) (*KanbanListResponse, error)
+	KanbanGet(context.Context, *KanbanGetRequest) (*KanbanGetResponse, error)
 	mustEmbedUnimplementedLaboofServer()
 }
 
@@ -75,6 +87,9 @@ func (UnimplementedLaboofServer) KanbanCreate(context.Context, *KanbanCreateRequ
 }
 func (UnimplementedLaboofServer) KanbanList(context.Context, *KanbanListRequest) (*KanbanListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method KanbanList not implemented")
+}
+func (UnimplementedLaboofServer) KanbanGet(context.Context, *KanbanGetRequest) (*KanbanGetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method KanbanGet not implemented")
 }
 func (UnimplementedLaboofServer) mustEmbedUnimplementedLaboofServer() {}
 
@@ -125,6 +140,24 @@ func _Laboof_KanbanList_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Laboof_KanbanGet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KanbanGetRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LaboofServer).KanbanGet(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Laboof_KanbanGet_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LaboofServer).KanbanGet(ctx, req.(*KanbanGetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Laboof_ServiceDesc is the grpc.ServiceDesc for Laboof service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -139,6 +172,10 @@ var Laboof_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "KanbanList",
 			Handler:    _Laboof_KanbanList_Handler,
+		},
+		{
+			MethodName: "KanbanGet",
+			Handler:    _Laboof_KanbanGet_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

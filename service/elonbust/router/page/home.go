@@ -2,6 +2,7 @@ package page
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"elonbust/web"
@@ -20,7 +21,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 			UserId: ctx.Id,
 		})
 		if e != nil {
-			// ???
+			fmt.Println(e)
 		}
 		k = kr.Kanbans
 	}

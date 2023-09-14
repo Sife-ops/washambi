@@ -1,0 +1,11 @@
+{{ define "content" }}
+<form hx-post="/swimlane-create" hx-target="#kanban-list" hx-swap="afterbegin">
+    <label for="kanban-name">name:</label>
+    <br>
+    <input id="kanban-name" name="name" class="text-black">
+    <br>
+    <button type="submit">submit</button>
+    <br>
+    <button type="button" onclick='kanbanFocusView("kanbans")'>cancel</button>
+</form>
+{{ end }}

@@ -3,7 +3,6 @@ package from
 import (
 	"time"
 
-	// "github.com/davecgh/go-spew/spew"
 	"google.golang.org/protobuf/types/known/timestamppb"
 
 	tm "washambi-lib/db/tomlinson/model"
@@ -39,18 +38,38 @@ func DbUser(u zm.User) *blazerxd_pb.User {
 	}
 }
 
+func DbSwimlane(s tm.Swimlane) *laboof_pb.Swimlane {
+	return &laboof_pb.Swimlane{
+		Id:        s.ID.String(),
+		KanbanId:  s.KanbanID.String(),
+		Name:      s.Name,
+		Index:     s.Index,
+		CreatedAt: timestamppb.New(s.CreatedAt),
+		UpdatedAt: fromTime(s.UpdatedAt),
+		DeletedAt: fromTime(s.DeletedAt),
+	}
+}
+
 type Kanban []struct {
 	tm.Kanban
 	UsersKanbans []tm.UsersKanbans
 	User         []zm.User
+	Swimlane     []tm.Swimlane
 }
 
 func DbKanbanList(ks Kanban) []*laboof_pb.Kanban {
 	var kanbans []*laboof_pb.Kanban
 	for _, v := range ks {
-		var usersKanbans *laboof_pb.UsersKanbans
+		k := &laboof_pb.Kanban{
+			Id:        v.ID.String(),
+			Name:      v.Name,
+			CreatedAt: timestamppb.New(v.CreatedAt),
+			UpdatedAt: fromTime(v.UpdatedAt),
+			DeletedAt: fromTime(v.DeletedAt),
+		}
+
 		for _, w := range v.UsersKanbans {
-			usersKanbans = &laboof_pb.UsersKanbans{
+			k.UsersKanbans = &laboof_pb.UsersKanbans{
 				Id:        w.ID.String(),
 				UserId:    w.UserID.String(),
 				KanbanId:  w.KanbanID.String(),
@@ -62,18 +81,14 @@ func DbKanbanList(ks Kanban) []*laboof_pb.Kanban {
 		}
 
 		for _, w := range v.User {
-			usersKanbans.User = DbUser(w)
+			k.UsersKanbans.User = DbUser(w)
 		}
 
-		kanbans = append(kanbans, &laboof_pb.Kanban{
-			Id:           v.ID.String(),
-			Name:         v.Name,
-			UsersKanbans: usersKanbans,
-			CreatedAt:    timestamppb.New(v.CreatedAt),
-			UpdatedAt:    fromTime(v.UpdatedAt),
-			DeletedAt:    fromTime(v.DeletedAt),
-		})
-	}
+		for _, w := range v.Swimlane {
+			k.Swimlane = append(k.Swimlane, DbSwimlane(w))
+		}
 
+		kanbans = append(kanbans, k)
+	}
 	return kanbans
 }

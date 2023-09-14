@@ -1,3 +1,14 @@
-{{ define "kanban" }}
-<div>hi</div>
+{{ define "content" }}
+<div class="h-full p-4 flex flex-col gap-4">
+    <button class="p-2 bg-green-800 hover:bg-green-900 font-bold outline outline-1 outline-green-500"
+        onclick="swimlaneCreate()">New</button>
+
+    <div class="h-full flex gap-4">
+        {{ range .kanban.Swimlane }}
+        <div class="grow outline outline-1 outline-green-500">
+            {{ .Name }}
+        </div>
+        {{ end }}
+    </div>
+</div>
 {{ end }}

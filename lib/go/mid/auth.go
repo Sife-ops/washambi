@@ -35,10 +35,15 @@ func AuthCreate(next http.Handler) http.Handler {
 func AuthRedirect(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if !r.Context().Value("auth").(AuthCtx).Authorized {
-			http.Redirect(w, r, fmt.Sprintf("%s/sign-in", env.FancypenosiUrl), http.StatusSeeOther)
+			if len(r.Header.Get("hx-request")) > 0 {
+				w.Header().Add("HX-Trigger", "hx-sign-out")
+                return
+			}
+			http.Redirect(w, r, fmt.Sprintf(
+				"%s/sign-in", env.FancypenosiUrl), http.StatusSeeOther,
+			)
 			return
 		}
-
 		next.ServeHTTP(w, r)
 	})
 }

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 
-	// "github.com/davecgh/go-spew/spew"
 	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
 	codes "google.golang.org/grpc/codes"
@@ -61,7 +60,7 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 		return nil, status.Error(codes.Aborted, e.Error())
 	}
 
-    // todo: join user
+	// todo: join user
 	var uk []tm.UsersKanbans
 	if e := tt.UsersKanbans.
 		INSERT(
@@ -135,5 +134,34 @@ func (s *ServerImpl) KanbanList(ctx context.Context, call *laboof_pb.KanbanListR
 
 	return &laboof_pb.KanbanListResponse{
 		Kanbans: from.DbKanbanList(k),
+	}, nil
+}
+
+func (s *ServerImpl) KanbanGet(ctx context.Context, call *laboof_pb.KanbanGetRequest) (*laboof_pb.KanbanGetResponse, error) {
+	var k from.Kanban
+	if e := SELECT(
+		tt.Kanban.AllColumns,
+		tt.Swimlane.AllColumns,
+		// tt.UsersKanbans.AllColumns,
+		// zt.User.AllColumns,
+	).
+		FROM(
+			tt.Kanban.
+				INNER_JOIN(
+					tt.Swimlane,
+					tt.Swimlane.KanbanID.EQ(tt.Kanban.ID),
+				),
+			// INNER_JOIN(
+			// 	zt.User,
+			// 	zt.User.ID.EQ(tt.UsersKanbans.UserID),
+			// ),
+		).
+		WHERE(tt.Kanban.ID.EQ(UUID(uuid.MustParse(call.KanbanId)))).
+		Query(db.Connection, &k); e != nil {
+		return nil, status.Error(codes.Internal, e.Error())
+	}
+
+	return &laboof_pb.KanbanGetResponse{
+		Kanban: from.DbKanbanList(k)[0],
 	}, nil
 }

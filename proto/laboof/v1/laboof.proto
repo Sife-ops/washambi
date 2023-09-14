@@ -11,6 +11,7 @@ import "blazerxd/v1/blazerxd.proto";
 service Laboof {
   rpc KanbanCreate(KanbanCreateRequest) returns (KanbanCreateResponse);
   rpc KanbanList(KanbanListRequest) returns (KanbanListResponse);
+  rpc KanbanGet(KanbanGetRequest) returns (KanbanGetResponse);
 }
 
 message UsersKanbans {
@@ -24,13 +25,36 @@ message UsersKanbans {
     google.protobuf.Timestamp deleted_at = 8;
 }
 
+message Swimlane {
+    string id = 1;
+    string kanban_id = 2;
+    string name = 3;
+    int32 index = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
+}
+
+message Card {
+    string id = 1;
+    string kanban_id = 2;
+    string swimlane_id = 3;
+    string name = 4;
+    string description = 5;
+    string details = 6;
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp updated_at = 8;
+    google.protobuf.Timestamp deleted_at = 9;
+}
+
 message Kanban {
     string id = 1;
     string name = 2;
     UsersKanbans usersKanbans = 3;
-    google.protobuf.Timestamp created_at = 4;
-    google.protobuf.Timestamp updated_at = 5;
-    google.protobuf.Timestamp deleted_at = 6;
+    repeated Swimlane swimlane = 4;
+    google.protobuf.Timestamp created_at = 5;
+    google.protobuf.Timestamp updated_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
 }
 
 message KanbanCreateRequest {
@@ -49,3 +73,12 @@ message KanbanListRequest {
 message KanbanListResponse {
     repeated Kanban kanbans = 1;
 }
+
+message KanbanGetRequest {
+    string kanban_id = 1;
+}
+
+message KanbanGetResponse {
+    Kanban kanban = 1;
+}
+
