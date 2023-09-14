@@ -3,6 +3,7 @@ package main
 import (
 	"log"
 	"net/http"
+	"strconv"
 	"time"
 
 	"fancypenosi/router"
@@ -11,8 +12,12 @@ import (
 )
 
 func main() {
+	r, e := strconv.Atoi(env.FancypenosiCookieRotation)
+	if e != nil {
+		panic(e)
+	}
 	go func() {
-		for range time.Tick(time.Second * 5) {
+		for range time.Tick(time.Second * time.Duration(r)) {
 			db.CookieKeysNew()
 		}
 	}()

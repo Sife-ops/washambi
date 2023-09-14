@@ -29,8 +29,10 @@ var (
 	CornpopPort = LookupEnvOrPanic("WASHAMBI_CORNPOP_PORT")
 	CornpopUrl  = LookupEnvOrPanic("WASHAMBI_CORNPOP_URL")
 
-	FancypenosiPort = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_PORT")
-	FancypenosiUrl  = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_URL")
+	FancypenosiPort           = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_PORT")
+	FancypenosiUrl            = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_URL")
+	FancypenosiCookieRotation = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_COOKIE_ROTATION")
+	FancypenosiCookieMaxage   = LookupEnvOrPanic("WASHAMBI_FANCYPENOSI_COOKIE_MAXAGE")
 
 	WokejakPort = LookupEnvOrPanic("WASHAMBI_WOKEJAK_PORT")
 	WokejakUrl  = LookupEnvOrPanic("WASHAMBI_WOKEJAK_URL")

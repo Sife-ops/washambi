@@ -6,7 +6,7 @@ import (
 
 func SignOut(w http.ResponseWriter, r *http.Request) {
 	http.SetCookie(w, &http.Cookie{
-		Name:     "id",
+		Name:     "a",
 		Value:    "",
 		Secure:   true,
 		HttpOnly: true,

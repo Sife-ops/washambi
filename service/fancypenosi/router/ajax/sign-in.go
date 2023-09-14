@@ -4,13 +4,15 @@ import (
 	"context"
 	"encoding/json"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/gorilla/securecookie"
 	"golang.org/x/crypto/bcrypt"
 
 	"fancypenosi/rpc"
-	"washambi-lib/mid"
+	"washambi-lib/db"
+	"washambi-lib/env"
 	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 )
 
@@ -43,20 +45,32 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if enc, e := securecookie.EncodeMulti("a", map[string]string{
-		"id":       u.User.Id,
-		"username": u.User.Username,
-	}, mid.Cookies["current"]); e != nil {
+	c, e := db.CookieKeysLatest()
+	if e != nil {
 		http.Error(w, "cookie", http.StatusInternalServerError)
 		return
-	} else {
-		http.SetCookie(w, &http.Cookie{
-			Name:     "a",
-			Value:    enc,
-			Secure:   true,
-			HttpOnly: true,
-			MaxAge:   1200,
-			SameSite: http.SameSiteStrictMode,
-		})
 	}
+
+	enc, e := securecookie.EncodeMulti("a", map[string]string{
+		"id":       u.User.Id,
+		"username": u.User.Username,
+	}, c)
+	if e != nil {
+		http.Error(w, "cookie", http.StatusInternalServerError)
+		return
+	}
+
+	maxage, e := strconv.Atoi(env.FancypenosiCookieMaxage)
+	if e != nil {
+		http.Error(w, "cookie", http.StatusInternalServerError)
+		return
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:     "a",
+		Value:    enc,
+		Secure:   true,
+		HttpOnly: true,
+		MaxAge:   maxage,
+		SameSite: http.SameSiteStrictMode,
+	})
 }
