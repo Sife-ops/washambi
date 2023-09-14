@@ -32,7 +32,7 @@ window.addEventListener("pageshow", slideIn);
 
 // username
 
-window.validateUsername = function (event) {
+window.validateUsername = function(event) {
     const t = /** @type {HTMLInputElement} */ (event.target)
     const l = t.value.length;
     if (l < 8 || l > 32) {
@@ -53,7 +53,7 @@ function validate(id1, id2) {
         "^(?=.*[0-9])(?=.*[_!@#$%^&*])[a-zA-Z0-9_!@#$%^&*]{8,32}$"
     );
 
-    return function () {
+    return function() {
         /** @type {HTMLInputElement} */
         const password1 = document.querySelector(id1);
         /** @type {HTMLInputElement} */
@@ -87,7 +87,7 @@ window.validateResetPassword = validate("#recovery-password", "#recovery-confirm
 
 // switch action
 
-window.switchAction = function (action) {
+window.switchAction = function(action) {
     /** @type {Record<string,HTMLElement>} */
     const pages = {
         "sign-in": document.querySelector("#sign-in-page"),
@@ -117,7 +117,7 @@ window.switchAction = function (action) {
 
 // sign in
 
-window.signIn = async function (event) {
+window.signIn = async function(event) {
     event.preventDefault();
 
     /** @type {HTMLInputElement} */
@@ -167,6 +167,15 @@ window.signIn = async function (event) {
                     "carousel-sign-in-above"
                 );
 
+                // let next = "/";
+                // document.cookie.split(";").map(x => {
+                //     const [a, b] = x.split("=");
+                //     if (a === "t") {
+                //         next = b;
+                //     }
+                // });
+                // window.fadeTo("/");
+
                 if (referer) {
                     window.fadeTo(referer);
                     return;
@@ -201,7 +210,7 @@ window.signIn = async function (event) {
 
 // sign up
 
-window.signUp = async function (event) {
+window.signUp = async function(event) {
     event.preventDefault();
 
     /** @type {HTMLInputElement} */
@@ -255,13 +264,13 @@ window.signUp = async function (event) {
         }),
     });
 
-    setTimeout(function () {
+    setTimeout(function() {
         submitLoader.style.display = "none";
 
         if (res.ok) {
             submitSuccess.style.display = "block";
 
-            setTimeout(function () {
+            setTimeout(function() {
                 window.switchAction("sign-in");
             }, 500);
 
@@ -286,7 +295,7 @@ window.signUp = async function (event) {
     }, 500);
 };
 
-window.selectPrompt = function (event) {
+window.selectPrompt = function(event) {
     /** @type {Record<string, HTMLSelectElement>} */
     const prompts = {
         "security-prompt-1": document.querySelector("#security-prompt-1"),
@@ -306,7 +315,7 @@ window.selectPrompt = function (event) {
 // recovery
 
 // todo: transitions
-window.recovery1 = async function (event) {
+window.recovery1 = async function(event) {
     event.preventDefault();
 
     /** @type {HTMLElement} */
@@ -370,7 +379,7 @@ window.recovery1 = async function (event) {
     form2.style.display = "flex";
 };
 
-window.recovery2 = async function (event) {
+window.recovery2 = async function(event) {
     event.preventDefault();
 
     /** @type {HTMLElement} */
@@ -434,7 +443,7 @@ window.recovery2 = async function (event) {
     const success = document.querySelector("#recovery-submit-2-success");
     success.style.display = "block";
 
-    setTimeout(function () {
+    setTimeout(function() {
         window.switchAction("sign-in");
     }, 2000);
 };

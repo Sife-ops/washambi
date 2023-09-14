@@ -10,8 +10,9 @@ import (
 )
 
 func Account(w http.ResponseWriter, r *http.Request) {
+    fmt.Println(r.Method)
     a := r.Context().Value("auth").(mid.AuthCtx)
-    fmt.Println(a.Claims)
+    fmt.Println(a.Username())
 
 	web.
 		Parser.

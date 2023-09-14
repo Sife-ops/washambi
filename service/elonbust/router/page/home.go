@@ -18,7 +18,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	var k []*laboof_pb.Kanban
 	if ctx.Authenticated {
 		kr, e := client.LaboofClient.KanbanList(context.TODO(), &laboof_pb.KanbanListRequest{
-			UserId: ctx.Id,
+			UserId: ctx.Id(),
 		})
 		if e != nil {
 			fmt.Println(e)
@@ -27,10 +27,11 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	for i, v := range k {
-		if v.UsersKanbans.UserId == ctx.Id {
+		if v.UsersKanbans.UserId == ctx.Id() {
 			k[i].UsersKanbans.User.Username = "You"
 		}
 	}
+    fmt.Println(ctx.Claims)
 
 	web.
 		Parser.

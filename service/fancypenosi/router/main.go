@@ -19,9 +19,10 @@ import (
 func Serve() error {
 	m := chi.NewMux()
 
-	m.Get("/", page.Home)
 	m.Get("/sign-up", page.Registrar(page.SignUp))
 	m.Get("/sign-in", page.Registrar(page.SignIn))
+	m.Get("/", page.Home)
+	m.With(mid.AuthCreate, mid.AuthRedirect).Get("/account", page.Account)
 
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)
@@ -30,7 +31,6 @@ func Serve() error {
 	m.Post("/reset-password", ajax.ResetPassword)
 
 	m.With(mid.Cors, mid.AuthCreate).Get("/partial/navigator", partial.Navigator)
-	m.With(mid.AuthCreate, mid.AuthRedirect).Get("/account", page.Account)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {

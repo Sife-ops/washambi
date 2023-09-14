@@ -22,14 +22,14 @@ func KanbanCreate(w http.ResponseWriter, r *http.Request) {
 
 	k, e := client.LaboofClient.KanbanCreate(context.TODO(), &laboof_pb.KanbanCreateRequest{
 		Name:   name,
-		UserId: ctx.Id,
+		UserId: ctx.Id(),
 	})
 	if e != nil {
 		http.Error(w, "rpc", http.StatusInternalServerError)
 		return
 	}
 
-	if k.Kanban.UsersKanbans.UserId == ctx.Id {
+	if k.Kanban.UsersKanbans.UserId == ctx.Id() {
 		k.Kanban.UsersKanbans.User.Username = "You"
 	}
 

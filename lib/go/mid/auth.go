@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gorilla/securecookie"
 
@@ -17,15 +18,51 @@ type AuthCtx struct {
 	Claims        map[string]string
 }
 
-func (a *AuthCtx) id() string {
+func (a *AuthCtx) Id() string {
 	return a.Claims["id"]
 }
 
-func (a *AuthCtx) username() string {
+func (a *AuthCtx) Username() string {
 	return a.Claims["username"]
 }
 
-// todo: refresh cookie
+type AuthClaims struct {
+	Id       string
+	Username string
+}
+
+func AuthCookie(w http.ResponseWriter, u AuthClaims) {
+	c, e := db.CookieKeysLatest()
+	if e != nil {
+		http.Error(w, "cookie", http.StatusInternalServerError)
+		return
+	}
+
+	enc, e := securecookie.EncodeMulti("a", map[string]string{
+		"id":       u.Id,
+		"username": u.Username,
+	}, c)
+	if e != nil {
+		http.Error(w, "cookie", http.StatusInternalServerError)
+		return
+	}
+
+	maxage, e := strconv.Atoi(env.FancypenosiCookieMaxage)
+	if e != nil {
+		http.Error(w, "cookie", http.StatusInternalServerError)
+		return
+	}
+	http.SetCookie(w, &http.Cookie{
+		Name:     "a",
+		Value:    enc,
+		Path:     "/",
+		Secure:   true,
+		HttpOnly: true,
+		MaxAge:   maxage,
+		SameSite: http.SameSiteStrictMode,
+	})
+}
+
 func AuthCreate(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := AuthCtx{
@@ -50,7 +87,9 @@ func AuthCreate(next http.Handler) http.Handler {
 
 func AuthRedirect(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		if !r.Context().Value("auth").(AuthCtx).Authenticated {
+		ctx := r.Context().Value("auth").(AuthCtx)
+
+		if !ctx.Authenticated {
 			if len(r.Header.Get("hx-request")) > 0 {
 				w.Header().Add("HX-Trigger", "hx-sign-out")
 				return
@@ -62,6 +101,11 @@ func AuthRedirect(next http.Handler) http.Handler {
 
 			return
 		}
+
+		AuthCookie(w, AuthClaims{
+			Id:       ctx.Id(),
+			Username: ctx.Username(),
+		})
 
 		next.ServeHTTP(w, r)
 	})
