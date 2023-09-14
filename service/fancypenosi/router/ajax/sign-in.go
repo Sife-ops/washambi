@@ -6,10 +6,12 @@ import (
 	"net/http"
 	"strings"
 
-	"fancypenosi/rpc"
-	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
-
+	"github.com/gorilla/securecookie"
 	"golang.org/x/crypto/bcrypt"
+
+	"fancypenosi/rpc"
+	"washambi-lib/mid"
+	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 )
 
 type signInReq struct {
@@ -41,12 +43,20 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	http.SetCookie(w, &http.Cookie{
-		Name:     "id",
-		Value:    u.User.Id,
-		Secure:   true,
-		HttpOnly: true,
-		MaxAge:   1200,
-		SameSite: http.SameSiteStrictMode,
-	})
+	if enc, e := securecookie.EncodeMulti("a", map[string]string{
+		"id":       u.User.Id,
+		"username": u.User.Username,
+	}, mid.Cookies["current"]); e != nil {
+		http.Error(w, "cookie", http.StatusInternalServerError)
+		return
+	} else {
+		http.SetCookie(w, &http.Cookie{
+			Name:     "a",
+			Value:    enc,
+			Secure:   true,
+			HttpOnly: true,
+			MaxAge:   1200,
+			SameSite: http.SameSiteStrictMode,
+		})
+	}
 }

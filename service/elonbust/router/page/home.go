@@ -16,7 +16,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context().Value("auth").(mid.AuthCtx)
 
 	var k []*laboof_pb.Kanban
-	if ctx.Authorized {
+	if ctx.Authenticated {
 		kr, e := client.LaboofClient.KanbanList(context.TODO(), &laboof_pb.KanbanListRequest{
 			UserId: ctx.Id,
 		})

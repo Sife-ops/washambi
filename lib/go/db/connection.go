@@ -3,9 +3,11 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	_ "github.com/jackc/pgx/v5/stdlib"
 	"log"
 	"strconv"
+
+	_ "github.com/jackc/pgx/v5/stdlib"
+
 	"washambi-lib/env"
 )
 

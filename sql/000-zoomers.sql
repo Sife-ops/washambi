@@ -23,3 +23,14 @@ CREATE TABLE "zoomers"."user" (
 
     PRIMARY KEY ("id")
 );
+
+CREATE TABLE "zoomers"."cookie" (
+    "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
+
+    "hashKey" bytea NOT NULL,
+    "blockKey" bytea NOT NULL,
+
+    "created_at" timestamp NOT NULL DEFAULT NOW(),
+
+    PRIMARY KEY ("id")
+);
