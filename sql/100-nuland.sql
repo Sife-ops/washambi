@@ -7,7 +7,7 @@ CREATE TABLE "nuland"."tag" (
     "name" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
-    "updated_at" timestamp DEFAULT NULL,
+    -- "updated_at" timestamp DEFAULT NULL,
     "deleted_at" timestamp DEFAULT NULL,
 
     PRIMARY KEY ("id"),
@@ -88,6 +88,37 @@ CREATE TABLE "nuland"."bookmarks_tags" (
         ON DELETE CASCADE
 );
 
+CREATE TABLE "nuland"."bookmark_field" (
+    "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
+    "bookmark_id" UUID NOT NULL,
+
+    "index" integer NOT NULL,
+    "name" character varying NOT NULL,
+    "hidden" boolean NOT NULL DEFAULT false,
+
+    "created_at" timestamp NOT NULL DEFAULT NOW(),
+    "deleted_at" timestamp DEFAULT NULL,
+
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("bookmark_id")
+        REFERENCES "nuland"."bookmark" ("id")
+        ON DELETE CASCADE
+);
+
+CREATE TABLE "nuland"."bookmark_field_value" (
+    "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
+    "bookmark_field_id" UUID NOT NULL,
+
+    "value" character varying NOT NULL,
+
+    "created_at" timestamp NOT NULL DEFAULT NOW(),
+
+    PRIMARY KEY ("id"),
+    FOREIGN KEY ("bookmark_field_id")
+        REFERENCES "nuland"."bookmark_field" ("id")
+        ON DELETE CASCADE
+);
+
 --
 -- profile
 --
@@ -95,6 +126,7 @@ CREATE TABLE "nuland"."profile" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
     "domain_id" UUID NOT NULL,
 
+    "index" integer NOT NULL,
     "name" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
@@ -106,13 +138,11 @@ CREATE TABLE "nuland"."profile" (
         ON DELETE CASCADE
 );
 
---
--- field
---
-CREATE TABLE "nuland"."field" (
+CREATE TABLE "nuland"."profile_field" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
     "profile_id" UUID NOT NULL,
 
+    "index" integer NOT NULL,
     "name" character varying NOT NULL,
     "hidden" boolean NOT NULL DEFAULT false,
 
@@ -125,17 +155,17 @@ CREATE TABLE "nuland"."field" (
         ON DELETE CASCADE
 );
 
-CREATE TABLE "nuland"."field_value" (
+CREATE TABLE "nuland"."profile_field_value" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
-    "field_id" UUID NOT NULL,
+    "profile_field_id" UUID NOT NULL,
 
-    "name" character varying NOT NULL,
+    "value" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
 
     PRIMARY KEY ("id"),
-    FOREIGN KEY ("field_id")
-        REFERENCES "nuland"."field" ("id")
+    FOREIGN KEY ("profile_field_id")
+        REFERENCES "nuland"."profile_field" ("id")
         ON DELETE CASCADE
 );
 

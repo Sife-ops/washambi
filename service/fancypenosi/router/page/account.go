@@ -1,21 +1,21 @@
 package page
 
 import (
-	"fmt"
+	"html/template"
 	"net/http"
 
 	"fancypenosi/web"
-    "washambi-lib/env"
-	"washambi-lib/mid"
+	"washambi-lib/env"
+	WashambiWeb "washambi-lib/web"
 )
 
 func Account(w http.ResponseWriter, r *http.Request) {
-    fmt.Println(r.Method)
-    a := r.Context().Value("auth").(mid.AuthCtx)
-    fmt.Println(a.Username())
+	t := template.Must(
+		template.New("base").ParseFS(WashambiWeb.Fs, "page/template.html", "page/nav.html"),
+	)
+	t = template.Must(
+		t.ParseFS(web.Fs, "page/account.html"),
+	)
 
-	web.
-		Parser.
-		ParsePage("page/account.html").
-		Execute(w, env.WithUrls(nil))
+	t.Execute(w, env.WithUrls(nil))
 }

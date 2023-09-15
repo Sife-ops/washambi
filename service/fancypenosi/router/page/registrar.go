@@ -1,10 +1,13 @@
 package page
 
 import (
-	"fancypenosi/web"
+	"html/template"
 	"math/rand"
 	"net/http"
+
+	"fancypenosi/web"
 	"washambi-lib/env"
+	WashambiWeb "washambi-lib/web"
 )
 
 type RegistrarAction string
@@ -16,17 +19,20 @@ const (
 
 func Registrar(ra RegistrarAction) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		bgs := []string{"forest", "city", "scope"} // todo: cornpop grpc
+		bgs := []string{"forest", "city", "scope"}
 
-		web.
-			Parser.
-			ParsePage("page/registrar.html").
-			Execute(w, env.WithUrls(map[string]interface{}{
-				"isRegistrar":     true,
-				"registrarAction": ra,
-				"styles":          []string{"/public/style/registrar.css"},
-				"bg":              bgs[rand.Intn(len(bgs))],
-				"referer":         r.Header.Get("Referer"),
-			}))
+		t := template.Must(
+			template.New("base").ParseFS(WashambiWeb.Fs, "page/template.html"),
+		)
+		t = template.Must(
+			t.ParseFS(web.Fs, "page/registrar.html"),
+		)
+
+		t.Execute(w, env.WithUrls(map[string]interface{}{
+			"bg":              bgs[rand.Intn(len(bgs))],
+			"referer":         r.Header.Get("Referer"),
+			"registrarAction": ra,
+			"styles":          []string{"/public/style/registrar.css"},
+		}))
 	}
 }

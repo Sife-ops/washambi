@@ -1,27 +1,17 @@
-{{ define "navigator" }}
+{{define "navigator"}}
 <div id="toolbar">
-    <div></div>
-    <div id="menu-btn" class="collapsed" onclick="toggleNavDrawer(event)">
-        <i class="gg-chevron-up-r"></i>
+    <div class="nav-btn" onclick='fadeTo("/")'>
+        <i class="gg-coffee"></i>
     </div>
-</div>
-
-<div id="drawer" data-collapsed="true">
-    <div style="padding-top: 1rem;"></div>
-    <div id="drawer-content">
-        <div id="services">
-            <h1>Services</h1>
-            <a onclick="fadeTo(`${fancypenosiUrl}/account`)">👤 <span>Account</span></a>
-            <a onclick="fadeTo(elonbustUrl)">📋 <span>Kanban</span></a>
-            <a onclick="fadeTo('#')">🔖 <span>Bookmarks</span></a>
-        </div>
-        <div class="account-actions" {{if .authorized}} {{else}} style="display: none;" {{end}}>
-            <button id="sign-out-btn" onclick="signOut()"> sign out </button>
-        </div>
-        <div class="account-actions" {{if .authorized}} style="display: none;" {{end}}>
-            <button id="sign-in-btn" onclick='fadeTo(`${fancypenosiUrl}/sign-in`)'>sign in</button>
-            <button id="sign-up-btn" onclick='fadeTo(`${fancypenosiUrl}/sign-up`)'>sign up</button>
-        </div>
+    {{if .auth.Authenticated}}
+    <div class="nav-btn" onclick='fadeTo("/account")'>
+        <i class="gg-user"></i>
     </div>
+    {{else}}
+    <div id="registrar-actions">
+        <button id="sign-in-btn" onclick='fadeTo(`${fancypenosiUrl}/sign-in`)'>sign in</button>
+        <button id="sign-up-btn" onclick='fadeTo(`${fancypenosiUrl}/sign-up`)'>sign up</button>
+    </div>
+    {{end}}
 </div>
-{{ end }}
+{{end}}

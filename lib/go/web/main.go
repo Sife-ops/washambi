@@ -8,7 +8,6 @@ package web
 
 import (
 	"embed"
-	"fmt"
 	"html/template"
 	"strings"
 	"time"
@@ -17,13 +16,13 @@ import (
 )
 
 //go:embed page
-var fs embed.FS
+var Fs embed.FS
 
 type Parser struct {
 	embed.FS
 }
 
-var funcs = template.FuncMap{
+var Funcs = template.FuncMap{
 	"uppercase": func(s string) string {
 		return strings.ToUpper(s)
 	},
@@ -35,27 +34,13 @@ var funcs = template.FuncMap{
 	},
 }
 
-func (p *Parser) Parse(fs embed.FS, tmpl string, file string, files ...string) *template.Template {
-	t := template.Must(
+func (p *Parser) Parse(tmpl string, files ...string) *template.Template {
+	return template.Must(
 		template.New(tmpl).
-			Funcs(funcs).
-			ParseFS(fs, file),
-	)
-	for _, f := range files {
-		t = template.Must(t.ParseFS(p.FS, f))
-	}
-	return t
-}
-
-func (p *Parser) ParsePage(files ...string) *template.Template {
-	return p.Parse(fs, "template.html", "page/template.html", files...)
-}
-
-func (p *Parser) ParsePartial(tmpl string, files ...string) *template.Template {
-	return p.Parse(
-		p.FS,
-		fmt.Sprintf("%s", tmpl),
-		fmt.Sprintf("partial/%s.html", tmpl),
-		files...,
+			Funcs(Funcs).
+			ParseFS(p.FS, files...),
 	)
 }
+
+var Common = Parser{Fs}
+

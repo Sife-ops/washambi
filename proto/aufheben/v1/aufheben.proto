@@ -1,0 +1,215 @@
+syntax = "proto3";
+
+option go_package = "washambi-lib/rpc/aufheben/v1";
+
+package aufheben.v1;
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+// import "blazerxd/v1/blazerxd.proto";
+
+service Laboof {
+  rpc TagCreate(TagCreateRequest) returns (TagCreateResponse);
+  rpc TagList(TagListRequest) returns (TagListResponse);
+  rpc TagGet(TagGetRequest) returns (TagGetResponse);
+  rpc TagUpdate(TagUpdateRequest) returns (TagUpdateResponse);
+  rpc TagDelete(TagDeleteRequest) returns (TagDeleteResponse);
+  rpc TagPurge(TagPurgeRequest) returns (google.protobuf.Empty);
+
+  rpc DomainCreate(DomainCreateRequest) returns (DomainCreateResponse);
+  rpc DomainList(DomainListRequest) returns (DomainListResponse);
+  rpc DomainGet(DomainGetRequest) returns (DomainGetResponse);
+  rpc DomainUpdate(DomainUpdateRequest) returns (DomainUpdateResponse);
+  rpc DomainDelete(DomainDeleteRequest) returns (DomainDeleteResponse);
+  rpc DomainPurge(DomainPurgeRequest) returns (google.protobuf.Empty);
+
+  rpc BookmarkCreate(BookmarkCreateRequest) returns (BookmarkCreateResponse);
+  rpc BookmarkList(BookmarkListRequest) returns (BookmarkListResponse);
+  rpc BookmarkGet(BookmarkGetRequest) returns (BookmarkGetResponse);
+  rpc BookmarkUpdate(BookmarkUpdateRequest) returns (BookmarkUpdateResponse);
+  rpc BookmarkDelete(BookmarkDeleteRequest) returns (BookmarkDeleteResponse);
+  rpc BookmarkPurge(BookmarkPurgeRequest) returns (google.protobuf.Empty);
+}
+
+//
+// tag
+//
+
+message Tag {
+    string id = 1;
+    string name = 2;
+    google.protobuf.Timestamp created_at = 3;
+    google.protobuf.Timestamp deleted_at = 4;
+}
+
+message TagCreateRequest {
+    string name = 1;
+}
+
+message TagCreateResponse {
+    Tag tag = 1;
+}
+
+message TagListRequest {
+    string user_id = 1;
+}
+
+message TagListResponse {
+    repeated Tag tags = 1;
+}
+
+message TagGetRequest {
+    string id = 1;
+}
+
+message TagGetResponse {
+    Tag tag = 1;
+}
+
+message TagUpdateRequest {
+    string id = 1;
+    string name = 2;
+}
+
+message TagUpdateResponse {
+    Tag tag = 1;
+}
+
+message TagDeleteRequest {
+    string id = 1;
+}
+
+message TagDeleteResponse {
+    Tag tag = 1;
+}
+
+message TagPurgeRequest {
+    string id = 1;
+}
+
+//
+// domain
+//
+
+message Domain {
+    string id = 1;
+    string name = 2;
+    repeated Tag tags = 3;
+    google.protobuf.Timestamp created_at = 4;
+    google.protobuf.Timestamp deleted_at = 5;
+}
+
+message DomainCreateRequest {
+    string name = 1;
+    repeated string tag_id = 2;
+}
+
+message DomainCreateResponse {
+    Domain domain = 1;
+}
+
+message DomainListRequest {
+    string user_id = 1;
+}
+
+message DomainListResponse {
+    repeated Domain domains = 1;
+}
+
+message DomainGetRequest {
+    string id = 1;
+}
+
+message DomainGetResponse {
+    Domain domain = 1;
+}
+
+message DomainUpdateRequest {
+    string id = 1;
+    string name = 2;
+    repeated string tag_id = 3;
+}
+
+message DomainUpdateResponse {
+    Domain domain = 1;
+}
+
+message DomainDeleteRequest {
+    string id = 1;
+}
+
+message DomainDeleteResponse {
+    Domain domain = 1;
+}
+
+message DomainPurgeRequest {
+    string id = 1;
+}
+
+//
+// bookmark
+//
+
+message Bookmark {
+    string id = 1;
+    Domain domain = 4;
+
+    string description = 2;
+    string url = 3;
+    // todo: repeated Field fields = 4;
+
+    repeated Tag tags = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
+}
+
+message BookmarkCreateRequest {
+    string description = 1;
+    string url = 2;
+    repeated string tag_id = 3;
+}
+
+message BookmarkCreateResponse {
+    Bookmark bookmark = 1;
+}
+
+message BookmarkListRequest {
+    string user_id = 1;
+}
+
+message BookmarkListResponse {
+    repeated Bookmark bookmarks = 1;
+}
+
+message BookmarkGetRequest {
+    string id = 1;
+}
+
+message BookmarkGetResponse {
+    Bookmark bookmark = 1;
+}
+
+message BookmarkUpdateRequest {
+    string id = 1;
+    string domain_id = 2;
+    string description = 3;
+    string url = 4;
+    repeated string tag_id = 5;
+}
+
+message BookmarkUpdateResponse {
+    Bookmark bookmark = 1;
+}
+
+message BookmarkDeleteRequest {
+    string id = 1;
+}
+
+message BookmarkDeleteResponse {
+    Bookmark bookmark = 1;
+}
+
+message BookmarkPurgeRequest {
+    string id = 1;
+}
+

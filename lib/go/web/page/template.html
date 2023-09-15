@@ -1,62 +1,83 @@
-{{ $transitionDuration := 500 }}
-
+{{define "base"}}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Washambi</title>
-
-    <style>
-        html, body, #content {
-            height: 100%;
-        }
-        body, #navigator {
-            opacity: 0;
-            transition: opacity {{ $transitionDuration }}ms ease-in-out;
-        }
-        body {
-            background-color: rgb(30 41 59);
-            color: rgb(255 255 255);
-        }
-    </style>
-
-    {{ if .isRegistrar }} {{ else }}
-    <link rel="stylesheet" href="{{ .fancypenosiUrl }}/public/style/navigator.css" type="text/css" />
-    {{ end }}
-
+    <title>{{if .title}}{{.title}}{{else}}Washambi{{end}}</title>
     <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
-
-    {{ range .styles }}
+    {{block "baseStyle" .}}{{end}}
+    {{block "navStyle" .}}{{end}}
+    <link rel="stylesheet" href="/public/style/main.css" type="text/css" />
+    {{range .styles}}
     <link rel="stylesheet" href="{{ . }}" type="text/css" />
-    {{ end }}
+    {{end}}
 </head>
 
 <body>
-    {{ if .isRegistrar }} 
-        {{ block "content" . }} {{ end }}
-    {{ else }}
-    <div id="navigator"></div>
-    <div id="nav-spacer"></div>
-    <div id="content">
-        {{ block "content" . }} {{ end }}
-    </div>
-    {{ end }}
-
-    <script>
-        const elonbustUrl = "{{ .elonbustUrl }}";
-        const fancypenosiUrl = "{{ .fancypenosiUrl }}";
-        const transitionDuration = {{ $transitionDuration }};
-        const referer = "{{ .referer }}";
-        let registrarAction = "{{ .registrarAction }}";
-    </script>
-
-    {{ if .isRegistrar }} {{ else }}
-    <script type="module" src="{{ .fancypenosiUrl }}/public/script/navigator.js"></script>
-    {{ end }}
-
-    <script type="module" src="{{ .cornpopUrl }}/script/window.js"></script>
+    {{block "content" .}}{{end}}
+    {{block "baseScript" .}}{{end}}
+    {{block "navScript" .}}{{end}}
 </body>
 
 </html>
+{{end}}
+
+{{define "baseStyle"}}
+{{ $transitionDuration := 500 }}
+<style>
+    html, body, #content {
+        height: 100%;
+    }
+    body, #navigator {
+        opacity: 0;
+        transition: opacity {{ $transitionDuration }}ms ease-in-out;
+    }
+    body {
+        background-color: rgb(30 41 59);
+        color: rgb(255 255 255);
+    }
+</style>
+{{end}}
+
+{{define "baseScript"}}
+{{ $transitionDuration := 500 }}
+<script>
+    const elonbustUrl = "{{ .elonbustUrl }}";
+    const fancypenosiUrl = "{{ .fancypenosiUrl }}";
+
+    const referer = "{{ .referer }}";
+    const transitionDuration = {{ $transitionDuration }};
+    let registrarAction = "{{ .registrarAction }}";
+
+    function fadeIn() {
+        document.querySelector("body").style.opacity = "1";
+    }
+
+    window.addEventListener("load", fadeIn);
+    window.addEventListener("pageshow", fadeIn);
+
+    window.fadeTo = function(url) {
+        document.querySelector("body").style.opacity = "0";
+        setTimeout(() => {
+            location.href = url;
+        }, transitionDuration);
+    };
+
+    window.signOut = function() {
+        fetch("/sign-out", {
+            method: "POST",
+            credentials: "include",
+        }).then(res => {
+            if (res.ok) {
+                window.fadeTo(`${fancypenosiUrl}/sign-in`);
+            }
+        })
+    }
+
+    document.body.addEventListener("hx-sign-out", function() {
+        window.fadeTo(`${fancypenosiUrl}/sign-in`);
+    });
+</script>
+{{end}}
 

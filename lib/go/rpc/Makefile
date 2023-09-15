@@ -9,4 +9,5 @@ default:
 		--proto_path=../../../proto/ \
 		../../../proto/shishamo/v1/*.proto \
 		../../../proto/blazerxd/v1/*.proto \
-		../../../proto/laboof/v1/*.proto
+		../../../proto/laboof/v1/*.proto \
+		../../../proto/aufheben/v1/*.proto

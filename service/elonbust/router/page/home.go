@@ -31,7 +31,6 @@ func Home(w http.ResponseWriter, r *http.Request) {
 			k[i].UsersKanbans.User.Username = "You"
 		}
 	}
-    fmt.Println(ctx.Claims)
 
 	web.
 		Parser.

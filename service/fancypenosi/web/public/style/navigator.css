@@ -1,5 +1,5 @@
 #navigator {
-    position: fixed;
+    position: absolute;
     width: 100%;
     background-color: rgb(15 23 42);
     border-bottom: 1px solid rgb(14, 165, 233);
@@ -13,13 +13,14 @@
 #toolbar {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-#menu-btn {
-    --ggs: 1.5;
+.nav-btn {
+    --ggs: 1;
     /* todo: use rem? */
-    height: 30px;
-    width: 30px;
+    height: 20px;
+    width: 20px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -27,53 +28,19 @@
     transition: transform 500ms;
 }
 
-#menu-btn.collapsed {
-    transform: rotate(180deg);
-}
-
-#drawer {
-    transition: height 500ms;
-    height: 0px;
-    overflow: hidden;
-}
-
-#drawer-content {
+#registrar-actions {
     display: flex;
-    justify-content: space-between;
-}
-
-#services {
-    display: flex;
-    flex-direction: column;
-}
-
-#services h1 {
-    font-weight: 700;
-    font-size: 1.25rem;
-}
-
-#services a {
-    cursor: pointer;
-}
-
-#services span:hover {
-    text-decoration: underline;
-}
-
-.account-actions {
-    display: flex;
-    flex-direction: column;
     gap: 0.5rem;
 }
 
-.account-actions button {
-    padding: 0.25rem;
-    border: 1px solid;
+#registrar-actions button {
+    padding: 0 0.24rem;
+    font-size: 0.75rem;
 }
 
 #sign-in-btn {
     background-color: rgb(7 89 133);
-    border-color: rgb(14 165 233);
+    border: 1px solid rgb(14 165 233);
 }
 
 #sign-in-btn:hover {
@@ -82,23 +49,94 @@
 
 #sign-up-btn {
     background-color: rgb(22 101 52);
-    border-color: rgb(34 197 94);
+    border: 1px solid rgb(34 197 94);
 }
 
 #sign-up-btn:hover {
     background-color: rgb(20 83 45);
 }
 
-#sign-out-btn {
-    background-color: rgb(107 33 168);
-    border-color: rgb(168 85 247);
-}
-
-#sign-out-btn:hover {
-    background-color: rgb(88 28 135);
-}
-
 /* icon */
+
+.gg-coffee {
+    box-sizing: border-box;
+    position: relative;
+    display: block;
+    transform: scale(var(--ggs, 1));
+    width: 18px;
+    height: 14px;
+    border: 2px solid;
+    border-radius: 6px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    margin-left: -4px;
+    margin-top: 3px
+}
+
+.gg-coffee::after,
+.gg-coffee::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute
+}
+
+.gg-coffee::before {
+    left: 2px;
+    background: currentColor;
+    box-shadow:
+        4px 0 0,
+        8px 0 0;
+    border-radius: 3px;
+    width: 2px;
+    height: 4px;
+    top: -7px
+}
+
+.gg-coffee::after {
+    width: 6px;
+    height: 8px;
+    border: 2px solid;
+    border-radius: 100px;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    right: -6px;
+    top: -1px
+}
+
+.gg-user {
+    display: block;
+    transform: scale(var(--ggs, 1));
+    box-sizing: border-box;
+    width: 12px;
+    height: 18px
+}
+
+.gg-user::after,
+.gg-user::before {
+    content: "";
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    border: 2px solid
+}
+
+.gg-user::before {
+    width: 8px;
+    height: 8px;
+    border-radius: 30px;
+    top: 0;
+    left: 2px
+}
+
+.gg-user::after {
+    width: 12px;
+    height: 9px;
+    border-bottom: 0;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    top: 9px
+}
 
 .gg-menu {
     transform: scale(var(--ggs, 1));
