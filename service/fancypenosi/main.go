@@ -9,12 +9,22 @@ import (
 	"fancypenosi/router"
 	"washambi-lib/db"
 	"washambi-lib/env"
+	"washambi-lib/rpc/client"
 )
+
+func init() {
+    if e := db.PostgresConnection(); e != nil {
+        log.Fatalf("db: %v", e)
+    }
+    if e := client.CreateBlazerxdClient(); e != nil {
+        log.Fatalf("rpc: %v", e)
+    }
+}
 
 func main() {
 	r, e := strconv.Atoi(env.FancypenosiCookieRotation)
 	if e != nil {
-		panic(e)
+        log.Fatalf("env: %v", e)
 	}
 	go func() {
 		for range time.Tick(time.Second * time.Duration(r)) {
@@ -24,6 +34,6 @@ func main() {
 
 	log.Printf("fancypenosi %s", env.FancypenosiUrl)
 	if e := router.Serve(); e != http.ErrServerClosed {
-		log.Fatalf("http serve error: %v", e)
+		log.Fatalf("http: %v", e)
 	}
 }

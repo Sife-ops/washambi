@@ -1,8 +1,6 @@
 package client
 
 import (
-	"log"
-
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -10,16 +8,17 @@ import (
 	laboof_pb "washambi-lib/rpc/laboof/v1"
 )
 
-func CreateLaboofClient() laboof_pb.LaboofClient {
+var LaboofClient laboof_pb.LaboofClient
+
+func CreateLaboofClient() error {
 	c, e := grpc.Dial(
 		env.LaboofUrl,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if e != nil {
-		log.Fatalf("grpc init: %v", e)
+		return e
 	}
 
-	return laboof_pb.NewLaboofClient(c)
+	LaboofClient = laboof_pb.NewLaboofClient(c)
+	return nil
 }
-
-var LaboofClient = CreateLaboofClient()

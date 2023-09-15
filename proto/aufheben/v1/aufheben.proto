@@ -147,20 +147,56 @@ message DomainPurgeRequest {
 }
 
 //
+// profile
+//
+
+message Profile {
+    string id = 1;
+    string index = 2;
+    string name = 3;
+
+    Domain domain = 4;
+    repeated ProfileField fields = 5;
+
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
+}
+
+//
+// profile field
+//
+
+message ProfileField {
+    string id = 1;
+    int32 index = 2;
+    string name = 3;
+    bool hidden = 4;
+    repeated ProfileFieldValue values = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
+}
+
+message ProfileFieldValue {
+    string id = 1;
+    string value = 2;
+    google.protobuf.Timestamp created_at = 3;
+}
+
+//
 // bookmark
 //
 
 message Bookmark {
     string id = 1;
-    Domain domain = 4;
-
     string description = 2;
     string url = 3;
-    // todo: repeated Field fields = 4;
 
-    repeated Tag tags = 5;
-    google.protobuf.Timestamp created_at = 6;
-    google.protobuf.Timestamp deleted_at = 7;
+    Domain domain = 4;
+    repeated BookmarkField fields = 5;
+    repeated Tag tags = 6;
+
+    google.protobuf.Timestamp created_at = 7;
+    google.protobuf.Timestamp deleted_at = 8;
 }
 
 message BookmarkCreateRequest {
@@ -211,5 +247,25 @@ message BookmarkDeleteResponse {
 
 message BookmarkPurgeRequest {
     string id = 1;
+}
+
+//
+// bookmark field
+//
+
+message BookmarkField {
+    string id = 1;
+    int32 index = 2;
+    string name = 3;
+    bool hidden = 4;
+    repeated BookmarkFieldValue values = 5;
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
+}
+
+message BookmarkFieldValue {
+    string id = 1;
+    string value = 2;
+    google.protobuf.Timestamp created_at = 3;
 }
 

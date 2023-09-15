@@ -3,7 +3,6 @@ package db
 import (
 	"database/sql"
 	"fmt"
-	"log"
 	"strconv"
 
 	_ "github.com/jackc/pgx/v5/stdlib"
@@ -11,10 +10,12 @@ import (
 	"washambi-lib/env"
 )
 
-func PostgresConnection() *sql.DB {
+var Connection *sql.DB
+
+func PostgresConnection() error {
 	p, e := strconv.Atoi(env.PgPort)
 	if e != nil {
-		log.Fatalf("parse int: %v", e)
+        return e
 	}
 
 	cs := fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s sslmode=disable",
@@ -28,10 +29,10 @@ func PostgresConnection() *sql.DB {
 	// todo: c.Close()?
 	c, e := sql.Open("pgx", cs)
 	if e != nil {
-		log.Fatalf("database connection: %v", e)
+        return e
 	}
 
-	return c
+    Connection = c
+    return nil
 }
 
-var Connection = PostgresConnection()

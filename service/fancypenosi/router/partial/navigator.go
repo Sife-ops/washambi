@@ -2,7 +2,6 @@ package partial
 
 import (
     "html/template"
-    "fmt"
 	"net/http"
 
 	"fancypenosi/web"
@@ -15,7 +14,6 @@ func Navigator(w http.ResponseWriter, r *http.Request) {
 		template.New("navigator").ParseFS(web.Fs, "partial/navigator.html"),
 	)
 
-    fmt.Println(r.Context().Value("auth"))
 	t.Execute(w, env.WithUrls(map[string]interface{}{
         "auth": r.Context().Value("auth").(mid.AuthCtx),
     }))

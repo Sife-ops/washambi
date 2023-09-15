@@ -1,8 +1,6 @@
 package client
 
 import (
-	"log"
-
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
 
@@ -10,16 +8,17 @@ import (
 	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 )
 
-func CreateBlazerxdClient() blazerxd_pb.BlazerxdClient {
+var BlazerxdClient blazerxd_pb.BlazerxdClient
+
+func CreateBlazerxdClient() error {
 	c, e := grpc.Dial(
 		env.BlazerxdUrl,
 		grpc.WithTransportCredentials(insecure.NewCredentials()),
 	)
 	if e != nil {
-		log.Fatalf("grpc init: %v", e)
+        return e
 	}
 
-	return blazerxd_pb.NewBlazerxdClient(c)
+    BlazerxdClient = blazerxd_pb.NewBlazerxdClient(c)
+    return nil
 }
-
-var BlazerxdClient = CreateBlazerxdClient()

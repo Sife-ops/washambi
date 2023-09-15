@@ -3,14 +3,22 @@
 package main
 
 import (
-	"blazerxd/rpc"
 	"log"
+
+	"blazerxd/rpc"
 	"washambi-lib/env"
+	"washambi-lib/db"
 )
+
+func init() {
+    if e := db.PostgresConnection(); e != nil {
+        log.Fatalf("db: %v", e)
+    }
+}
 
 func main() {
 	log.Printf("blazerxd %s", env.BlazerxdUrl)
 	if e := rpc.Serve(); e != nil {
-		log.Fatalf("grpc server: %v", e)
+		log.Fatalf("rpc: %v", e)
 	}
 }
