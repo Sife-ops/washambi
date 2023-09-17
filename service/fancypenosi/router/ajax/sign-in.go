@@ -8,9 +8,9 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"fancypenosi/rpc"
 	"washambi-lib/mid"
 	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
+	"washambi-lib/rpc/client"
 )
 
 type signInReq struct {
@@ -25,7 +25,7 @@ func SignIn(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u, e := rpc.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
+	u, e := client.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
 		Username: b.Username,
 	})
 	if e != nil {

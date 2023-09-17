@@ -85,7 +85,7 @@ func AuthCreate(next http.Handler) http.Handler {
 	})
 }
 
-func AuthRedirect(next http.Handler) http.Handler {
+func AuthRefresh(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		ctx := r.Context().Value("auth").(AuthCtx)
 

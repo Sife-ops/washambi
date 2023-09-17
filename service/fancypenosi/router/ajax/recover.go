@@ -6,10 +6,10 @@ import (
 	"net/http"
 	"strings"
 
-	"fancypenosi/rpc"
-	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
-
 	"golang.org/x/crypto/bcrypt"
+
+	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
+	"washambi-lib/rpc/client"
 )
 
 type fetchUserReq struct {
@@ -23,7 +23,7 @@ func FetchUser(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u, e := rpc.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
+	u, e := client.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
 		Username: b.Username,
 	})
 	if e != nil {
@@ -57,7 +57,7 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	u, e := rpc.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
+	u, e := client.BlazerxdClient.Get(context.TODO(), &blazerxd_pb.GetRequest{
 		Username: b.Username,
 	})
 	if e != nil {
@@ -87,7 +87,7 @@ func ResetPassword(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, e := rpc.BlazerxdClient.ChangePassword(context.TODO(), &blazerxd_pb.ChangePasswordRequest{
+	if _, e := client.BlazerxdClient.ChangePassword(context.TODO(), &blazerxd_pb.ChangePasswordRequest{
 		Id:       u.User.Id,
 		Password: string(h),
 	}); e != nil {

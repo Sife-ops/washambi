@@ -8,8 +8,8 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"fancypenosi/rpc"
 	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
+	"washambi-lib/rpc/client"
 )
 
 type signUpReq struct {
@@ -51,7 +51,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if _, e := rpc.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
+	if _, e := client.BlazerxdClient.Create(context.TODO(), &blazerxd_pb.CreateRequest{
 		Username:        b.Username,
 		Password:        string(h),
 		RecoveryPrompt1: b.RecoveryPrompt1,

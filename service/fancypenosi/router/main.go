@@ -22,7 +22,7 @@ func Serve() error {
 	m.Get("/sign-up", page.Registrar(page.SignUp))
 	m.Get("/sign-in", page.Registrar(page.SignIn))
 	m.Get("/", page.Home)
-	m.With(mid.AuthCreate, mid.AuthRedirect).Get("/account", page.Account)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/account", page.Account)
 
 	m.Post("/sign-in", ajax.SignIn)
 	m.Post("/sign-up", ajax.SignUp)

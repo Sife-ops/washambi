@@ -43,12 +43,16 @@ var (
 	ElonbustPort = LookupEnvOrPanic("WASHAMBI_ELONBUST_PORT")
 	ElonbustUrl  = LookupEnvOrPanic("WASHAMBI_ELONBUST_URL")
 
+	BrynhildrPort = LookupEnvOrPanic("WASHAMBI_BRYNHILDR_PORT")
+	BrynhildrUrl  = LookupEnvOrPanic("WASHAMBI_BRYNHILDR_URL")
+
 	Urls = map[string]interface{}{
 		"blazerxdUrl":    BlazerxdUrl,
 		"cornpopUrl":     CornpopUrl,
 		"fancypenosiUrl": FancypenosiUrl,
 		"wokejakUrl":     WokejakUrl,
 		"elonbustUrl":    ElonbustUrl,
+		"brynhildrUrl":   BrynhildrUrl,
 	}
 )
 

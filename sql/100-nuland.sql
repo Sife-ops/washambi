@@ -7,13 +7,14 @@ CREATE TABLE "nuland"."tag" (
     "name" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
-    -- "updated_at" timestamp DEFAULT NULL,
     "deleted_at" timestamp DEFAULT NULL,
 
     PRIMARY KEY ("id"),
     FOREIGN KEY ("user_id")
         REFERENCES "zoomers"."user" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("user_id", "name")
 );
 
 --
@@ -26,13 +27,14 @@ CREATE TABLE "nuland"."domain" (
     "name" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
-    -- "updated_at" timestamp DEFAULT NULL,
     "deleted_at" timestamp DEFAULT NULL,
 
     PRIMARY KEY ("id"),
     FOREIGN KEY ("user_id")
         REFERENCES "zoomers"."user" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("user_id", "name")
 );
 
 CREATE TABLE "nuland"."domains_tags" (
@@ -46,7 +48,9 @@ CREATE TABLE "nuland"."domains_tags" (
         ON DELETE CASCADE,
     FOREIGN KEY ("tag_id")
         REFERENCES "nuland"."tag" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("domain_id", "tag_id")
 );
 
 --
@@ -62,7 +66,6 @@ CREATE TABLE "nuland"."bookmark" (
     "url" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
-    -- "updated_at" timestamp DEFAULT NULL,
     "deleted_at" timestamp DEFAULT NULL,
 
     PRIMARY KEY ("id"),
@@ -71,7 +74,9 @@ CREATE TABLE "nuland"."bookmark" (
         ON DELETE CASCADE,
     FOREIGN KEY ("domain_id")
         REFERENCES "nuland"."domain" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("user_id", "url")
 );
 
 CREATE TABLE "nuland"."bookmarks_tags" (
@@ -85,7 +90,9 @@ CREATE TABLE "nuland"."bookmarks_tags" (
         ON DELETE CASCADE,
     FOREIGN KEY ("tag_id")
         REFERENCES "nuland"."tag" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("bookmark_id", "tag_id")
 );
 
 CREATE TABLE "nuland"."bookmark_field" (
@@ -102,7 +109,9 @@ CREATE TABLE "nuland"."bookmark_field" (
     PRIMARY KEY ("id"),
     FOREIGN KEY ("bookmark_id")
         REFERENCES "nuland"."bookmark" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("bookmark_id", "name")
 );
 
 CREATE TABLE "nuland"."bookmark_field_value" (
@@ -135,7 +144,9 @@ CREATE TABLE "nuland"."profile" (
     PRIMARY KEY ("id"),
     FOREIGN KEY ("domain_id")
         REFERENCES "nuland"."domain" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("domain_id", "name")
 );
 
 CREATE TABLE "nuland"."profile_field" (
@@ -152,7 +163,9 @@ CREATE TABLE "nuland"."profile_field" (
     PRIMARY KEY ("id"),
     FOREIGN KEY ("profile_id")
         REFERENCES "nuland"."profile" ("id")
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+
+    UNIQUE ("profile_id", "name")
 );
 
 CREATE TABLE "nuland"."profile_field_value" (
