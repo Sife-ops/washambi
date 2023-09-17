@@ -5,8 +5,11 @@ import (
 
 	"google.golang.org/protobuf/types/known/timestamppb"
 
+	nm "washambi-lib/db/nuland/model"
+	// nt "washambi-lib/db/nuland/table"
 	tm "washambi-lib/db/tomlinson/model"
 	zm "washambi-lib/db/zoomers/model"
+	aufheben_pb "washambi-lib/rpc/aufheben/v1"
 	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
 	laboof_pb "washambi-lib/rpc/laboof/v1"
 )
@@ -20,6 +23,48 @@ func fromTime(t *time.Time) *timestamppb.Timestamp {
 	}
 	return ts
 }
+
+//
+// aufheben
+//
+
+func DbTag(x nm.Tag) *aufheben_pb.Tag {
+	return &aufheben_pb.Tag{
+		Id:        x.ID.String(),
+		Name:      x.Name,
+		CreatedAt: timestamppb.New(x.CreatedAt),
+		DeletedAt: fromTime(x.DeletedAt),
+	}
+}
+
+func DbTagList(x []nm.Tag) []*aufheben_pb.Tag {
+	var y []*aufheben_pb.Tag
+	for _, v := range x {
+		y = append(y, DbTag(v))
+	}
+	return y
+}
+
+func DbDomain(x nm.Domain) *aufheben_pb.Domain {
+	return &aufheben_pb.Domain{
+		Id:        x.ID.String(),
+		Name:      x.Name,
+		CreatedAt: timestamppb.New(x.CreatedAt),
+		DeletedAt: fromTime(x.DeletedAt),
+	}
+}
+
+func DbDomainList(x []nm.Domain) []*aufheben_pb.Domain {
+	var y []*aufheben_pb.Domain
+	for _, v := range x {
+		y = append(y, DbDomain(v))
+	}
+	return y
+}
+
+//
+// blazerxd
+//
 
 func DbUser(u zm.User) *blazerxd_pb.User {
 	return &blazerxd_pb.User{
@@ -37,6 +82,10 @@ func DbUser(u zm.User) *blazerxd_pb.User {
 		DeletedAt:       fromTime(u.DeletedAt),
 	}
 }
+
+//
+// laboof
+//
 
 func DbSwimlane(s tm.Swimlane) *laboof_pb.Swimlane {
 	return &laboof_pb.Swimlane{

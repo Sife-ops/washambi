@@ -1,6 +1,6 @@
 .DEFAULT_GOAL = all
 
-all: zoomers tomlinson
+all: zoomers tomlinson nuland
 
 zoomers:
 	jet \
@@ -23,6 +23,18 @@ tomlinson:
 	rm -rf ./tomlinson \
 	&& \
 	mv ./washambi_local/tomlinson ./ \
+	&& \
+	rm -rf ./washambi_local
+
+nuland:
+	jet \
+		-dsn="postgresql://washambi_local:washambi@localhost:5432/washambi_local?sslmode=disable" \
+		-schema=nuland \
+		-path=./ \
+	&& \
+	rm -rf ./nuland \
+	&& \
+	mv ./washambi_local/nuland ./ \
 	&& \
 	rm -rf ./washambi_local
 

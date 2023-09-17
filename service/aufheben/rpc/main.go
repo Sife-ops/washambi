@@ -7,21 +7,21 @@ import (
 	"google.golang.org/grpc"
 
 	"washambi-lib/env"
-	blazerxd_pb "washambi-lib/rpc/blazerxd/v1"
+	aufheben_pb "washambi-lib/rpc/aufheben/v1"
 )
 
 type ServerImpl struct {
-	blazerxd_pb.UnimplementedBlazerxdServer
+	aufheben_pb.UnimplementedAufhebenServer
 }
 
 func Serve() error {
-	l, e := net.Listen("tcp", fmt.Sprintf(":%s", env.BlazerxdPort))
+	l, e := net.Listen("tcp", fmt.Sprintf(":%s", env.AufhebenPort))
 	if e != nil {
         return e
 	}
 
 	g := grpc.NewServer()
-	blazerxd_pb.RegisterBlazerxdServer(g, &ServerImpl{})
+	aufheben_pb.RegisterAufhebenServer(g, &ServerImpl{})
 
 	return g.Serve(l)
 }

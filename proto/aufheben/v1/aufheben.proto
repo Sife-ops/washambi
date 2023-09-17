@@ -8,7 +8,7 @@ import "google/protobuf/timestamp.proto";
 import "google/protobuf/empty.proto";
 // import "blazerxd/v1/blazerxd.proto";
 
-service Laboof {
+service Aufheben {
   rpc TagCreate(TagCreateRequest) returns (TagCreateResponse);
   rpc TagList(TagListRequest) returns (TagListResponse);
   rpc TagGet(TagGetRequest) returns (TagGetResponse);
@@ -43,7 +43,8 @@ message Tag {
 }
 
 message TagCreateRequest {
-    string name = 1;
+    string user_id = 1;
+    string name = 2;
 }
 
 message TagCreateResponse {
@@ -94,14 +95,19 @@ message TagPurgeRequest {
 message Domain {
     string id = 1;
     string name = 2;
+
     repeated Tag tags = 3;
-    google.protobuf.Timestamp created_at = 4;
-    google.protobuf.Timestamp deleted_at = 5;
+    repeated Bookmark bookmarks = 4;
+    repeated Profile profiles = 5;
+
+    google.protobuf.Timestamp created_at = 6;
+    google.protobuf.Timestamp deleted_at = 7;
 }
 
 message DomainCreateRequest {
-    string name = 1;
-    repeated string tag_id = 2;
+    string user_id = 1;
+    string name = 2;
+    repeated string tag_names = 3;
 }
 
 message DomainCreateResponse {

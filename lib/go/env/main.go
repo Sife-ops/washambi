@@ -26,6 +26,9 @@ var (
 	LaboofPort = LookupEnvOrPanic("WASHAMBI_LABOOF_PORT")
 	LaboofUrl  = LookupEnvOrPanic("WASHAMBI_LABOOF_URL")
 
+	AufhebenPort = LookupEnvOrPanic("WASHAMBI_AUFHEBEN_PORT")
+	AufhebenUrl  = LookupEnvOrPanic("WASHAMBI_AUFHEBEN_URL")
+
 	CornpopPort = LookupEnvOrPanic("WASHAMBI_CORNPOP_PORT")
 	CornpopUrl  = LookupEnvOrPanic("WASHAMBI_CORNPOP_URL")
 
