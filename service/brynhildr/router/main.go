@@ -7,6 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
+	"brynhildr/router/ajax"
 	"brynhildr/router/page"
 	"brynhildr/web"
 	"washambi-lib/env"
@@ -16,13 +17,15 @@ import (
 func Serve() error {
 	m := chi.NewMux()
 
-	m.Get("/", page.Home)
+	m.With(mid.AuthCreate).Get("/", page.Home)
+
+	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-create", ajax.DomainCreate)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {
 		return e
 	}
-	m.With(mid.Cors).Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(sub))))
+	m.Handle("/public/*", http.StripPrefix("/public/", http.FileServer(http.FS(sub))))
 
 	s := http.Server{
 		Addr:    fmt.Sprintf(":%s", env.BrynhildrPort),

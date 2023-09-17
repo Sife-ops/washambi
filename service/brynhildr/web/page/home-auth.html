@@ -1,0 +1,33 @@
+{{define "content"}}
+<div id="navigator"></div>
+<!-- <h1 class="h-full flex justify-center items-center">🚧 CONSTRUCTION yeah 🚧</h1> -->
+<form id="domain-create-form" hx-post="/domain-create" hx-target="#domain-list" hx-swap="afterbegin">
+    <label for="domain-name-input">name</label>
+    <br>
+    <input id="domain-name-input" class="text-black" type="text" name="domain-name-input">
+    <br>
+    <button type="submit">submit</button>
+</form>
+
+<hr>
+
+<div>
+    <table class="sortable w-full table-auto border-separate border-spacing-y-2">
+        <!-- todo: sort arrow -->
+        <thead>
+            <tr class="text-left">
+                <th class="pl-2">Name</th>
+                <!-- <th class="pl-2">Owner</th> -->
+                <!-- <th class="pl-2">Created</th> -->
+            </tr>
+        </thead>
+        <tbody id="domain-list">
+            {{range .domainList}}
+            {{block "domain-list-item" .}}{{end}}
+            {{end}}
+        </tbody>
+    </table>
+        
+</div>
+{{end}}
+
