@@ -1,26 +1,22 @@
 package db
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
-	"strconv"
 
+	"github.com/jackc/pgx/v5/pgxpool"
 	_ "github.com/jackc/pgx/v5/stdlib"
 
 	"washambi-lib/env"
 )
 
-var Connection *sql.DB
+var PgConn *sql.DB
 
-func PostgresConnection() error {
-	p, e := strconv.Atoi(env.PgPort)
-	if e != nil {
-        return e
-	}
-
-	cs := fmt.Sprintf("host=%s port=%d dbname=%s user=%s password=%s sslmode=disable",
+func InitPgConn() error {
+	cs := fmt.Sprintf("host=%s port=%s dbname=%s user=%s password=%s sslmode=disable",
 		env.PgHost,
-		p,
+		env.PgPort,
 		env.PgDatabase,
 		env.PgUser,
 		env.PgPassword,
@@ -29,10 +25,30 @@ func PostgresConnection() error {
 	// todo: c.Close()?
 	c, e := sql.Open("pgx", cs)
 	if e != nil {
-        return e
+		return e
 	}
 
-    Connection = c
-    return nil
+	PgConn = c
+	return nil
 }
 
+var PgxPool *pgxpool.Pool
+
+func InitPgxPool() error {
+	c, e := pgxpool.New(
+		context.Background(),
+		fmt.Sprintf(
+			"postgres://%s:%s@%s:%s/%s",
+			env.PgUser,
+			env.PgPassword,
+			env.PgHost,
+			env.PgPort,
+			env.PgDatabase,
+		),
+	)
+	if e != nil {
+		return e
+	}
+	PgxPool = c
+	return nil
+}

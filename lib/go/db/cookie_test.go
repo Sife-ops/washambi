@@ -19,7 +19,7 @@ func beforeEach(t *testing.T) {
 				securecookie.GenerateRandomKey(64),
 				securecookie.GenerateRandomKey(32),
 			).
-			Exec(Connection); e != nil {
+			Exec(PgConn); e != nil {
 			t.Log(e)
 			t.FailNow()
 		}
@@ -29,7 +29,7 @@ func beforeEach(t *testing.T) {
 func afterEach() {
 	zt.Cookie.DELETE().
 		WHERE(zt.Cookie.ID.IS_NOT_NULL()).
-		Exec(Connection)
+		Exec(PgConn)
 }
 
 func Test_CookieIO(t *testing.T) {
@@ -46,7 +46,7 @@ func Test_CookieIO(t *testing.T) {
 			securecookie.GenerateRandomKey(32),
 		).
 		RETURNING(zt.Cookie.AllColumns).
-		Query(Connection, &c); e != nil {
+		Query(PgConn, &c); e != nil {
 		t.FailNow()
 	}
 
@@ -63,27 +63,27 @@ func Test_CookieKeysLatest(t *testing.T) {
 	if e != nil {
 		t.FailNow()
 	}
-    // t.Log(a)
+	// t.Log(a)
 }
 
 func Test_CookieKeys(t *testing.T) {
 	beforeEach(t)
 	defer afterEach()
 
-    a, e := CookieKeys()
-    if e != nil {
-        t.FailNow()
-    }
-    if len(a) != 3 {
-        t.FailNow()
-    }
+	a, e := CookieKeys()
+	if e != nil {
+		t.FailNow()
+	}
+	if len(a) != 3 {
+		t.FailNow()
+	}
 }
 
 func Test_CookieKeysNew(t *testing.T) {
 	beforeEach(t)
 	defer afterEach()
 
-    if e := CookieKeysNew(); e != nil {
-        t.FailNow()
-    }
+	if e := CookieKeysNew(); e != nil {
+		t.FailNow()
+	}
 }

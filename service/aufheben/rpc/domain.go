@@ -16,7 +16,7 @@ import (
 )
 
 func (s *ServerImpl) DomainCreate(ctx context.Context, call *aufheben_pb.DomainCreateRequest) (*aufheben_pb.DomainCreateResponse, error) {
-	tx, e := db.Connection.BeginTx(ctx, nil)
+	tx, e := db.PgConn.BeginTx(ctx, nil)
 	if e != nil {
 		return nil, status.Error(codes.Aborted, e.Error())
 	}

@@ -22,7 +22,7 @@ func (s *ServerImpl) TagCreate(ctx context.Context, call *aufheben_pb.TagCreateR
 		FROM(nt.Tag).
 		WHERE(nt.Tag.UserID.EQ(UUID(uuid.MustParse(call.UserId)))).
 		WHERE(nt.Tag.Name.EQ(String(call.Name))).
-		Query(db.Connection, &t); e != nil {
+		Query(db.PgConn, &t); e != nil {
 		return nil, status.Error(codes.Internal, e.Error())
 	}
 	if len(t) > 0 {
@@ -35,7 +35,7 @@ func (s *ServerImpl) TagCreate(ctx context.Context, call *aufheben_pb.TagCreateR
 		INSERT(nt.Tag.Name).
 		VALUES(call.Name).
 		RETURNING(nt.Tag.AllColumns).
-		Query(db.Connection, &t); e != nil {
+		Query(db.PgConn, &t); e != nil {
 		return nil, status.Error(codes.Internal, e.Error())
 	}
 	return &aufheben_pb.TagCreateResponse{
@@ -48,7 +48,7 @@ func (s *ServerImpl) TagList(ctx context.Context, call *aufheben_pb.TagListReque
 	if e := SELECT(nt.Tag.AllColumns).
 		FROM(nt.Tag).
 		WHERE(nt.Tag.UserID.EQ(UUID(uuid.MustParse(call.UserId)))).
-		Query(db.Connection, &t); e != nil {
+		Query(db.PgConn, &t); e != nil {
 		return nil, status.Error(codes.Internal, e.Error())
 	}
 	return &aufheben_pb.TagListResponse{

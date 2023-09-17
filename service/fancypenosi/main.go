@@ -13,18 +13,18 @@ import (
 )
 
 func init() {
-    if e := db.PostgresConnection(); e != nil {
-        log.Fatalf("db: %v", e)
-    }
-    if e := client.CreateBlazerxdClient(); e != nil {
-        log.Fatalf("rpc: %v", e)
-    }
+	if e := db.InitPgConn(); e != nil {
+		log.Fatalf("db: %v", e)
+	}
+	if e := client.CreateBlazerxdClient(); e != nil {
+		log.Fatalf("rpc: %v", e)
+	}
 }
 
 func main() {
 	r, e := strconv.Atoi(env.FancypenosiCookieRotation)
 	if e != nil {
-        log.Fatalf("env: %v", e)
+		log.Fatalf("env: %v", e)
 	}
 	go func() {
 		for range time.Tick(time.Second * time.Duration(r)) {

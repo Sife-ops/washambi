@@ -47,7 +47,7 @@ func CreateUser() (*zm.User, error) {
 			User.RecoveryAnswer3,
 		).
 		RETURNING(zt.User.AllColumns)
-	e := stmt.Query(db.Connection, &u)
+	e := stmt.Query(db.PgConn, &u)
 	return &u[0], e
 }
 
@@ -55,7 +55,7 @@ func DeleteUser() error {
 	if _, e := zt.User.
 		DELETE().
 		WHERE(zt.User.Username.EQ(String(User.Username))).
-		Exec(db.Connection); e != nil {
+		Exec(db.PgConn); e != nil {
 		return e
 	}
 	return nil
@@ -71,7 +71,7 @@ func CreateKanban(u *zm.User) (*tm.Kanban, error) {
 		INSERT(tt.Kanban.Name).
 		VALUES(Kanban.Name).
 		RETURNING(tt.Kanban.AllColumns).
-		Query(db.Connection, &k); e != nil {
+		Query(db.PgConn, &k); e != nil {
 		return nil, e
 	}
 
@@ -86,7 +86,7 @@ func CreateKanban(u *zm.User) (*tm.Kanban, error) {
 			k[0].ID,
 			"owner",
 		).
-		Exec(db.Connection); e != nil {
+		Exec(db.PgConn); e != nil {
 		return nil, e
 	}
 
@@ -97,7 +97,7 @@ func DeleteKanban() error {
 	if _, e := tt.Kanban.
 		DELETE().
 		WHERE(tt.Kanban.Name.EQ(String(Kanban.Name))).
-		Exec(db.Connection); e != nil {
+		Exec(db.PgConn); e != nil {
 		return e
 	}
 	return nil

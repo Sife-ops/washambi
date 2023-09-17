@@ -14,7 +14,7 @@ func CookieKeysLatest() (*securecookie.SecureCookie, error) {
 		FROM(zt.Cookie).
 		ORDER_BY(zt.Cookie.CreatedAt.DESC()).
 		LIMIT(1).
-		Query(Connection, &c); e != nil {
+		Query(PgConn, &c); e != nil {
 		return nil, e
 	}
 	return securecookie.New(c[0].HashKey, c[0].BlockKey), nil
@@ -26,7 +26,7 @@ func CookieKeys() ([]*securecookie.SecureCookie, error) {
 		FROM(zt.Cookie).
 		ORDER_BY(zt.Cookie.CreatedAt.DESC()).
 		LIMIT(3).
-		Query(Connection, &c); e != nil {
+		Query(PgConn, &c); e != nil {
 		return nil, e
 	}
 	var d []*securecookie.SecureCookie
@@ -45,7 +45,7 @@ func CookieKeysNew() error {
 			securecookie.GenerateRandomKey(64),
 			securecookie.GenerateRandomKey(32),
 		).
-		Exec(Connection); e != nil {
+		Exec(PgConn); e != nil {
 		return e
 	}
 	return nil

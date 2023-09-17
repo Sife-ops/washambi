@@ -33,7 +33,7 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 		WHERE(tt.UsersKanbans.UserID.EQ(UUID(uuid.MustParse(call.UserId)))).
 		WHERE(tt.UsersKanbans.Role.EQ(String("owner"))).
 		WHERE(tt.Kanban.Name.EQ(String(call.Name))).
-		Query(db.Connection, &found); e != nil {
+		Query(db.PgConn, &found); e != nil {
 		return nil, status.Error(codes.Internal, e.Error())
 	}
 
@@ -44,7 +44,7 @@ func (s *ServerImpl) KanbanCreate(ctx context.Context, call *laboof_pb.KanbanCre
 		)
 	}
 
-	tx, e := db.Connection.BeginTx(ctx, nil)
+	tx, e := db.PgConn.BeginTx(ctx, nil)
 	if e != nil {
 		return nil, status.Error(codes.Aborted, e.Error())
 	}
@@ -128,7 +128,7 @@ func (s *ServerImpl) KanbanList(ctx context.Context, call *laboof_pb.KanbanListR
 				),
 		).
 		WHERE(tt.UsersKanbans.UserID.EQ(UUID(uuid.MustParse(call.UserId)))).
-		Query(db.Connection, &k); e != nil {
+		Query(db.PgConn, &k); e != nil {
 		return nil, status.Error(codes.Internal, e.Error())
 	}
 
@@ -157,7 +157,7 @@ func (s *ServerImpl) KanbanGet(ctx context.Context, call *laboof_pb.KanbanGetReq
 			// ),
 		).
 		WHERE(tt.Kanban.ID.EQ(UUID(uuid.MustParse(call.KanbanId)))).
-		Query(db.Connection, &k); e != nil {
+		Query(db.PgConn, &k); e != nil {
 		return nil, status.Error(codes.Internal, e.Error())
 	}
 

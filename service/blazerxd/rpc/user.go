@@ -41,7 +41,7 @@ func (s *ServerImpl) Create(ctx context.Context, call *blazerxd_pb.CreateRequest
 		RETURNING(zt.User.AllColumns)
 
 	u := []zm.User{}
-	e := stmt.Query(db.Connection, &u)
+	e := stmt.Query(db.PgConn, &u)
 	if e != nil {
 		if strings.Contains(e.Error(), "23505") {
 			return nil, status.Error(codes.AlreadyExists, e.Error())
@@ -60,7 +60,7 @@ func (s *ServerImpl) Get(ctx context.Context, call *blazerxd_pb.GetRequest) (*bl
 		WHERE(zt.User.Username.EQ(String(call.Username)))
 
 	u := []zm.User{}
-	e := stmt.Query(db.Connection, &u)
+	e := stmt.Query(db.PgConn, &u)
 	if e != nil {
 		return nil, e
 	}
@@ -81,7 +81,7 @@ func (s *ServerImpl) ChangePassword(ctx context.Context, call *blazerxd_pb.Chang
 		SET(call.Password).
 		WHERE(zt.User.ID.EQ(UUID(uuid.MustParse(call.Id)))). // todo: panics
 		RETURNING(zt.User.AllColumns).
-		Query(db.Connection, &u)
+		Query(db.PgConn, &u)
 	if e != nil {
 		return nil, e
 	}

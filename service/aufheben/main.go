@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-    if e := db.PostgresConnection(); e != nil {
+    if e := db.InitPgConn(); e != nil {
         log.Fatalf("db: %v", e)
     }
 }
