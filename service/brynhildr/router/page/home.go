@@ -2,7 +2,6 @@ package page
 
 import (
 	"html/template"
-	"log"
 	"net/http"
 
 	. "github.com/go-jet/jet/v2/postgres"
@@ -36,17 +35,28 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		t.ParseFS(web.Fs, "page/home-auth.html"),
 	)
 
+	var tl []nm.Tag
+	if e := SELECT(nt.Tag.AllColumns).
+		FROM(nt.Tag).
+		WHERE(nt.Tag.UserID.EQ(UUID(uuid.MustParse(auth.Id())))).
+		Query(db.PgConn, &tl); e != nil {
+		http.Error(w, "internal", http.StatusInternalServerError)
+		return
+	}
+
 	var dl []nm.Domain
 	if e := SELECT(nt.Domain.AllColumns).
 		FROM(nt.Domain).
 		WHERE(nt.Domain.UserID.EQ(UUID(uuid.MustParse(auth.Id())))).
 		Query(db.PgConn, &dl); e != nil {
-		log.Println(e)
+		http.Error(w, "internal", http.StatusInternalServerError)
+		return
 	}
 	// log.Println(dl)
 
 	t.Execute(w, env.WithUrls(map[string]interface{}{
 		"htmx":       true,
 		"domainList": dl,
+		"tagList":    tl,
 	}))
 }
