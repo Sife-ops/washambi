@@ -1,33 +1,113 @@
 {{define "content"}}
 <div id="navigator"></div>
-<!-- <h1 class="h-full flex justify-center items-center">🚧 CONSTRUCTION yeah 🚧</h1> -->
-<form id="domain-create-form" hx-post="/domain-create" hx-target="#domain-list" hx-swap="afterbegin">
-    <label for="domain-name-input">name</label>
-    <br>
-    <input id="domain-name-input" class="text-black" type="text" name="domain-name-input">
-    <br>
-    <button type="submit">submit</button>
-</form>
 
-<hr>
+<div class="h-full flex">
+    <div id="domain-list" class="h-full w-[200px] min-w-[200px] overflow-y-scroll">
+        {{range .domainList}}
+        {{block "domain-list-item" .}}{{end}}
+        {{end}}
+    </div>
 
-<div>
-    <table class="sortable w-full table-auto border-separate border-spacing-y-2">
-        <!-- todo: sort arrow -->
-        <thead>
-            <tr class="text-left">
-                <th class="pl-2">Name</th>
-                <!-- <th class="pl-2">Owner</th> -->
-                <!-- <th class="pl-2">Created</th> -->
-            </tr>
-        </thead>
-        <tbody id="domain-list">
-            {{range .domainList}}
-            {{block "domain-list-item" .}}{{end}}
-            {{end}}
-        </tbody>
-    </table>
-        
+    <form 
+        id="domain-create-form"
+        class="grow m-2 p-2 bg-slate-700"
+        onsubmit="domainCreate(event)"
+    >
+        <label for="domain-name-input" class="text-slate-500">name</label>
+        <br>
+        <input 
+            id="domain-name-input" 
+            type="text" 
+            name="domain-name-input" 
+            class="mb-1 w-full" 
+            required
+            pattern="\S(.*\S)?"
+        >
+
+        <hr>
+
+        <label for="domain-tags-input" class="text-slate-500">tags</label>
+        <br>
+        <div id="domain-tags" class="mb-1 flex flex-wrap gap-2"> 
+            <span id="domain-tag-next" style="display: none;"></span>
+            <input id="domain-tags-input" type="text" name="domain-tags-input" size="10">
+        </div>
+
+        <hr>
+
+        <button class="px-2 py-1 mt-1 bg-blue-700 hover:bg-blue-800 border border-1 border-blue-500" type="submit">submit</button>
+    </form>
+</div>
+
+<script>
+    window.domainCreate = async function(event) {
+        event.preventDefault();
+
+        let tags = [];
+        const domainTagNames = document.querySelectorAll(".domain-tag-name");
+        for (let i = 0; i < domainTagNames.length; i++) {
+            tags = [...tags, domainTagNames[i].innerText];
+        }
+
+        const res = await fetch("/domain-create", {
+            method: "POST",
+            credentials: "include",
+            body: JSON.stringify({
+                name: document.querySelector("#domain-name-input").value,
+                tags,
+            })
+        })
+        if (!res.ok) return;
+        const frag = await res.text();
+        const domainList = document.querySelector("#domain-list");
+        domainList.innerHTML = frag + domainList.innerHTML;
+    };
+
+    window.deleteTag = function(i) {
+        document.querySelector(`#domain-tag-${i}`).outerHTML = "";
+    };
+
+    const domainTagsInput = document.querySelector("#domain-tags-input");
+
+    domainTagsInput.addEventListener("keydown", function(event) {
+        if (event.key === " ") {
+            const v = event.target.value.trim()
+            if (v === "") return;
+
+            const domainTagNames = document.querySelectorAll(".domain-tag-name");
+            let f = false;
+            for (let i = 0; i < domainTagNames.length; i++) {
+                if (domainTagNames[i].innerText === v) {
+                    f = true;
+                }
+            }
+
+            if (!f) {
+                document.querySelector("#domain-tag-next").outerHTML = `
+                    <div
+                        id="domain-tag-${v}"
+                        class="px-2 py-1 flex items-center bg-green-800 border border-green-500"
+                    >
+                        <span class="domain-tag-name">${v}</span>
+                        <i 
+                            class="gg-close"
+                            style="cursor: pointer;"
+                            onclick='deleteTag("${v}")'
+                        ></i>
+                    </div>
+                    <span id="domain-tag-next" style="display: none;"></span>
+                `;
+            }
+
+            domainTagsInput.value = "";
+        }
+    });
+</script>
+{{end}}
+
+{{define "domain-list-item"}}
+<div class="p-2 bg-slate-700 hover:bg-slate-800 border border-l-transparent border-t-transparent border-r-slate-500 border-b-slate-500">
+    {{.Name}}
 </div>
 {{end}}
 

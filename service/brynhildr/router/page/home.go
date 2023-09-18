@@ -33,7 +33,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	t = template.Must(
-		t.ParseFS(web.Fs, "page/home-auth.html", "partial/domain-list-item.html"),
+		t.ParseFS(web.Fs, "page/home-auth.html"),
 	)
 
 	var dl []nm.Domain
@@ -43,7 +43,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		Query(db.PgConn, &dl); e != nil {
 		log.Println(e)
 	}
-    log.Println(dl)
+	// log.Println(dl)
 
 	t.Execute(w, env.WithUrls(map[string]interface{}{
 		"htmx":       true,
