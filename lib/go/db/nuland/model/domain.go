@@ -18,4 +18,5 @@ type Domain struct {
 	Name      string
 	CreatedAt time.Time
 	DeletedAt *time.Time
+	Favicon   *string
 }

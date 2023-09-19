@@ -24,7 +24,9 @@ CREATE TABLE "nuland"."domain" (
     "id" UUID NOT NULL DEFAULT uuid_generate_v1(),
     "user_id" UUID NOT NULL,
 
+    -- "title" character varying NOT NULL,
     "name" character varying NOT NULL,
+    "favicon" character varying,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
     "deleted_at" timestamp DEFAULT NULL,

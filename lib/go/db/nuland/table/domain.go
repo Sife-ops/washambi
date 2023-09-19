@@ -22,6 +22,7 @@ type domainTable struct {
 	Name      postgres.ColumnString
 	CreatedAt postgres.ColumnTimestamp
 	DeletedAt postgres.ColumnTimestamp
+	Favicon   postgres.ColumnString
 
 	AllColumns     postgres.ColumnList
 	MutableColumns postgres.ColumnList
@@ -67,8 +68,9 @@ func newDomainTableImpl(schemaName, tableName, alias string) domainTable {
 		NameColumn      = postgres.StringColumn("name")
 		CreatedAtColumn = postgres.TimestampColumn("created_at")
 		DeletedAtColumn = postgres.TimestampColumn("deleted_at")
-		allColumns      = postgres.ColumnList{IDColumn, UserIDColumn, NameColumn, CreatedAtColumn, DeletedAtColumn}
-		mutableColumns  = postgres.ColumnList{UserIDColumn, NameColumn, CreatedAtColumn, DeletedAtColumn}
+		FaviconColumn   = postgres.StringColumn("favicon")
+		allColumns      = postgres.ColumnList{IDColumn, UserIDColumn, NameColumn, CreatedAtColumn, DeletedAtColumn, FaviconColumn}
+		mutableColumns  = postgres.ColumnList{UserIDColumn, NameColumn, CreatedAtColumn, DeletedAtColumn, FaviconColumn}
 	)
 
 	return domainTable{
@@ -80,6 +82,7 @@ func newDomainTableImpl(schemaName, tableName, alias string) domainTable {
 		Name:      NameColumn,
 		CreatedAt: CreatedAtColumn,
 		DeletedAt: DeletedAtColumn,
+		Favicon:   FaviconColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

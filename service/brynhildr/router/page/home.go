@@ -32,7 +32,9 @@ func Home(w http.ResponseWriter, r *http.Request) {
 	}
 
 	t = template.Must(
-		t.ParseFS(web.Fs, "page/home-auth.html"),
+		t.
+			Funcs(WashambiWeb.Funcs).
+			ParseFS(web.Fs, "page/home-auth.html"),
 	)
 
 	var tl []nm.Tag

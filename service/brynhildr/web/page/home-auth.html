@@ -1,73 +1,276 @@
+{{define "domain-form"}}
+<form 
+    {{if .ID}}
+    id="domain-edit-form"
+    style="display: none;"
+    {{else}}
+    id="domain-create-form"
+    {{end}}
+
+    class="grow p-2"
+    onsubmit="domainCreate(event)"
+>
+    <div class="p-2 rounded-lg bg-slate-700">
+        <label 
+            {{if .ID}}
+            for="domain-edit-name-input-{{.ID}}" 
+            {{else}}
+            for="domain-create-name-input" 
+            {{end}}
+
+            class="text-slate-500"
+        >
+            Domain Name
+        </label>
+        <div class="flex gap-2">
+            <input 
+                {{if .ID}}
+                id="domain-edit-name-input-{{.ID}}" 
+                name="domain-edit-name-input-{{.ID}}" 
+                value="{{.Name}}"
+                readonly
+                {{else}}
+                id="domain-create-name-input" 
+                name="domain-create-name-input" 
+                {{end}}
+
+                class="mb-1 w-full" 
+                placeholder='eg. "google.com"'
+                type="text" 
+
+                pattern="\S(.*\S)?"
+                required
+            >
+            {{if .ID}}
+            <button 
+                id="domain-edit-name-btn" 
+                type="button"
+            >
+                edit
+            </button>
+            <button 
+                id="domain-save-name-btn" 
+                type="button"
+                style="display: none;"
+            >
+                save
+            </button>
+            <button 
+                id="domain-cancel-name-btn" 
+                type="button"
+                style="display: none;"
+            >
+                cancel
+            </button>
+            {{end}}
+        </div>
+
+        <label 
+            {{if .ID}}
+            for="domain-edit-tags-input" 
+            {{else}}
+            for="domain-create-tags-input" 
+            {{end}}
+
+            class="text-slate-500"
+        >
+            Tags
+        </label>
+        <div class="flex gap-2">
+            <div 
+                {{if .ID}}
+                id="domain-edit-tags" 
+                {{else}}
+                id="domain-create-tags" 
+                {{end}}
+
+                class="w-full mb-1 flex flex-wrap gap-2"
+            > 
+                {{range .Tags}}
+                {{block "tag" .}}{{end}}
+                {{end}}
+                <span 
+                    {{if .ID}}
+                    id="domain-edit-tag-next" 
+                    {{else}}
+                    id="domain-create-tag-next" 
+                    {{end}}
+
+                    style="display: none;"
+                ></span>
+                <input 
+                    {{if .ID}}
+                    id="domain-edit-tags-input" 
+                    name="domain-edit-tags-input" 
+                    readonly
+                    {{else}}
+                    id="domain-create-tags-input" 
+                    name="domain-create-tags-input" 
+                    {{end}}
+
+                    list="tag-completion"
+                    type="text" 
+                    size="10"
+                    placeholder='eg. "evil"'
+                    onkeyup="newTag(event)"
+                >
+            </div>
+            {{if .ID}}
+            <button 
+                id="domain-edit-tags-btn" 
+                type="button"
+            >
+                edit
+            </button>
+            <button 
+                id="domain-save-tags-btn" 
+                type="button"
+                style="display: none;"
+            >
+                save
+            </button>
+            <button 
+                id="domain-cancel-tags-btn" 
+                type="button"
+                style="display: none;"
+            >
+                cancel
+            </button>
+            {{end}}
+        </div>
+    </div>
+</form>
+{{end}}
+
+{{define "tag"}}
+<div
+    {{if .ID}}
+    id="domain-edit-tag-{{.Name}}"
+    {{else}}
+    id="domain-create-tag-{{.Name}}"
+    {{end}}
+
+    class="px-2 py-1 flex items-center bg-green-800 border border-green-500"
+>
+    <span 
+        {{if .ID}}
+        class="domain-edit-tag-name"
+        {{else}}
+        class="domain-create-tag-name"
+        {{end}}
+    >
+        {{.Name}}
+    </span>
+    <i 
+        {{if .ID}}
+        style="cursor: pointer; display: none;"
+        {{else}}
+        style="cursor: pointer;"
+        {{end}}
+
+        class="gg-close domain-tag-remove-btn"
+        onclick='deleteTag("{{.Name}}")'
+    ></i>
+</div>
+<!-- <span id="domain-tag-next" style="display: none;"></span> -->
+{{end}}
+
 {{define "content"}}
 <div id="navigator"></div>
 
 <div class="h-full flex">
-    <div id="domain-list" class="h-full w-[200px] min-w-[200px] overflow-y-scroll">
+    <div 
+        id="domain-list"
+        class="h-full w-[200px] min-w-[200px] bg-slate-900 border border-transparent border-r-slate-500 overflow-y-scroll"
+    >
         {{range .domainList}}
         {{block "domain-list-item" .}}{{end}}
         {{end}}
     </div>
 
     <form 
-        id="domain-create-form"
-        class="grow p-2"
-        onsubmit="domainCreate(event)"
-    >
-        <div class="p-2 rounded-lg bg-slate-700">
-            <label for="domain-title-input" class="text-slate-500">title</label>
-            <br>
-            <input 
-                id="domain-title-input" 
-                type="text" 
-                title="domain-title-input" 
-                class="mb-1 w-full" 
-                placeholder='eg. "Google"'
-                required
-                pattern="\S(.*\S)?"
-            >
+        id="domain-edit-form"
+        style="display: none;"
+    ></form>
 
-            <hr>
+    {{block "domain-form" .}}{{end}}
 
-            <label for="domain-name-input" class="text-slate-500">domain name</label>
-            <br>
-            <input 
-                id="domain-name-input" 
-                type="text" 
-                name="domain-name-input" 
-                class="mb-1 w-full" 
-                placeholder='eg. "google.com"'
-                required
-                pattern="\S(.*\S)?"
-            >
+    <!-- <form  -->
+    <!--     id="domain-create-form" -->
+    <!--     class="grow p-2" -->
+    <!--     onsubmit="domainCreate(event)" -->
+    <!-- > -->
+    <!--     <div class="p-2 rounded-lg bg-slate-700"> -->
+    <!--         <label for="domain-title-input" class="text-slate-500"> -->
+    <!--             Title -->
+    <!--         </label> -->
+    <!--         <br> -->
+    <!--         <input  -->
+    <!--             id="domain-title-input"  -->
+    <!--             type="text"  -->
+    <!--             title="domain-title-input"  -->
+    <!--             class="mb-1 w-full"  -->
+    <!--             placeholder='eg. "Google"' -->
+    <!--             required -->
+    <!--             pattern="\S(.*\S)?" -->
+    <!--         > -->
+    <!---->
+    <!---->
+    <!--         <label for="domain-name-input" class="text-slate-500"> -->
+    <!--             Domain Name -->
+    <!--         </label> -->
+    <!--         <br> -->
+    <!--         <input  -->
+    <!--             id="domain-name-input"  -->
+    <!--             type="text"  -->
+    <!--             name="domain-name-input"  -->
+    <!--             class="mb-1 w-full"  -->
+    <!--             placeholder='eg. "google.com"' -->
+    <!--             required -->
+    <!--             pattern="\S(.*\S)?" -->
+    <!--         > -->
+    <!---->
+    <!---->
+    <!--         <label for="domain-tags-input" class="text-slate-500"> -->
+    <!--             Tags -->
+    <!--         </label> -->
+    <!--         <br> -->
+    <!--         <div id="domain-tags" class="mb-1 flex flex-wrap gap-2">  -->
+    <!--             <span id="domain-tag-next" style="display: none;"></span> -->
+    <!--             <input  -->
+    <!--                 id="domain-tags-input"  -->
+    <!--                 type="text"  -->
+    <!--                 name="domain-tags-input"  -->
+    <!--                 size="10" -->
+    <!--                 list="tag-completion" -->
+    <!--                 placeholder='eg. "evil"' -->
+    <!--                 onkeyup="newTag(event)" -->
+    <!--             > -->
+    <!--         </div> -->
+    <!--     </div> -->
+    <!---->
+    <!--     <button class="px-2 py-1 mt-1 bg-blue-700 hover:bg-blue-800 border border-1 border-blue-500" type="submit">submit</button> -->
+    <!-- </form> -->
 
-            <hr>
-
-            <label for="domain-tags-input" class="text-slate-500">tags</label>
-            <br>
-            <div id="domain-tags" class="mb-1 flex flex-wrap gap-2"> 
-                <span id="domain-tag-next" style="display: none;"></span>
-                <input 
-                    id="domain-tags-input" 
-                    type="text" 
-                    name="domain-tags-input" 
-                    size="10"
-                    list="tag-completion"
-                    placeholder='eg. "search"'
-                >
-                <datalist id="tag-completion">
-                    {{range .tagList}}
-                    <option value="{{.Name}}"></option>
-                    {{end}}
-                </datalist>
-            </div>
-        </div>
-
-        <button class="px-2 py-1 mt-1 bg-blue-700 hover:bg-blue-800 border border-1 border-blue-500" type="submit">submit</button>
-    </form>
 </div>
 
+<datalist id="tag-completion">
+    {{range .tagList}}
+    <option value="{{.Name}}"></option>
+    {{end}}
+</datalist>
+
 <script>
-    window.domainCreate = async function(event) {
+    // todo: non-retarded debounce
+    async function fetchFavicon(event) {
+        console.log(event.target.value)
+        const res = await fetch(`http://www.google.com/s2/favicons?domain=${event.target.value}`, {
+            method: "GET"
+        });
+        console.log(res.ok)
+    }
+
+    async function domainCreate(event) {
         event.preventDefault();
 
         let tags = [];
@@ -90,51 +293,72 @@
         domainList.innerHTML = frag + domainList.innerHTML;
     };
 
-    window.deleteTag = function(i) {
-        document.querySelector(`#domain-tag-${i}`).outerHTML = "";
+    function deleteTag(name) {
+        document.querySelector(`#domain-tag-${name}`).outerHTML = "";
     };
 
-    document
-        .querySelector("#domain-tags-input")
-        .addEventListener("keyup", function(event) {
-            if (event.key === " ") {
-                const v = event.target.value.trim()
-                if (v === "") return;
+    function newTag(event) {
+        if (event.key === " ") {
+            const v = event.target.value.trim()
+            if (v === "") return;
 
-                const domainTagNames = document.querySelectorAll(".domain-tag-name");
-                let f = false;
-                for (let i = 0; i < domainTagNames.length; i++) {
-                    if (domainTagNames[i].innerText === v) {
-                        f = true;
-                    }
+            const domainTagNames = document.querySelectorAll(".domain-tag-name");
+            let f = false;
+            for (let i = 0; i < domainTagNames.length; i++) {
+                if (domainTagNames[i].innerText === v) {
+                    f = true;
                 }
-
-                if (!f) {
-                    document.querySelector("#domain-tag-next").outerHTML = `
-                        <div
-                            id="domain-tag-${v}"
-                            class="px-2 py-1 flex items-center bg-green-800 border border-green-500"
-                        >
-                            <span class="domain-tag-name">${v}</span>
-                            <i 
-                                class="gg-close"
-                                style="cursor: pointer;"
-                                onclick='deleteTag("${v}")'
-                            ></i>
-                        </div>
-                        <span id="domain-tag-next" style="display: none;"></span>
-                    `;
-                }
-
-                event.target.value = "";
             }
+
+            if (!f) {
+                document.querySelector("#domain-tag-next").outerHTML = `
+                    <div
+                        id="domain-tag-${v}"
+                        class="px-2 py-1 flex items-center bg-green-800 border border-green-500"
+                    >
+                        <span class="domain-tag-name">${v}</span>
+                        <i 
+                            class="gg-close"
+                            style="cursor: pointer;"
+                            onclick='deleteTag("${v}")'
+                        ></i>
+                    </div>
+                    <span id="domain-tag-next" style="display: none;"></span>
+                `;
+            }
+
+            event.target.value = "";
+        }
+    }
+
+    async function domainGet(id) {
+        const res = await fetch(`/domain-get/${id}`, {
+            method: "GET",
+            credentials: "include",
         });
+        if (!res.ok) {
+            return;
+        }
+        const frag = await res.text();
+        // console.log(frag);
+
+        let domainEditForm = document.querySelector("#domain-edit-form").outerHTML = frag;
+        document.querySelector("#domain-create-form").style.display = "none";
+        document.querySelector("#domain-edit-form").style.display = "block";
+    }
 </script>
 {{end}}
 
 {{define "domain-list-item"}}
-<div class="p-2 flex gap-2 bg-slate-700 hover:bg-slate-800 border border-l-transparent border-t-transparent border-r-slate-500 border-b-slate-500">
+<div 
+    class="p-2 flex items-center gap-2 bg-slate-700 hover:bg-slate-800 border border-transparent border-b-slate-500 cursor-pointer"
+    onclick='domainGet("{{.ID}}")'
+>
+    {{if .Favicon}}
+    <img src="{{.Favicon | asUrl}}" alt="favicon" class="h-[18px] w-[18px]"/>
+    {{else}}
     <i class="gg-globe-alt"></i>
+    {{end}}
     <span>{{.Name}}</span>
 </div>
 {{end}}

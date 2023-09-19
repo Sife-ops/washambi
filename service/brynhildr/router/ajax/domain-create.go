@@ -2,8 +2,11 @@ package ajax
 
 import (
 	"context"
+	// "encoding/base64"
 	"encoding/json"
+	// "fmt"
 	"html/template"
+	// "io"
 	"log"
 	"net/http"
 
@@ -15,6 +18,7 @@ import (
 	nm "washambi-lib/db/nuland/model"
 	nt "washambi-lib/db/nuland/table"
 	"washambi-lib/mid"
+	WashambiWeb "washambi-lib/web"
 )
 
 type domainCreateReq struct {
@@ -49,8 +53,10 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 		var t []nm.Tag
 		if e := SELECT(nt.Tag.AllColumns).
 			FROM(nt.Tag).
-			WHERE(nt.Tag.UserID.EQ(UUID(uuid.MustParse(auth.Id())))).
-			WHERE(nt.Tag.Name.EQ(String(tag))).
+			WHERE(
+				nt.Tag.UserID.EQ(UUID(uuid.MustParse(auth.Id()))).
+					AND(nt.Tag.Name.EQ(String(tag))),
+			).
 			Query(tx, &t); e != nil {
 			log.Println(e)
 			http.Error(w, "transaction", http.StatusInternalServerError)
@@ -82,9 +88,37 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// // fetch favicon
+	// go func() {
+	// 	r, e := http.Get(fmt.Sprintf("https://%s/favicon.ico", dcr.Name))
+	// 	if e != nil {
+	// 		log.Println(e)
+	// 		return
+	// 	}
+	//
+	// 	b, e := io.ReadAll(r.Body)
+	// 	if e != nil {
+	// 		log.Println(e)
+	// 		return
+	// 	}
+	//
+	// 	if _, e := nt.Domain.
+	// 		UPDATE(nt.Domain.Favicon).
+	// 		SET(fmt.Sprintf(
+	// 			"data:%s;base64,%s",
+	// 			http.DetectContentType(b),
+	// 			base64.StdEncoding.EncodeToString(b),
+	// 		)).
+	// 		WHERE(nt.Domain.ID.EQ(UUID(d[0].ID))).
+	// 		Exec(db.PgConn); e != nil {
+	// 		log.Println(e)
+	// 	}
+	// }()
+
 	template.Must(
 		template.
 			New("domain-list-item").
+			Funcs(WashambiWeb.Funcs).
 			ParseFS(web.Fs, "page/home-auth.html"),
 	).Execute(w, d[0])
 }

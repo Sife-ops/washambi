@@ -13,6 +13,9 @@ func init() {
 	if e := db.InitPgConn(); e != nil {
 		log.Fatalf("db: %v", e)
 	}
+	if e := db.InitPgxPool(); e != nil {
+		log.Fatalf("db: %v", e)
+	}
 }
 
 func main() {

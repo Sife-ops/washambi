@@ -64,26 +64,26 @@
     window.addEventListener("load", fadeIn);
     window.addEventListener("pageshow", fadeIn);
 
-    window.fadeTo = function(url) {
+    function fadeTo(url) {
         document.querySelector("body").style.opacity = "0";
         setTimeout(() => {
             location.href = url;
         }, transitionDuration);
-    };
+    }
 
-    window.signOut = function() {
+    function signOut() {
         fetch("/sign-out", {
             method: "POST",
             credentials: "include",
         }).then(res => {
             if (res.ok) {
-                window.fadeTo(`${fancypenosiUrl}/sign-in`);
+                fadeTo(`${fancypenosiUrl}/sign-in`);
             }
-        })
+        });
     }
 
     document.body.addEventListener("hx-sign-out", function() {
-        window.fadeTo(`${fancypenosiUrl}/sign-in`);
+        fadeTo(`${fancypenosiUrl}/sign-in`);
     });
 </script>
 {{end}}

@@ -26,6 +26,9 @@ var Funcs = template.FuncMap{
 	"uppercase": func(s string) string {
 		return strings.ToUpper(s)
 	},
+	"asUrl": func(s *string) template.URL {
+		return template.URL(*s)
+	},
 	"asTime": func(t *timestamppb.Timestamp) time.Time {
 		return t.AsTime()
 	},
@@ -43,4 +46,3 @@ func (p *Parser) Parse(tmpl string, files ...string) *template.Template {
 }
 
 var Common = Parser{Fs}
-
