@@ -1,4 +1,4 @@
-package ajax
+package partial
 
 import (
 	"context"

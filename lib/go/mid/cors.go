@@ -2,7 +2,7 @@ package mid
 
 import (
 	"net/http"
-    "washambi-lib/env"
+	"washambi-lib/env"
 )
 
 func Cors(next http.Handler) http.Handler {

@@ -1,4 +1,4 @@
-package ajax
+package partial
 
 import (
 	"html/template"
@@ -19,10 +19,29 @@ import (
 )
 
 func DomainGet(w http.ResponseWriter, r *http.Request) {
+	t := template.Must(
+		template.
+			New("domain-form").
+			Funcs(WashambiWeb.Funcs).
+			ParseFS(web.Fs, "page/home-auth.html"),
+	)
+
+	p := chi.URLParam(r, "id")
+	if p == "new" {
+        t.Execute(w, nil)
+        return
+	}
+
 	auth := r.Context().Value("auth").(mid.AuthCtx)
-	id := chi.URLParam(r, "id")
+
+	id, e := uuid.Parse(p)
+	if e != nil {
+		http.Error(w, "uuid", http.StatusBadRequest)
+		return
+	}
 
 	var d []struct {
+		Editable bool
 		nm.Domain
 		Tags []nm.Tag
 	}
@@ -30,18 +49,12 @@ func DomainGet(w http.ResponseWriter, r *http.Request) {
 	if e := SELECT(nt.Domain.AllColumns, nt.Tag.AllColumns).
 		FROM(
 			nt.Domain.
-				LEFT_JOIN(
-					nt.DomainsTags,
-					nt.DomainsTags.DomainID.EQ(nt.Domain.ID),
-				).
-				LEFT_JOIN(
-					nt.Tag,
-					nt.Tag.ID.EQ(nt.DomainsTags.TagID),
-				),
+				LEFT_JOIN(nt.DomainsTags, nt.DomainsTags.DomainID.EQ(nt.Domain.ID)).
+				LEFT_JOIN(nt.Tag, nt.Tag.ID.EQ(nt.DomainsTags.TagID)),
 		).
 		WHERE(
 			nt.Domain.UserID.EQ(UUID(uuid.MustParse(auth.Id()))).
-				AND(nt.Domain.ID.EQ(UUID(uuid.MustParse(id)))),
+				AND(nt.Domain.ID.EQ(UUID(id))),
 		).
 		Query(db.PgConn, &d); e != nil {
 		log.Println(e)
@@ -54,10 +67,6 @@ func DomainGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	template.Must(
-		template.
-			New("domain-form").
-			Funcs(WashambiWeb.Funcs).
-			ParseFS(web.Fs, "page/home-auth.html"),
-	).Execute(w, d[0])
+	d[0].Editable = true
+	t.Execute(w, d[0])
 }

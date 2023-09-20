@@ -7,7 +7,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"brynhildr/router/ajax"
+	"brynhildr/router/partial"
 	"brynhildr/router/page"
 	"brynhildr/web"
 	"washambi-lib/env"
@@ -19,8 +19,8 @@ func Serve() error {
 
 	m.With(mid.AuthCreate).Get("/", page.Home)
 
-	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-create", ajax.DomainCreate)
-	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/domain-get/{id}", ajax.DomainGet)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-create", partial.DomainCreate)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/domain-get/{id}", partial.DomainGet)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {
