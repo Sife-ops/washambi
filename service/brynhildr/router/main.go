@@ -21,6 +21,8 @@ func Serve() error {
 
 	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-create", partial.DomainCreate)
 	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/domain-get/{id}", partial.DomainGet)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/view-bookmark", partial.ViewBookmark)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/view-domain", partial.ViewDomain)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {

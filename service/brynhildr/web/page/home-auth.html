@@ -2,13 +2,15 @@
 <div id="navigator"></div>
 
 <div class="h-full flex">
-    <div id="domain-list" class="h-full w-[200px] min-w-[200px] bg-slate-900 border border-transparent border-r-slate-500 overflow-y-scroll" >
-        <div class="bg-sky-700 cursor-pointer" onclick="domainNew()" > + New </div>
-        {{range .domainList}}
-        {{block "domain-list-item" .}}{{end}}
-        {{end}}
+    <div class="p-2 flex flex-col items-center gap-2 bg-slate-950 border border-transparent border-r-slate-500">
+        <div class="flex flex-col items-center w-[32px] h-[32px] cursor-pointer" onclick="viewDomain()">
+            <i class="gg-globe-alt sidebar-icon top-1"></i>
+        </div>
+        <div class="flex flex-col items-center w-[32px] h-[32px] cursor-pointer" onclick="viewBookmark()">
+            <i class="gg-bookmark sidebar-icon top-1"></i>
+        </div>
     </div>
-    {{block "domain-form" .}}{{end}}
+    {{block "view-domain" .}}{{end}}
 </div>
 
 <datalist id="tag-completion">
@@ -34,16 +36,16 @@
                 name: document.querySelector("#domain-name-input").value,
                 tags,
             })
-        })
+        });
         if (!res.ok) return;
         const frag = await res.text();
         const domainList = document.querySelector("#domain-list");
         domainList.innerHTML = frag + domainList.innerHTML;
-    };
+    }
 
     function deleteTag(name) {
         document.querySelector(`#domain-tag-${name}`).outerHTML = "";
-    };
+    }
 
     function newTag(event) {
         if (event.key === " ") {
@@ -103,7 +105,46 @@
         const frag = await res.text();
         document.querySelector("#domain-form").outerHTML = frag;
     }
+
+    async function viewDomain() {
+        const res = await fetch("/view-domain", {
+            method: "GET",
+            credentials: "include",
+        });
+        if (!res.ok) {
+            return;
+        }
+        const frag = await res.text();
+        document.querySelector("#view").outerHTML = frag;
+    }
+
+    async function viewBookmark() {
+        const res = await fetch("/view-bookmark", {
+            method: "GET",
+            credentials: "include",
+        });
+        if (!res.ok) {
+            return;
+        }
+        const frag = await res.text();
+        document.querySelector("#view").outerHTML = frag;
+    }
 </script>
+{{end}}
+
+{{define "view-domain"}}
+<div id="view" class="h-full w-full flex">
+    <div id="domain-list" class="h-full w-[200px] min-w-[200px] bg-slate-900 border border-transparent border-r-slate-500 overflow-y-scroll" >
+        <div class="p-2 flex items-center gap-2 bg-sky-700 hover:bg-sky-800 cursor-pointer" onclick="domainNew()" >
+            <i class="gg-add-r"></i>
+            <span> New </span>
+        </div>
+        {{range .domainList}}
+        {{block "domain-list-item" .}}{{end}}
+        {{end}}
+    </div>
+    {{block "domain-form" .}}{{end}}
+</div>
 {{end}}
 
 {{define "domain-list-item"}}
@@ -201,6 +242,12 @@
         class="gg-close domain-tag-delete-btn" 
         style="cursor: pointer;"
     ></i>
+</div>
+{{end}}
+
+{{define "view-bookmark"}}
+<div id="view">
+    bookmark lmao
 </div>
 {{end}}
 

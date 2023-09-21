@@ -1,0 +1,16 @@
+{{define "view"}}
+<div id="view" class="h-full w-full flex">
+    <div id="domain-list" class="h-full w-[200px] min-w-[200px] bg-slate-900 border border-transparent border-r-slate-500 overflow-y-scroll" >
+        <div class="p-2 flex items-center gap-2 bg-sky-700 hover:bg-sky-800 cursor-pointer" onclick="domainNew()" >
+            <i class="gg-add-r"></i>
+            <span> New </span>
+        </div>
+        {{range .domainList}}
+        {{block "domain-list-item" .}}{{end}}
+        {{end}}
+    </div>
+    {{block "domain-form" .}}{{end}}
+</div>
+{{end}}
+
+
