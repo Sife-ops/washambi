@@ -3,10 +3,14 @@
 
 <div class="h-full flex">
     <div class="p-2 flex flex-col items-center gap-2 bg-slate-950 border border-transparent border-r-slate-500">
-        <div class="flex flex-col items-center w-[32px] h-[32px] cursor-pointer" onclick="viewDomain()">
+        <div
+            class="flex flex-col items-center w-[32px] h-[32px] cursor-pointer"
+            onclick="viewDomain()">
             <i class="gg-globe-alt sidebar-icon top-1"></i>
         </div>
-        <div class="flex flex-col items-center w-[32px] h-[32px] cursor-pointer" onclick="viewBookmark()">
+        <div 
+            class="flex flex-col items-center w-[32px] h-[32px] cursor-pointer"
+            onclick="viewBookmark()">
             <i class="gg-bookmark sidebar-icon top-1"></i>
         </div>
     </div>
@@ -81,12 +85,8 @@
         }
     }
 
-    // todo: fetch wrapper
     async function domainGet(id) {
-        const res = await fetch(`/domain-get/${id}`, {
-            method: "GET",
-            credentials: "include",
-        });
+        const res = await fetchPartial(`/domain-get/${id}`);
         if (!res.ok) {
             return;
         }
@@ -95,10 +95,7 @@
     }
 
     async function domainNew() {
-        const res = await fetch("/domain-get/new", {
-            method: "GET",
-            credentials: "include",
-        });
+        const res = await fetchPartial("/domain-get/new");
         if (!res.ok) {
             return;
         }
@@ -107,10 +104,7 @@
     }
 
     async function viewDomain() {
-        const res = await fetch("/view-domain", {
-            method: "GET",
-            credentials: "include",
-        });
+        const res = await fetchPartial("/view-domain");
         if (!res.ok) {
             return;
         }
@@ -119,10 +113,7 @@
     }
 
     async function viewBookmark() {
-        const res = await fetch("/view-bookmark", {
-            method: "GET",
-            credentials: "include",
-        });
+        const res = await fetchPartial("/view-bookmark");
         if (!res.ok) {
             return;
         }

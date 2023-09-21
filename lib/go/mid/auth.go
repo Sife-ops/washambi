@@ -90,10 +90,14 @@ func AuthRefresh(next http.Handler) http.Handler {
 		ctx := r.Context().Value("auth").(AuthCtx)
 
 		if !ctx.Authenticated {
-			if len(r.Header.Get("hx-request")) > 0 {
-				w.Header().Add("HX-Trigger", "hx-sign-out")
+            switch {
+            case len(r.Header.Get("hx-request")) > 0:
+				w.Header().Add("HX-Trigger", "sign-out")
 				return
-			}
+            case len(r.Header.Get("partial-request")) > 0:
+				w.Header().Add("partial-trigger", "sign-out")
+				return
+            }
 
 			http.Redirect(w, r, fmt.Sprintf(
 				"%s/sign-in", env.FancypenosiUrl), http.StatusSeeOther,
