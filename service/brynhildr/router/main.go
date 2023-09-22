@@ -7,8 +7,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
-	"brynhildr/router/partial"
+	"brynhildr/router/ajax"
 	"brynhildr/router/page"
+	"brynhildr/router/partial"
 	"brynhildr/web"
 	"washambi-lib/env"
 	"washambi-lib/mid"
@@ -25,6 +26,8 @@ func Serve() error {
 	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/domain-get/{id}", partial.DomainGet)
 	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/view-bookmark", partial.ViewBookmark)
 	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/view-domain", partial.ViewDomain)
+
+	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-name-edit", ajax.DomainNameEdit)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {

@@ -24,30 +24,8 @@
 </datalist>
 
 <script>
-    async function domainCreate(event) {
-        event.preventDefault();
-
-        let tags = [];
-        const domainTagNames = document.querySelectorAll(".domain-tag-name");
-        for (let i = 0; i < domainTagNames.length; i++) {
-            tags = [...tags, domainTagNames[i].innerText];
-        }
-
-        const res = await fetch("/domain-create", {
-            method: "POST",
-            credentials: "include",
-            body: JSON.stringify({
-                name: document.querySelector("#domain-name-input").value,
-                tags,
-            })
-        });
-        if (!res.ok) return;
-        const frag = await res.text();
-        document.querySelector("#domain-list-item-next").outerHTML = `
-            ${frag}
-            <div id="domain-list-item-next" style="display: none;"></div>
-        `;
-    }
+    ///////////////////////////////////////////////////////////////////////////
+    // domain form
 
     function deleteTag(name) {
         document.querySelector(`#domain-tag-${name}`).outerHTML = "";
@@ -85,6 +63,79 @@
 
             event.target.value = "";
         }
+    }
+
+    let domainNameState = "";
+    function domainNameEdit() {
+        const dni = document.querySelector("#domain-name-input");
+        domainNameState = dni.value;
+        dni.readOnly = false;
+        document.querySelector("#domain-name-edit-btn").style.display = "none";
+        document.querySelector("#domain-name-save-btn").style.display = "block";
+        document.querySelector("#domain-name-cancel-btn").style.display = "block";
+    }
+
+    function domainNameEditCancel() {
+        const dni = document.querySelector("#domain-name-input");
+        dni.value = domainNameState;
+        dni.readOnly = true;
+        document.querySelector("#domain-name-save-btn").style.display = "none";
+        document.querySelector("#domain-name-cancel-btn").style.display = "none";
+        document.querySelector("#domain-name-edit-btn").style.display = "block";
+    }
+
+    async function domainNameEditSave(id) {
+        const dni = document.querySelector("#domain-name-input");
+
+        const res = await fetchPartial("/domain-name-edit", {
+            method: "POST",
+            body: JSON.stringify({ 
+                id,
+                name: dni.value,
+            }),
+        });
+
+        dni.readOnly = true;
+        document.querySelector("#domain-name-save-btn").style.display = "none";
+        document.querySelector("#domain-name-cancel-btn").style.display = "none";
+        document.querySelector("#domain-name-edit-btn").style.display = "block";
+
+        if (!res.ok) {
+            dni.value = domainNameState;
+            return;
+        }
+
+        const j = await res.json();
+        dni.value = j.name;
+    }
+
+    ///////////////////////////////////////////////////////////////////////////
+    // partials
+
+    async function domainCreate(event) {
+        event.preventDefault();
+
+        let tags = [];
+        const domainTagNames = document.querySelectorAll(".domain-tag-name");
+        for (let i = 0; i < domainTagNames.length; i++) {
+            tags = [...tags, domainTagNames[i].innerText];
+        }
+
+        const res = await fetchPartial("/domain-create", {
+            method: "POST",
+            body: JSON.stringify({
+                name: document.querySelector("#domain-name-input").value,
+                tags,
+            })
+        });
+        if (!res.ok) return;
+
+        const json = await res.json();
+        document.querySelector("#domain-list-item-next").outerHTML = `
+            ${json.frag}
+            <div id="domain-list-item-next" style="display: none;"></div>
+        `;
+        await domainGet(json.id);
     }
 
     async function domainGet(id) {

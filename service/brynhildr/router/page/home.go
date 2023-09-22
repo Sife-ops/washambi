@@ -34,10 +34,10 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	t = template.Must(t.ParseFS(web.Fs, "page/home-auth.html"))
+
 	entity := chi.URLParam(r, "entity")
 	id, idErr := uuid.Parse(chi.URLParam(r, "id"))
-
-	t = template.Must(t.ParseFS(web.Fs, "page/home-auth.html"))
 
 	switch entity {
 	case "bookmark":

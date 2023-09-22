@@ -9,6 +9,7 @@ import (
 	// "io"
 	"log"
 	"net/http"
+    "bytes"
 
 	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
@@ -115,10 +116,17 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 	// 	}
 	// }()
 
+    var p bytes.Buffer
 	template.Must(
 		template.
 			New("domain-list-item").
 			Funcs(WashambiWeb.Funcs).
 			ParseFS(web.Fs, "partial/view-domain.html"),
-	).Execute(w, d[0])
+	).Execute(&p, d[0])
+
+    w.Header().Set("Content-Type", "application/json")
+    json.NewEncoder(w).Encode(map[string]string{
+        "id": d[0].ID.String(),
+        "frag": p.String(),
+    })
 }

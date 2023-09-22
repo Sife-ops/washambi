@@ -35,7 +35,7 @@
     onsubmit="domainCreate(event)"
 >
     <div class="p-2 rounded-lg bg-slate-700">
-        <label for="domain-name-input" class="text-slate-500" > Domain Name </label>
+        <label for="domain-name-input" class="text-slate-500"> Domain Name </label>
         <div class="flex gap-2">
             <input id="domain-name-input" class="mb-1 w-full" name="domain-name-input" placeholder='eg. "google.com"' type="text" pattern="\S(.*\S)?" required
                 {{if .ID}}
@@ -44,9 +44,9 @@
                 {{end}}
             >
             {{if .ID}}
-            <button id="domain-name-edit-btn" type="button" > edit </button>
-            <button id="domain-name-save-btn" type="button" style="display: none;" > save </button>
-            <button id="domain-name-cancel-btn" type="button" style="display: none;" > cancel </button>
+            <button id="domain-name-edit-btn" type="button" onclick="domainNameEdit()"> edit </button>
+            <button id="domain-name-save-btn" type="button" style="display: none;" onclick="domainNameEditSave({{.ID}})"> save </button>
+            <button id="domain-name-cancel-btn" type="button" style="display: none;" onclick="domainNameEditCancel()"> cancel </button>
             {{end}}
         </div>
 
