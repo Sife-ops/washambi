@@ -119,6 +119,6 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 		template.
 			New("domain-list-item").
 			Funcs(WashambiWeb.Funcs).
-			ParseFS(web.Fs, "page/home-auth.html"),
+			ParseFS(web.Fs, "partial/view-domain.html"),
 	).Execute(w, d[0])
 }

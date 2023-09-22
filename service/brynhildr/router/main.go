@@ -18,6 +18,8 @@ func Serve() error {
 	m := chi.NewMux()
 
 	m.With(mid.AuthCreate).Get("/", page.Home)
+	m.With(mid.AuthCreate).Get("/{entity}", page.Home)
+	m.With(mid.AuthCreate).Get("/{entity}/{id}", page.Home)
 
 	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-create", partial.DomainCreate)
 	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/domain-get/{id}", partial.DomainGet)

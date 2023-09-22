@@ -11,9 +11,9 @@ import (
 func ViewBookmark(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(
 		template.
-			New("view-bookmark").
+			New("view").
 			Funcs(WashambiWeb.Funcs).
-			ParseFS(web.Fs, "page/home-auth.html"),
+			ParseFS(web.Fs, "partial/view-bookmark.html"),
 	)
 
 	t.Execute(w, nil)

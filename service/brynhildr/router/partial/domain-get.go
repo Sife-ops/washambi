@@ -23,7 +23,7 @@ func DomainGet(w http.ResponseWriter, r *http.Request) {
 		template.
 			New("domain-form").
 			Funcs(WashambiWeb.Funcs).
-			ParseFS(web.Fs, "page/home-auth.html"),
+			ParseFS(web.Fs, "partial/view-domain.html"),
 	)
 
 	p := chi.URLParam(r, "id")

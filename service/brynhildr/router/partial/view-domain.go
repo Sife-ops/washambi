@@ -1,6 +1,7 @@
 package partial
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
@@ -28,13 +29,14 @@ func ViewDomain(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+    fmt.Println(dl)
+
 	template.Must(
 		template.
-			New("view-domain").
+			New("view").
 			Funcs(WashambiWeb.Funcs).
-			ParseFS(web.Fs, "page/home-auth.html"),
-	).
-		Execute(w, env.WithUrls(map[string]interface{}{
-			"domainList": dl,
-		}))
+			ParseFS(web.Fs, "partial/view-domain.html"),
+	).Execute(w, env.WithUrls(map[string]interface{}{
+		"domainList": dl,
+	}))
 }

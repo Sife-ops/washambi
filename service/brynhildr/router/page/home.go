@@ -1,9 +1,11 @@
 package page
 
 import (
+	"fmt"
 	"html/template"
 	"net/http"
 
+	"github.com/go-chi/chi/v5"
 	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
 
@@ -17,12 +19,13 @@ import (
 )
 
 func Home(w http.ResponseWriter, r *http.Request) {
-	auth := r.Context().Value("auth").(mid.AuthCtx)
-
 	t := template.Must(
-		template.New("base").ParseFS(WashambiWeb.Fs, "page/template.html", "page/nav.html"),
+		template.New("base").
+			Funcs(WashambiWeb.Funcs).
+			ParseFS(WashambiWeb.Fs, "page/template.html", "page/nav.html"),
 	)
 
+	auth := r.Context().Value("auth").(mid.AuthCtx)
 	if !auth.Authenticated {
 		t = template.Must(
 			t.ParseFS(web.Fs, "page/home-noauth.html"),
@@ -31,34 +34,42 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	t = template.Must(
-		t.
-			Funcs(WashambiWeb.Funcs).
-			ParseFS(web.Fs, "page/home-auth.html"),
-	)
+	e := chi.URLParam(r, "entity")
+	i := chi.URLParam(r, "id")
+	fmt.Println(i)
 
-	var tl []nm.Tag
-	if e := SELECT(nt.Tag.AllColumns).
-		FROM(nt.Tag).
-		WHERE(nt.Tag.UserID.EQ(UUID(uuid.MustParse(auth.Id())))).
-		Query(db.PgConn, &tl); e != nil {
-		http.Error(w, "internal", http.StatusInternalServerError)
-		return
+	t = template.Must(t.ParseFS(web.Fs, "page/home-auth.html"))
+
+	switch e {
+	case "bookmark":
+		template.Must(t.ParseFS(web.Fs, "partial/view-bookmark.html")).
+			Execute(w, env.WithUrls(nil))
+		break
+	case "domain":
+        fallthrough
+	default:
+		var tl []nm.Tag
+		if e := SELECT(nt.Tag.AllColumns).
+			FROM(nt.Tag).
+			WHERE(nt.Tag.UserID.EQ(UUID(uuid.MustParse(auth.Id())))).
+			Query(db.PgConn, &tl); e != nil {
+			http.Error(w, "internal", http.StatusInternalServerError)
+			return
+		}
+
+		var dl []nm.Domain
+		if e := SELECT(nt.Domain.AllColumns).
+			FROM(nt.Domain).
+			WHERE(nt.Domain.UserID.EQ(UUID(uuid.MustParse(auth.Id())))).
+			Query(db.PgConn, &dl); e != nil {
+			http.Error(w, "internal", http.StatusInternalServerError)
+			return
+		}
+
+		template.Must(t.ParseFS(web.Fs, "partial/view-domain.html")).
+			Execute(w, env.WithUrls(map[string]interface{}{
+				"domainList": dl,
+				"tagList":    tl,
+			}))
 	}
-
-	var dl []nm.Domain
-	if e := SELECT(nt.Domain.AllColumns).
-		FROM(nt.Domain).
-		WHERE(nt.Domain.UserID.EQ(UUID(uuid.MustParse(auth.Id())))).
-		Query(db.PgConn, &dl); e != nil {
-		http.Error(w, "internal", http.StatusInternalServerError)
-		return
-	}
-	// log.Println(dl)
-
-	t.Execute(w, env.WithUrls(map[string]interface{}{
-		"htmx":       true,
-		"domainList": dl,
-		"tagList":    tl,
-	}))
 }
