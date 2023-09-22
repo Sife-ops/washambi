@@ -7,13 +7,11 @@ import (
 	// "fmt"
 	"html/template"
 	// "io"
+	"bytes"
 	"log"
 	"net/http"
-    "bytes"
 
-	. "github.com/go-jet/jet/v2/postgres"
-	"github.com/google/uuid"
-
+	bdb "brynhildr/db"
 	"brynhildr/web"
 	"washambi-lib/db"
 	nm "washambi-lib/db/nuland/model"
@@ -35,56 +33,34 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 
 	tx, e := db.PgConn.BeginTx(context.Background(), nil)
 	if e != nil {
+		log.Println(e)
 		http.Error(w, "transaction", http.StatusInternalServerError)
 		return
 	}
 	defer tx.Rollback()
 
-	var d []nm.Domain
+	var d []struct {
+		nm.Domain
+		Tags []nm.Tag
+	}
 	if e := nt.Domain.
 		INSERT(nt.Domain.UserID, nt.Domain.Name).
 		VALUES(auth.Id(), dcr.Name).
 		RETURNING(nt.Domain.AllColumns).
 		Query(tx, &d); e != nil {
+		log.Println(e)
 		http.Error(w, "transaction", http.StatusInternalServerError)
 		return
 	}
 
-	for _, tag := range dcr.Tags {
-		var t []nm.Tag
-		if e := SELECT(nt.Tag.AllColumns).
-			FROM(nt.Tag).
-			WHERE(
-				nt.Tag.UserID.EQ(UUID(uuid.MustParse(auth.Id()))).
-					AND(nt.Tag.Name.EQ(String(tag))),
-			).
-			Query(tx, &t); e != nil {
-			log.Println(e)
-			http.Error(w, "transaction", http.StatusInternalServerError)
-			return
-		}
-		if len(t) < 1 {
-			if e := nt.Tag.
-				INSERT(nt.Tag.Name, nt.Tag.UserID).
-				VALUES(tag, auth.Id()).
-				RETURNING(nt.Tag.AllColumns).
-				Query(tx, &t); e != nil {
-				log.Println(e)
-				http.Error(w, "transaction", http.StatusInternalServerError)
-				return
-			}
-		}
-		if _, e := nt.DomainsTags.
-			INSERT(nt.DomainsTags.DomainID, nt.DomainsTags.TagID).
-			VALUES(d[0].ID, t[0].ID).
-			Exec(tx); e != nil {
-			log.Println(e)
-			http.Error(w, "transaction", http.StatusInternalServerError)
-			return
-		}
+	if e := bdb.UpsertTags(tx, d[0], dcr.Tags); e != nil {
+		log.Println(e)
+		http.Error(w, "transaction", http.StatusInternalServerError)
+		return
 	}
 
 	if e := tx.Commit(); e != nil {
+		log.Println(e)
 		http.Error(w, "transaction", http.StatusInternalServerError)
 		return
 	}
@@ -116,7 +92,7 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 	// 	}
 	// }()
 
-    var p bytes.Buffer
+	var p bytes.Buffer
 	template.Must(
 		template.
 			New("domain-list-item").
@@ -124,9 +100,9 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 			ParseFS(web.Fs, "partial/view-domain.html"),
 	).Execute(&p, d[0])
 
-    w.Header().Set("Content-Type", "application/json")
-    json.NewEncoder(w).Encode(map[string]string{
-        "id": d[0].ID.String(),
-        "frag": p.String(),
-    })
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(map[string]string{
+		"id":   d[0].ID.String(),
+		"frag": p.String(),
+	})
 }

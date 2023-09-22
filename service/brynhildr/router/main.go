@@ -28,6 +28,7 @@ func Serve() error {
 	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/view-domain", partial.ViewDomain)
 
 	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-name-edit", ajax.DomainNameEdit)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-tags-edit", ajax.DomainTagsEdit)
 
 	sub, e := fs.Sub(web.Fs, "public")
 	if e != nil {

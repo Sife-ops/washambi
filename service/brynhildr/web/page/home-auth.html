@@ -105,8 +105,47 @@
             return;
         }
 
-        const j = await res.json();
-        dni.value = j.name;
+        await domainGet(id);
+    }
+
+    let domainTagsState = ""
+    function domainTagsEdit() {
+        domainTagsState = document.querySelector("#domain-tags").innerHTML;
+        const dtdb = document.querySelectorAll(".domain-tag-delete-btn");
+        for (let i = 0; i < dtdb.length; i++) {
+            dtdb[i].style.display = "block";
+        }
+        document.querySelector("#domain-tags-input").readOnly = false;
+        document.querySelector("#domain-tags-edit-btn").style.display = "none";
+        document.querySelector("#domain-tags-save-btn").style.display = "block";
+        document.querySelector("#domain-tags-cancel-btn").style.display = "block";
+    }
+
+    function domainTagsEditCancel() {
+        document.querySelector("#domain-tags").innerHTML = domainTagsState;
+        document.querySelector("#domain-tags-save-btn").style.display = "none";
+        document.querySelector("#domain-tags-cancel-btn").style.display = "none";
+        document.querySelector("#domain-tags-edit-btn").style.display = "block";
+    }
+
+    async function domainTagsEditSave(id) {
+        let tags = [];
+        const domainTagNames = document.querySelectorAll(".domain-tag-name");
+        for (let i = 0; i < domainTagNames.length; i++) {
+            tags = [...tags, domainTagNames[i].innerText];
+        }
+
+        const res = await fetchPartial("/domain-tags-edit", {
+            method: "POST",
+            body: JSON.stringify({ id, tags }),
+        });
+
+        if (!res.ok) {
+            document.querySelector("#domain-tags").innerHTML = domainTagsState;
+            return;
+        }
+
+        await domainGet(id);
     }
 
     ///////////////////////////////////////////////////////////////////////////

@@ -66,9 +66,9 @@
                 >
             </div>
             {{if .ID}}
-            <button id="domain-tags-edit-btn" type="button" > edit </button>
-            <button id="domain-tags-save-btn" type="button" style="display: none;" > save </button>
-            <button id="domain-tags-cancel-btn" type="button" style="display: none;" > cancel </button>
+            <button id="domain-tags-edit-btn" type="button" onclick="domainTagsEdit()"> edit </button>
+            <button id="domain-tags-save-btn" type="button" style="display: none;" onclick="domainTagsEditSave({{.ID}})"> save </button>
+            <button id="domain-tags-cancel-btn" type="button" style="display: none;" onclick="domainTagsEditCancel()"> cancel </button>
             {{end}}
         </div>
     </div>
