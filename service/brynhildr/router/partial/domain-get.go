@@ -41,7 +41,6 @@ func DomainGet(w http.ResponseWriter, r *http.Request) {
 	}
 
 	var d []struct {
-		Editable bool
 		nm.Domain
 		Tags []nm.Tag
 	}
@@ -67,6 +66,5 @@ func DomainGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	d[0].Editable = true
 	t.Execute(w, d[0])
 }

@@ -14,7 +14,7 @@
             <i class="gg-bookmark sidebar-icon top-1"></i>
         </div>
     </div>
-    {{block "view" .}}{{end}}
+    {{block "view" .view}}{{end}}
 </div>
 
 <datalist id="tag-completion">
@@ -43,9 +43,10 @@
         });
         if (!res.ok) return;
         const frag = await res.text();
-        console.log(frag)
-        // const domainList = document.querySelector("#domain-list");
-        // domainList.innerHTML = frag + domainList.innerHTML;
+        document.querySelector("#domain-list-item-next").outerHTML = `
+            ${frag}
+            <div id="domain-list-item-next" style="display: none;"></div>
+        `;
     }
 
     function deleteTag(name) {

@@ -1,7 +1,6 @@
 package partial
 
 import (
-	"fmt"
 	"html/template"
 	"net/http"
 
@@ -28,8 +27,6 @@ func ViewDomain(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "internal", http.StatusInternalServerError)
 		return
 	}
-
-    fmt.Println(dl)
 
 	template.Must(
 		template.

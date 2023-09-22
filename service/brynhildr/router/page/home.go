@@ -1,8 +1,8 @@
 package page
 
 import (
-	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -34,19 +34,18 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	e := chi.URLParam(r, "entity")
-	i := chi.URLParam(r, "id")
-	fmt.Println(i)
+	entity := chi.URLParam(r, "entity")
+	id, idErr := uuid.Parse(chi.URLParam(r, "id"))
 
 	t = template.Must(t.ParseFS(web.Fs, "page/home-auth.html"))
 
-	switch e {
+	switch entity {
 	case "bookmark":
 		template.Must(t.ParseFS(web.Fs, "partial/view-bookmark.html")).
 			Execute(w, env.WithUrls(nil))
 		break
 	case "domain":
-        fallthrough
+		fallthrough
 	default:
 		var tl []nm.Tag
 		if e := SELECT(nt.Tag.AllColumns).
@@ -66,10 +65,41 @@ func Home(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
+		data := map[string]interface{}{
+			"tagList":    tl,
+            "view": map[string]interface{}{
+                "domainList": dl,
+            },
+		}
+
+		var d []struct {
+			nm.Domain
+			Tags []nm.Tag
+		}
+
+		if idErr == nil {
+			if e := SELECT(nt.Domain.AllColumns, nt.Tag.AllColumns).
+				FROM(
+					nt.Domain.
+						LEFT_JOIN(nt.DomainsTags, nt.DomainsTags.DomainID.EQ(nt.Domain.ID)).
+						LEFT_JOIN(nt.Tag, nt.Tag.ID.EQ(nt.DomainsTags.TagID)),
+				).
+				WHERE(
+					nt.Domain.UserID.EQ(UUID(uuid.MustParse(auth.Id()))).
+						AND(nt.Domain.ID.EQ(UUID(id))),
+				).
+				Query(db.PgConn, &d); e != nil {
+				log.Println(e)
+				http.Error(w, "internal", http.StatusInternalServerError)
+				return
+			}
+
+			if len(d) > 0 {
+                data["view"].(map[string]interface{})["domainForm"] = d[0]
+			}
+		}
+
 		template.Must(t.ParseFS(web.Fs, "partial/view-domain.html")).
-			Execute(w, env.WithUrls(map[string]interface{}{
-				"domainList": dl,
-				"tagList":    tl,
-			}))
+			Execute(w, env.WithUrls(data))
 	}
 }

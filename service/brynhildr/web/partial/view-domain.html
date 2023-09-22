@@ -5,11 +5,12 @@
             <i class="gg-add-r"></i>
             <span> New </span>
         </div>
+        <div id="domain-list-item-next" style="display: none;"></div>
         {{range .domainList}}
         {{block "domain-list-item" .}}{{end}}
         {{end}}
     </div>
-    {{block "domain-form" .}}{{end}}
+    {{block "domain-form" .domainForm}}{{end}}
 </div>
 {{end}}
 
@@ -37,12 +38,12 @@
         <label for="domain-name-input" class="text-slate-500" > Domain Name </label>
         <div class="flex gap-2">
             <input id="domain-name-input" class="mb-1 w-full" name="domain-name-input" placeholder='eg. "google.com"' type="text" pattern="\S(.*\S)?" required
-                {{if .Editable}}
+                {{if .ID}}
                 value="{{.Name}}"
                 readonly
                 {{end}}
             >
-            {{if .Editable}}
+            {{if .ID}}
             <button id="domain-name-edit-btn" type="button" > edit </button>
             <button id="domain-name-save-btn" type="button" style="display: none;" > save </button>
             <button id="domain-name-cancel-btn" type="button" style="display: none;" > cancel </button>
@@ -52,19 +53,19 @@
         <label for="domain-tags-input" class="text-slate-500" > Tags </label>
         <div class="flex gap-2">
             <div id="domain-tags" class="w-full mb-1 flex flex-wrap gap-2" > 
-                {{if .Editable}}
+                {{if .ID}}
                     {{range .Tags}}
                         {{block "tag-editable" .}}{{end}}
                     {{end}}
                 {{end}}
                 <span id="domain-tag-next" style="display: none;" ></span>
                 <input id="domain-tags-input" name="domain-tags-input" list="tag-completion" type="text" size="10" placeholder='eg. "evil"' onkeyup="newTag(event)"
-                    {{if .Editable}}
+                    {{if .ID}}
                     readonly
                     {{end}}
                 >
             </div>
-            {{if .Editable}}
+            {{if .ID}}
             <button id="domain-tags-edit-btn" type="button" > edit </button>
             <button id="domain-tags-save-btn" type="button" style="display: none;" > save </button>
             <button id="domain-tags-cancel-btn" type="button" style="display: none;" > cancel </button>
@@ -72,7 +73,7 @@
         </div>
     </div>
 
-    {{if .Editable}}{{else}}
+    {{if .ID}}{{else}}
     <button class="px-2 py-1 mt-1 bg-blue-700 hover:bg-blue-800 border border-1 border-blue-500" type="submit">
         save
     </button>
