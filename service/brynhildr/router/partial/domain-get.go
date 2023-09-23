@@ -7,13 +7,11 @@ import (
 
 	// "github.com/davecgh/go-spew/spew"
 	"github.com/go-chi/chi/v5"
-	. "github.com/go-jet/jet/v2/postgres"
 	"github.com/google/uuid"
 
+	bdb "brynhildr/db"
 	"brynhildr/web"
 	"washambi-lib/db"
-	nm "washambi-lib/db/nuland/model"
-	nt "washambi-lib/db/nuland/table"
 	"washambi-lib/mid"
 	WashambiWeb "washambi-lib/web"
 )
@@ -28,8 +26,8 @@ func DomainGet(w http.ResponseWriter, r *http.Request) {
 
 	p := chi.URLParam(r, "id")
 	if p == "new" {
-        t.Execute(w, nil)
-        return
+		t.Execute(w, nil)
+		return
 	}
 
 	auth := r.Context().Value("auth").(mid.AuthCtx)
@@ -40,31 +38,12 @@ func DomainGet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var d []struct {
-		nm.Domain
-		Tags []nm.Tag
-	}
-
-	if e := SELECT(nt.Domain.AllColumns, nt.Tag.AllColumns).
-		FROM(
-			nt.Domain.
-				LEFT_JOIN(nt.DomainsTags, nt.DomainsTags.DomainID.EQ(nt.Domain.ID)).
-				LEFT_JOIN(nt.Tag, nt.Tag.ID.EQ(nt.DomainsTags.TagID)),
-		).
-		WHERE(
-			nt.Domain.UserID.EQ(UUID(uuid.MustParse(auth.Id()))).
-				AND(nt.Domain.ID.EQ(UUID(id))),
-		).
-		Query(db.PgConn, &d); e != nil {
+	d, e := bdb.DomainGetOne(db.PgConn, uuid.MustParse(auth.Id()), id)
+	if e != nil {
 		log.Println(e)
 		http.Error(w, "internal", http.StatusInternalServerError)
 		return
 	}
 
-	if len(d) < 1 {
-		http.Error(w, "not found", http.StatusNotFound)
-		return
-	}
-
-	t.Execute(w, d[0])
+	t.Execute(w, d)
 }

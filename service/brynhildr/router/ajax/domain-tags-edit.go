@@ -27,21 +27,14 @@ func DomainTagsEdit(w http.ResponseWriter, r *http.Request) {
 		t = append(t, v.(string))
 	}
 
-	var d []struct {
-		nm.Domain
-		Tags []nm.Tag
+	domainId, e := uuid.Parse(j["id"].(string))
+	if e != nil {
+		http.Error(w, "uuid", http.StatusBadRequest)
+		return
 	}
-	if e := SELECT(nt.Domain.AllColumns, nt.Tag.AllColumns).
-		FROM(
-			nt.Domain.
-				LEFT_JOIN(nt.DomainsTags, nt.DomainsTags.DomainID.EQ(nt.Domain.ID)).
-				LEFT_JOIN(nt.Tag, nt.Tag.ID.EQ(nt.DomainsTags.TagID)),
-		).
-		WHERE(
-			nt.Domain.UserID.EQ(UUID(uuid.MustParse(auth.Id()))).
-				AND(nt.Domain.ID.EQ(UUID(uuid.MustParse(j["id"].(string))))),
-		).
-		Query(db.PgConn, &d); e != nil {
+
+	d, e := bdb.DomainGetOne(db.PgConn, uuid.MustParse(auth.Id()), domainId)
+	if e != nil {
 		log.Println(e)
 		http.Error(w, "internal", http.StatusInternalServerError)
 		return
@@ -49,9 +42,9 @@ func DomainTagsEdit(w http.ResponseWriter, r *http.Request) {
 
 	var toDel []string
 	var toAdd []string
-	if len(d[0].Tags) > 0 {
+	if len(d.Tags) > 0 {
 		var a []string
-		for _, v := range d[0].Tags {
+		for _, v := range d.Tags {
 			a = append(a, v.Name)
 		}
 		toDel = diffStrArr(a, t)
@@ -69,14 +62,14 @@ func DomainTagsEdit(w http.ResponseWriter, r *http.Request) {
 
 	for _, v := range toDel {
 		var td nm.Tag
-		for _, w := range d[0].Tags {
+		for _, w := range d.Tags {
 			if w.Name == v {
 				td = w
 			}
 		}
 		if _, e := nt.DomainsTags.DELETE().
 			WHERE(
-				nt.DomainsTags.DomainID.EQ(UUID(d[0].ID)).
+				nt.DomainsTags.DomainID.EQ(UUID(d.ID)).
 					AND(nt.DomainsTags.TagID.EQ(UUID(td.ID))),
 			).
 			Exec(tx); e != nil {
@@ -86,7 +79,7 @@ func DomainTagsEdit(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
-	if e := bdb.UpsertTags(tx, d[0], toAdd); e != nil {
+	if e := bdb.DomainUpsertTags(tx, *d, toAdd); e != nil {
 		log.Println(e)
 		http.Error(w, "transaction", http.StatusInternalServerError)
 		return

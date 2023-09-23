@@ -53,7 +53,7 @@ func DomainCreate(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if e := bdb.UpsertTags(tx, d[0], dcr.Tags); e != nil {
+	if e := bdb.DomainUpsertTags(tx, d[0], dcr.Tags); e != nil {
 		log.Println(e)
 		http.Error(w, "transaction", http.StatusInternalServerError)
 		return
