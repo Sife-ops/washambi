@@ -29,6 +29,7 @@ func DomainTagsEdit(w http.ResponseWriter, r *http.Request) {
 
 	domainId, e := uuid.Parse(j["id"].(string))
 	if e != nil {
+		log.Println(e)
 		http.Error(w, "uuid", http.StatusBadRequest)
 		return
 	}
@@ -55,6 +56,7 @@ func DomainTagsEdit(w http.ResponseWriter, r *http.Request) {
 
 	tx, e := db.PgConn.BeginTx(context.Background(), nil)
 	if e != nil {
+		log.Println(e)
 		http.Error(w, "transaction", http.StatusInternalServerError)
 		return
 	}

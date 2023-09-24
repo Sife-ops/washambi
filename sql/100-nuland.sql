@@ -103,7 +103,7 @@ CREATE TABLE "nuland"."bookmark_field" (
 
     "index" integer NOT NULL,
     "name" character varying NOT NULL,
-    "hidden" boolean NOT NULL DEFAULT false,
+    "type" character varying NOT NULL,
 
     "created_at" timestamp NOT NULL DEFAULT NOW(),
     "deleted_at" timestamp DEFAULT NULL,

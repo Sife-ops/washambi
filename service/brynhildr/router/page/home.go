@@ -41,7 +41,7 @@ func Home(w http.ResponseWriter, r *http.Request) {
 
 	switch entity {
 	case "bookmark":
-		template.Must(t.ParseFS(web.Fs, "partial/view-bookmark.html")).
+		template.Must(t.ParseFS(web.Fs, "partial/bookmark.html")).
 			Execute(w, env.WithUrls(nil))
 		break
 	case "domain":
@@ -66,10 +66,13 @@ func Home(w http.ResponseWriter, r *http.Request) {
 		}
 
 		data := map[string]interface{}{
-			"tagList":    tl,
-            "view": map[string]interface{}{
-                "domainList": dl,
-            },
+			"tagList": tl,
+			"domainView": map[string]interface{}{
+				"domainList": dl,
+				"domainForm": map[string]interface{}{
+					"ID": uuid.New().String(),
+				},
+			},
 		}
 
 		var d []struct {
@@ -95,11 +98,11 @@ func Home(w http.ResponseWriter, r *http.Request) {
 			}
 
 			if len(d) > 0 {
-                data["view"].(map[string]interface{})["domainForm"] = d[0]
+				data["domainView"].(map[string]interface{})["domainForm"] = d[0]
 			}
 		}
 
-		template.Must(t.ParseFS(web.Fs, "partial/view-domain.html")).
+		template.Must(t.ParseFS(web.Fs, "partial/domain.html")).
 			Execute(w, env.WithUrls(data))
 	}
 }

@@ -13,7 +13,7 @@ func ViewBookmark(w http.ResponseWriter, r *http.Request) {
 		template.
 			New("view").
 			Funcs(WashambiWeb.Funcs).
-			ParseFS(web.Fs, "partial/view-bookmark.html"),
+			ParseFS(web.Fs, "partial/bookmark.html"),
 	)
 
 	t.Execute(w, nil)

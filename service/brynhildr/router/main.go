@@ -19,13 +19,14 @@ func Serve() error {
 	m := chi.NewMux()
 
 	m.With(mid.AuthCreate).Get("/", page.Home)
-	m.With(mid.AuthCreate).Get("/{entity}", page.Home)
-	m.With(mid.AuthCreate).Get("/{entity}/{id}", page.Home)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/{entity}", page.Home)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/{entity}/{id}", page.Home)
 
-	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-create", partial.DomainCreate)
-	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/domain-get/{id}", partial.DomainGet)
-	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/view-bookmark", partial.ViewBookmark)
-	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/view-domain", partial.ViewDomain)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/partial/domain/{id}", partial.DomainGet)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/partial/profile/{id}", partial.ProfileGet)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/partial/view/bookmark", partial.ViewBookmark)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Get("/partial/view/domain", partial.DomainView)
+	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/partial/domain", partial.DomainCreate)
 
 	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-name-edit", ajax.DomainNameEdit)
 	m.With(mid.AuthCreate, mid.AuthRefresh).Post("/domain-tags-edit", ajax.DomainTagsEdit)

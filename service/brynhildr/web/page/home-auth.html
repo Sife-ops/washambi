@@ -14,7 +14,7 @@
             <i class="gg-bookmark sidebar-icon top-1"></i>
         </div>
     </div>
-    {{block "view" .view}}{{end}}
+    {{block "view" .domainView}}{{end}}
 </div>
 
 <datalist id="tag-completion">
@@ -27,8 +27,8 @@
     ///////////////////////////////////////////////////////////////////////////
     // domain form
 
-    function deleteTag(name) {
-        document.querySelector(`#domain-tag-${name}`).outerHTML = "";
+    function deleteOuter(id) {
+        document.querySelector("#" + id).outerHTML = "";
     }
 
     function newTag(event) {
@@ -57,7 +57,7 @@
                 dtnn.removeAttribute("id");
 
                 const dtdbn = document.querySelector("#domain-tag-delete-btn-new");
-                dtdbn.onclick = () => deleteTag(v);
+                dtdbn.onclick = () => deleteOuter("domain-tag-" + v);
                 dtdbn.removeAttribute("id");
             }
 
@@ -148,6 +148,22 @@
         await domainGet(id);
     }
 
+    function selectValueType(event, id) {
+        const input = document.querySelector("#value-" + id);
+        switch (event.target.value) {
+            case "text":
+            case "phone":
+                input.type = "text";
+                break;
+            case "email":
+                input.type = "email";
+                break;
+            case "password":
+                input.type = "password";
+                break;
+        }
+    }
+
     ///////////////////////////////////////////////////////////////////////////
     // partials
 
@@ -160,11 +176,37 @@
             tags = [...tags, domainTagNames[i].innerText];
         }
 
-        const res = await fetchPartial("/domain-create", {
+        const ps = document.querySelector("#profiles");
+        const profiles = [];
+        for (let i = 0; i < ps.children.length; i++) {
+            const id = ps.children[i].id;
+            if (id === "profile-next") continue;
+            const p = { 
+                id,
+                name: document.querySelector("#name-" + id).value,
+                fields: [],
+            };
+            const pfs = document.querySelector("#profile-fields");
+            for (let i = 0; i < pfs.children.length; i++) {
+                const id = pfs.children[i].id;
+                if (id === "profile-field-next") continue;
+                const pf = {
+                    id,
+                    name: document.querySelector("#name-" + id).value,
+                    value: document.querySelector("#value-" + id).value,
+                    type: document.querySelector("#type-" + id).value,
+                };
+                p.fields.push(pf);
+            }
+            profiles.push(p);
+        }
+
+        const res = await fetchPartial("/partial/domain", {
             method: "POST",
             body: JSON.stringify({
                 name: document.querySelector("#domain-name-input").value,
                 tags,
+                profiles,
             })
         });
         if (!res.ok) return;
@@ -178,7 +220,7 @@
     }
 
     async function domainGet(id) {
-        const res = await fetchPartial(`/domain-get/${id}`);
+        const res = await fetchPartial(`/partial/domain/${id}`);
         if (!res.ok) {
             return;
         }
@@ -187,7 +229,7 @@
     }
 
     async function domainNew() {
-        const res = await fetchPartial("/domain-get/new");
+        const res = await fetchPartial("/partial/domain/new");
         if (!res.ok) {
             return;
         }
@@ -196,7 +238,7 @@
     }
 
     async function viewDomain() {
-        const res = await fetchPartial("/view-domain");
+        const res = await fetchPartial("/partial/view/domain");
         if (!res.ok) {
             return;
         }
@@ -205,11 +247,23 @@
     }
 
     async function viewBookmark() {
-        const res = await fetchPartial("/view-bookmark");
+        const res = await fetchPartial("/partial/view/bookmark");
         if (!res.ok) {
             return;
         }
         document.querySelector("#view").outerHTML = await res.text();
+    }
+
+    async function profileNew() {
+        const res = await fetchPartial("/partial/profile/new");
+        if (!res.ok) {
+            return;
+        }
+        const frag = await res.text();
+        document.querySelector("#profile-next").outerHTML = `
+            ${frag}
+            <div id="profile-next" style="display: none;"> </div>
+        `;
     }
 </script>
 {{end}}
